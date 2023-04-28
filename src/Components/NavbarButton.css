@@ -1,0 +1,46 @@
+/*******************************************************
+ * Rules of a Button of the Navbar when it is inactive *
+ *******************************************************/
+.navbar-button-inactive {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 27px;
+    color: rgb(50, 50, 50);
+    width: 160px;
+    height: 50px;
+    cursor: pointer;
+    border: none;
+    border-radius: 28px;
+    background: none;
+    text-decoration: none;
+}
+
+/*******************************************************************
+ * Rules of a Button of the Navbar when it is inactive and hovered *
+ *******************************************************************/
+.navbar-button-inactive:hover {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 27px;
+    color: whitesmoke;
+    width: 160px;
+    height: 50px;
+    cursor: pointer;
+    border-radius: 28px;
+    background: linear-gradient(111.3deg, rgb(2, 174, 2) 9.6%, rgb(8, 240, 8) 93.6%);
+    transition: 0.5s;
+}
+
+/*****************************************************
+ * Rules of a Button of the Navbar when it is active *
+ *****************************************************/
+.navbar-button-active {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 27px;
+    color: green;
+    width: 160px;
+    height: 50px;
+    border: none;
+    background: none;
+    background-image: linear-gradient(111.3deg, rgb(5, 131, 5) 9.6%, rgb(13, 245, 13) 93.6%);
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}

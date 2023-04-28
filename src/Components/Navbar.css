@@ -1,0 +1,15 @@
+/*******************************************************************
+ * Rules of the Navigation Bar of the Header on the top right side *
+ *******************************************************************/
+.navbar {
+    margin-left: auto;
+    margin-right: 25px;
+}
+
+/***********************************************************************************
+ * Rules of the contents of the Navigation Bar of the Header on the top right side *
+ ***********************************************************************************/
+.navbar-buttons {
+    display: flex;
+    gap: 100px;
+}

@@ -1,0 +1,54 @@
+/*****************************
+ * Rules of the whole header *
+ *****************************/
+.header {
+    margin-top: -0.4%;
+    display: flex;
+    align-items: center;
+    height: 100px;
+    background: linear-gradient(111.3deg, white 9.6%, whitesmoke 93.6%);
+}
+
+/*********************
+ * Rules of the logo *
+ *********************/
+.header-logo {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+/*******************************************
+ * Rules of the logo image on the top left *
+ *******************************************/
+.header-logo-image {
+    width: 60px;
+    height: 60px;
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
+/******************************************
+ * Rules of the logo text on the top left *
+ ******************************************/
+.header-logo-title {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 30px;
+    color: rgb(50, 50, 50);
+    position: relative;
+}
+
+/************************************************************************************************************************************************************
+ * Adding a line under the title of the logo with gradient                                                                                                  *
+ * Source: https://www.amitmerchant.com/gradient-text-underlines-using-css/#:~:text=The%20usual%20way%20of%20applying,text%2Ddecoration%2Dcolor%20property. *
+ ************************************************************************************************************************************************************/
+.header-logo-title::before {
+    content: "";
+    position: absolute;
+    top: 100%;
+    width: 100%;
+    left: 0;
+    height: 5px;
+    border-radius: 2px;
+    background: linear-gradient(111.3deg, rgb(1, 144, 1) 9.6%, rgb(3, 219, 3) 93.6%);
+}
