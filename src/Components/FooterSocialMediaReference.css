@@ -1,0 +1,33 @@
+/*************************************************
+ * Rules of one social media-related application *
+ *************************************************/
+.footer-media-reference {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+
+/***********************************************
+ * Rules of a social media image in the footer *
+ ***********************************************/
+.footer-media-reference-image {
+    width: 30px;
+    height: 30px;
+}
+
+/********************************************************************
+ * Rules of the text next to the icon when the reference is hovered *
+ * Source: https://css-tricks.com/how-to-create-neon-text-with-css/ *
+ ********************************************************************/
+.footer-media-reference:hover > p {
+    text-shadow:
+    0 0 7px #fff,
+    0 0 10px #fff,
+    0 0 21px #fff,
+    0 0 42px #0fa,
+    0 0 82px #0fa,
+    0 0 92px #0fa,
+    0 0 102px #0fa,
+    0 0 151px #0fa;
+}

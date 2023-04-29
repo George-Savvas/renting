@@ -1,0 +1,31 @@
+/**********************************
+ * Rules of one contact reference *
+ **********************************/
+.footer-contact-reference {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/***********************************************
+ * Rules of a social media image in the footer *
+ ***********************************************/
+.footer-contact-reference-image {
+    width: 30px;
+    height: 30px;
+}
+
+/**************************************************
+ * Rules of the whole text of a contact reference *
+ **************************************************/
+.footer-contact-reference-text {
+    display: flex;
+    gap: 10px;
+}
+
+/***********************************************
+ * Rules of the context of a contact reference *
+ ***********************************************/
+.footer-contact-reference-text-context {
+    font-weight: bold;
+}

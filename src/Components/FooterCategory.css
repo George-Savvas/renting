@@ -1,0 +1,23 @@
+/*************************************
+ * Rules of a category of the footer *
+ *************************************/
+.footer-category {
+    display: flex;
+    flex-direction: column;
+}
+
+/**************************************************
+ * Rules of the title of a category of the footer *
+ **************************************************/
+.footer-category-title {
+    font-size: 25px;
+}
+
+/***************************************
+ * Rules of the contents of a category *
+ ***************************************/
+.footer-category-contents {
+    display: flex;
+    flex-direction: column;
+    /*gap: 10px;*/
+}
