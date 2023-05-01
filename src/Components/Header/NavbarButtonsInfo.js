@@ -12,9 +12,5 @@ const accountButtons = [
     {index: 3, name: "Logout", active: false, link: "/logout"}
 ]
 
-//const buttonArrays = {initialButtons: initialButtons, accountButtons: accountButtons}
-
-//export default buttonArrays
-
 module.exports.initialButtons = initialButtons
 module.exports.accountButtons = accountButtons

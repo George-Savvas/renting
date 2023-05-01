@@ -11,10 +11,10 @@ import './Footer.css'
  * General References (About, FAQ, ...) *
  ****************************************/
 const generalReferences = [
-    {link: "/about", txt: "About"},
-    {link: "/faq", txt: "Frequently asked questions"},
-    {link: "/staff", txt: "Our staff"},
-    {link: "/history", txt: "Our history"}
+    {index: 0, link: "/about", txt: "About"},
+    {index: 1, link: "/faq", txt: "Frequently asked questions"},
+    {index: 2, link: "/staff", txt: "Our staff"},
+    {index: 3, link: "/history", txt: "Our history"}
 ]
 
 /*************************************************
@@ -28,9 +28,9 @@ const skypeIconSrc = "./Images/SkypeIcon.png"
 const skypeIconAlt = "A big S Symbol"
 
 const contactReferences = [
-    {src: phoneIconSrc, alt: phoneIconAlt, category: "Phone Number",  context: "(212) 555-1234"},
-    {src: emailIconSrc, alt: emailIconAlt, category: "Email Address", context: "admin@housingeasy.com"},
-    {src: skypeIconSrc, alt: skypeIconAlt, category: "Skype", context: "adminhousingeasy"}
+    {index: 0, src: phoneIconSrc, alt: phoneIconAlt, category: "Phone Number",  context: "(212) 555-1234"},
+    {index: 1, src: emailIconSrc, alt: emailIconAlt, category: "Email Address", context: "admin@housingeasy.com"},
+    {index: 2, src: skypeIconSrc, alt: skypeIconAlt, category: "Skype", context: "adminhousingeasy"}
 ]
 
 /****************************************************
@@ -48,11 +48,11 @@ const discordImageSrc = "./Images/DiscordIcon.png"
 const discordImageAlt = "Discord Mini Logo"
 
 const socialMediaReferences = [
-    {src: facebookImageSrc, alt: facebookImageAlt, txt: "Facebook"},
-    {src: twitterImageSrc, alt: twitterImageAlt, txt: "Twitter"},
-    {src: instagramImageSrc, alt: instagramImageAlt, txt: "Instagram"},
-    {src: youtubeImageSrc, alt: youtubeImageAlt, txt: "YouTube"},
-    {src: discordImageSrc, alt: discordImageAlt, txt: "Discord"}
+    {index: 0, src: facebookImageSrc, alt: facebookImageAlt, txt: "Facebook"},
+    {index: 1, src: twitterImageSrc, alt: twitterImageAlt, txt: "Twitter"},
+    {index: 2, src: instagramImageSrc, alt: instagramImageAlt, txt: "Instagram"},
+    {index: 3, src: youtubeImageSrc, alt: youtubeImageAlt, txt: "YouTube"},
+    {index: 4, src: discordImageSrc, alt: discordImageAlt, txt: "Discord"}
 ]
 
 /************************
@@ -64,6 +64,7 @@ export default function Footer()
     const domGeneralReferences = generalReferences.map(reference => {
         return (
             <FooterGeneralReference
+                key={reference.index}
                 link={reference.link}
                 text={reference.txt}
             />
@@ -73,6 +74,7 @@ export default function Footer()
     const domContactReferences = contactReferences.map(reference => {
         return (
             <FooterContactReference
+                key={reference.index}
                 imgSrc={reference.src}
                 imgAlt={reference.alt}
                 category={reference.category}
@@ -84,6 +86,7 @@ export default function Footer()
     const domMediaReferences = socialMediaReferences.map(reference => {
         return (
             <FooterSocialMediaReference
+                key={reference.index}
                 imgSrc={reference.src}
                 imgAlt={reference.alt}
                 text={reference.txt}
@@ -96,15 +99,16 @@ export default function Footer()
      * exist between the items of a single array.
      */
     const footerCategories = [
-        {title: "General", contents: domGeneralReferences, gap: "40px"},
-        {title: "Contact", contents: domContactReferences, gap: "10px"},
-        {title: "Social Media", contents: domMediaReferences, gap: "10px"}
+        {index: 0, title: "General", contents: domGeneralReferences, gap: "40px"},
+        {index: 1, title: "Contact", contents: domContactReferences, gap: "10px"},
+        {index: 2, title: "Social Media", contents: domMediaReferences, gap: "10px"}
     ]
 
     /* We convert the array we just created into a renderable array */
     const domCategories = footerCategories.map(category => {
         return (
             <FooterCategory
+                key={category.index}
                 title={category.title}
                 contents={category.contents}
                 gap={category.gap}

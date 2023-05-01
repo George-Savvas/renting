@@ -1,15 +1,14 @@
-import { useNavigate } from "react-router-dom"
+import {Link} from "react-router-dom"
 export default function Logout({appState, setAppState})
 {
-    const navigate = useNavigate()
-
-    setAppState(prevState => {
-        return {...prevState, userIsLogged: false}
-    })
-
-    navigate("/")
-
     return (
-        <p>Logout Page</p>
+        <div>
+            <center>
+                You have been logged out
+            </center>
+            <center>
+                <Link to="/">Go back to home</Link>
+            </center>
+        </div>
     )
 }

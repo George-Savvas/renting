@@ -37,13 +37,21 @@ export default function Navbar({appState, setAppState})
             return {...currentState, navbarButtons: updatedButtons}
         })
 
-    }, [location])
+    }, [setAppState, location])
 
     /* Actions when a button is clicked */
     function navigateIfNotActive(button)
     {
         if(button.active === true)
             return
+
+        /* One extra step in case the clicked button was the "Logout" button */
+        if(button.name === "Logout")
+        {
+            setAppState(currentState => {
+                return {...currentState, userIsLogged: false}
+            })
+        }
 
         /* We navigate to the corresponding link of the button if the button is not active
          * (if the button is active, that means we are already in that link)
@@ -54,6 +62,7 @@ export default function Navbar({appState, setAppState})
     const domButtons = appState.navbarButtons.map(button => {
         return (
             <NavbarButton
+                key={button.index}
                 textInButton={button.name}
                 isActive={button.active}
                 onClickAction={() => {
