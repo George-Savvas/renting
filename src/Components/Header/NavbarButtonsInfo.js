@@ -1,3 +1,4 @@
+/* The buttons of the Navigation Bar in case the user is not logged in */
 const initialButtons = [
     {index: 0, name: "Home", active: true, link: "/"},
     {index: 1, name: "About", active: false, link: "/about"},
@@ -5,6 +6,7 @@ const initialButtons = [
     {index: 3, name: "Login", active: false, link: "/login"}
 ]
 
+/* The buttons of the Navigation Bar in case the user is logged in */
 const accountButtons = [
     {index: 0, name: "Home", active: true, link: "/"},
     {index: 1, name: "About", active: false, link: "/about"},
