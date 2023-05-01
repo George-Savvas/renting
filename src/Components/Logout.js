@@ -1,15 +1,15 @@
 import { useNavigate } from "react-router-dom"
-export default function Login({appState, setAppState})
+export default function Logout({appState, setAppState})
 {
     const navigate = useNavigate()
 
     setAppState(prevState => {
-        return {...prevState, userIsLogged: true}
+        return {...prevState, userIsLogged: false}
     })
 
     navigate("/")
 
     return (
-        <p>Login Page</p>
+        <p>Logout Page</p>
     )
 }

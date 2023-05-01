@@ -6,20 +6,12 @@ import './Header.css'
 const logoImageSrc = "./Images/HousingEasyLogo.png"
 const logoImageAlt = "Housing Easy Logo"
 
-export default function Header()
+export default function Header({appState, setAppState})
 {
     const navigate = useNavigate()
 
-    const [logoSwitch, setLogoSwitch] = React.useState(true)
-
-    function flipLogoSwitch()
-    {
-        setLogoSwitch(prevLogoSwitch => !prevLogoSwitch)
-    }
-
     function linkToHome()
     {
-        flipLogoSwitch()
         navigate("/")
     }
 
@@ -34,7 +26,7 @@ export default function Header()
                     Housing Easy
                 </p>
             </div>
-            <Navbar logoSwitch={logoSwitch}/>
+            <Navbar appState={appState} setAppState={setAppState}/>
         </div>
     )
 }
