@@ -34,6 +34,9 @@ export default function App() {
     for(i = 0; i < propertiesNum; i++)
         domState.push(<p key={i}>{Object.keys(appState)[i].toString()}({Object.values(appState)[i].toString()})</p>)
 
+    //<div>{domState}</div>
+    //console.log(appState)
+
     return (
         <BrowserRouter>
             <Header appState={appState} setAppState={setAppState}/>
@@ -50,7 +53,6 @@ export default function App() {
                 <Route path='/*' element={<PageNotFound/>}/>
             </Routes>
             <Footer/>
-            <div>{domState}</div>
         </BrowserRouter>
     )
 }

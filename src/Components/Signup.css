@@ -1,0 +1,60 @@
+/*****************************
+ * Rules of the sign up page *
+ *****************************/
+.signup {
+    margin-top: 100px;
+    margin-bottom: 100px;
+    margin-left: 20%;
+    margin-right: 20%;
+    padding: 100px;
+    border-radius: 11px;
+    background-color: antiquewhite;
+    box-shadow: 5px 6px 5px gray;
+}
+
+/*********************
+ * Rules of the form *
+ *********************/
+.signup-form {
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+}
+
+/*************************************
+ * Rules of an input box of the form *
+ *************************************/
+.signup-form-input {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 20px;
+    padding: 10px;
+    border: 1px solid gray;
+    border-radius: 8px;
+    box-shadow: 5px 6px 5px gray;
+    margin-left: 35%;
+    margin-right: 35%;
+    margin-top: -4%;
+}
+
+/******************************************
+ * Rules of the submit button of the form *
+ ******************************************/
+.signup-form-submit {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 20px;
+    padding: 10px;
+    border: 1px solid gray;
+    border-radius: 8px;
+    margin-left: 40%;
+    margin-right: 40%;
+    cursor: pointer;
+}
+
+/********************************
+ * Rules of a label in the form *
+ ********************************/
+.signup-form-label {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 20px;
+    text-align: center;
+}
