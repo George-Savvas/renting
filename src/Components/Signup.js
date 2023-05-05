@@ -34,13 +34,13 @@ export default function Signup()
     const handleSubmit = (event) => {
         event.preventDefault()
 
-        console.log(JSON.stringify({ formData }))
+        console.log(formData)
         console.log(`Password: ${formData.password}, Passconf: ${passconf}`)
 
         fetch("http://localhost:7000/auth/addUser", {
             method: 'POST',
-            body: JSON.stringify({ formData }),
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(formData)
         })
     }
 
