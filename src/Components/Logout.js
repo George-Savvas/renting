@@ -1,8 +1,10 @@
 import {Link} from "react-router-dom"
+import './Logout.css'
+
 export default function Logout({appState, setAppState})
 {
     return (
-        <div>
+        <div className="logout">
             <center>
                 You have been logged out
             </center>

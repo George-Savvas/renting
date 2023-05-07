@@ -1,4 +1,6 @@
 import {Link} from "react-router-dom"
+import './Login.css'
+
 export default function Login({appState, setAppState})
 {
     function handleClick()
@@ -9,7 +11,7 @@ export default function Login({appState, setAppState})
     }
 
     return (
-        <div>
+        <div className="login">
             <p>Login Page</p>
             <Link to="/" onClick={handleClick}>Login</Link>
         </div>

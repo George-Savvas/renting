@@ -1,6 +1,10 @@
+import './Home.css'
+
 export default function Home()
 {
     return (
-        <p>Home</p>
+        <div className="home">
+            Home
+        </div>
     )
 }
