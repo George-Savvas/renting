@@ -17,8 +17,9 @@
  ***********************************/
 .signup-form-buttons {
     display: grid;
-    grid-template: auto auto / repeat(3, 1fr);
-    gap: 50px;
+    grid-template: auto auto / repeat(2, 1fr);
+    row-gap: 50px;
+    column-gap: 150px;
 }
 
 /**************************************************************************
@@ -33,7 +34,7 @@
     cursor: pointer;
     position: relative;
     text-align: center;
-    background: linear-gradient(111.3deg, rgb(2, 174, 2) 9.6%, rgb(30, 240, 30) 93.6%);
+    background: linear-gradient(111.3deg, rgb(30, 240, 30) 9.6%, rgb(2, 174, 2) 93.6%);
     z-index: 1;
 }
 
@@ -45,7 +46,7 @@
     right: 0;
     bottom: 0;
     left: 0;
-    background: linear-gradient(111.3deg, rgb(30, 240, 30) 9.6%, rgb(2, 174, 2) 93.6%);
+    background: linear-gradient(111.3deg, rgb(2, 174, 2) 9.6%, rgb(30, 240, 30) 93.6%);
     z-index: -1;
     transition: opacity 0.5s linear;
     opacity: 0;
@@ -68,4 +69,16 @@
     background: none;
     color: white;
     cursor: pointer;
+}
+
+/************************************************************
+ * Rules of the success message when the signup is complete *
+ ************************************************************/
+.signup-complete {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 30px;
+    margin-top: 100px;
+    margin-bottom: 100px;
+    text-align: center;
+    color: green;
 }
