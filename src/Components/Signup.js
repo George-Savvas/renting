@@ -2,15 +2,25 @@ import React from 'react'
 import SignupButton from './SignupButton.js'
 import './Signup.css'
 
+/************************************************************************
+ * Path & Alternative text of the image depicted upon successful signup *
+ ************************************************************************/
+const singnupCompleteImagePath = "./Images/GreenTick.webp"
+const singnupCompleteImageAlt = "A tick with a circular green background"
+
 /*************************************************
  * Possible error messages under the input boxes *
  *************************************************/
 const noError = "No Error"
 const emptyField = "Must not be empty"
+const invalidUsernameSize = "Must have at least 4 and at most 30 characters"
+const duplicateUsername = "This username already exists"
+const duplicateEmail = "There is already an account with this email"
 const invalidPasswordSize = "Must have at least 3 and at most 15 characters"
 const noMatchBetweenPasswordAndPassconf = "Must be identical to the password"
-const tooLargeTelephone = "Max 9 digits"
+const tooLargeTelephone = "Max 10 digits"
 const nonArithmeticTelephone = "Must contain only arithmetic characters"
+const noActiveRole = "Choose one of the two roles"
 
 /************************
  * The Signup Component *
@@ -44,9 +54,93 @@ export default function Signup()
 
     /* A state with the error message of each button */
     const [errorMessages, setErrorMessages] = React.useState([
-        emptyField, emptyField, emptyField, emptyField,
-        emptyField, emptyField, emptyField, noError
+        emptyField, emptyField, emptyField, noError,
+        emptyField, emptyField, emptyField, noActiveRole
     ])
+
+    /* From a source array of user data, this function filters
+     * only the username of each user and places all these usernames
+     * in a new array, which is returned in the end.
+     */
+    function filterUsernames(sourceArray)
+    {
+        return sourceArray.map(userData => {
+            return userData.username
+        })
+    }
+
+    /* Fetches all the existing usernames from the server
+     * and examines whether the given username exists there
+     */
+    async function usernameExists(targetUsername)
+    {
+        /* We will store all the usernames in this array */
+        let usernames = []
+
+        /* We retrieve the usernames from the backend server */
+        await fetch("http://localhost:7000/auth/getAllUsers")
+            .then((res) => res.json())
+            .then((data) => {usernames = filterUsernames(data.users)})
+
+        /* We will traverse the array of the usernames to search the target username */
+        let i, size = usernames.length
+
+        for(i = 0; i < size; i++)
+        {
+            /* If we find the target username in the array, we
+             * instantly return 'true' since the user exists
+             */
+            if(usernames[i] === targetUsername)
+                return true
+        }
+
+        /* If the control reaches this part, the target username
+         * was not found in the array of usernames. We return 'false'.
+         */
+        return false
+    }
+
+    /* From a source array of user data, this function filters
+     * only the username of each user and places all these usernames
+     * in a new array, which is returned in the end.
+     */
+    function filterEmails(sourceArray)
+    {
+        return sourceArray.map(userData => {
+            return userData.email
+        })
+    }
+
+    /* Fetches all the existing emails from the server
+     * and examines whether the given email exists there
+     */
+    async function emailExists(targetEmail)
+    {
+        /* We will store all the emails in this array */
+        let emails = []
+
+        /* We retrieve the emails from the backend server */
+        await fetch("http://localhost:7000/auth/getAllUsers")
+            .then((res) => res.json())
+            .then((data) => {emails = filterEmails(data.users)})
+
+        /* We will traverse the array of the emails to search the target emails */
+        let i, size = emails.length
+
+        for(i = 0; i < size; i++)
+        {
+            /* If we find the target email in the array, we
+             * instantly return 'true' since the email exists
+             */
+            if(emails[i] === targetEmail)
+                return true
+        }
+
+        /* If the control reaches this part, the target email
+         * was not found in the array of emails. We return 'false'.
+         */
+        return false
+    }
 
     /* Returns 'true' if the input string contains only digits.
      * Returns 'false' if the string has at least one non-digit character.
@@ -81,11 +175,89 @@ export default function Signup()
     /* Updates the error message under the input box where
      * the event took place if the message needs to change
      */
-    function updateErrorMessagesState(event)
+    async function updateErrorMessagesState(event)
     {
         /* We take different actions depending on which input box the event took place */
         switch(event.target.name)
         {
+            /* Case the event took place in the username's input box */
+            case "username":
+            {
+                /* We retrieve the current error message of the
+                 * username box
+                 */
+                const currentMessage = errorMessages[0]
+                let newMessage = currentMessage
+
+                /* Case the new username is the empty string */
+                if(event.target.value.length === 0)
+                    newMessage = emptyField
+
+                /* Case the username is too large or too small */
+                else if((event.target.value.length < 4) || (event.target.value.length > 30))
+                    newMessage = invalidUsernameSize
+
+                /* Case the new username already exists */
+                else if(await usernameExists(event.target.value))
+                    newMessage = duplicateUsername
+
+                /* Case the new username is not the empty string */
+                else
+                    newMessage = noError
+
+                /* We update the message under the username if it
+                 * is different from the already existing message
+                 */
+                if(newMessage !== currentMessage)
+                {
+                    setErrorMessages(currentErrorMessages => {
+                        return currentErrorMessages.map((message, i) => {
+                            return (i !== 0) ? message : newMessage
+                        })
+                    })
+                }
+
+                /* There is nothing else to do in this case */
+                break;
+            }
+
+            /* Case the event took place in the email's input box */
+            case "email":
+            {
+                /* We retrieve the current error message of the
+                 * email box
+                 */
+                const currentMessage = errorMessages[1]
+                let newMessage = currentMessage
+
+                /* Case the new email is the empty string */
+                if(event.target.value.length === 0)
+                    newMessage = emptyField
+
+                /* Case the new email already exists */
+                else if(await emailExists(event.target.value))
+                    newMessage = duplicateEmail
+
+                /* Case the new email is not the empty string */
+                else
+                    newMessage = noError
+
+                /* We update the message under the email if it
+                 * is different from the already existing message
+                 */
+                if(newMessage !== currentMessage)
+                {
+                    setErrorMessages(currentErrorMessages => {
+                        return currentErrorMessages.map((message, i) => {
+                            return (i !== 1) ? message : newMessage
+                        })
+                    })
+                }
+
+                /* There is nothing else to do in this case */
+                break;
+            }
+
             /* Case the event took place in the passwords's input box */
             case "password":
             {
@@ -123,11 +295,15 @@ export default function Signup()
                  * confirmation box
                  */
                 const currentMessageForConf = errorMessages[3]
-                let newMessageForConf = currentMessage
+                let newMessageForConf = currentMessageForConf
 
                 /* Case the new password is not equal to the confirmation */
                 if(event.target.value !== passconf)
                     newMessageForConf = noMatchBetweenPasswordAndPassconf
+
+                /* Case the new password is equal to the confirmation */
+                else
+                    newMessageForConf = noError
 
                 /* We update the message under the passconf if it
                  * is different from the already existing message
@@ -154,17 +330,11 @@ export default function Signup()
                 const currentMessage = errorMessages[3]
                 let newMessage = currentMessage
 
-                /* Case the new passconf is the empty string */
-                if(event.target.value.length === 0)
-                    newMessage = emptyField
-
                 /* Case the new passconf is not equal to the password */
                 if(event.target.value !== formData.password)
                     newMessage = noMatchBetweenPasswordAndPassconf
 
-                /* Case the new passconf is not empty and equal to the
-                 * password
-                 */
+                /* Case the new passconf is equal to the password */
                 else
                     newMessage = noError
 
@@ -184,6 +354,72 @@ export default function Signup()
                 break
             }
 
+            /* Case the event took place in the first name's input box */
+            case "name":
+            {
+                /* We retrieve the current error message of the first
+                 * name box
+                 */
+                const currentMessage = errorMessages[4]
+                let newMessage = currentMessage
+
+                /* Case the new first name is the empty string */
+                if(event.target.value.length === 0)
+                    newMessage = emptyField
+
+                /* Case the new first name is not the empty string */
+                else
+                    newMessage = noError
+
+                /* We update the message under the first name if it
+                 * is different from the already existing message
+                 */
+                if(newMessage !== currentMessage)
+                {
+                    setErrorMessages(currentErrorMessages => {
+                        return currentErrorMessages.map((message, i) => {
+                            return (i !== 4) ? message : newMessage
+                        })
+                    })
+                }
+
+                /* There is nothing else to do in this case */
+                break;
+            }
+
+            /* Case the event took place in the last name's input box */
+            case "lastname":
+            {
+                /* We retrieve the current error message of the last
+                 * name box
+                 */
+                const currentMessage = errorMessages[5]
+                let newMessage = currentMessage
+
+                /* Case the new last name is the empty string */
+                if(event.target.value.length === 0)
+                    newMessage = emptyField
+
+                /* Case the new last name is not the empty string */
+                else
+                    newMessage = noError
+
+                /* We update the message under the last name if it
+                 * is different from the already existing message
+                 */
+                if(newMessage !== currentMessage)
+                {
+                    setErrorMessages(currentErrorMessages => {
+                        return currentErrorMessages.map((message, i) => {
+                            return (i !== 5) ? message : newMessage
+                        })
+                    })
+                }
+
+                /* There is nothing else to do in this case */
+                break;
+            }
+
             /* Case the event took place in the telephone's input box */
             case "telephone":
             {
@@ -194,11 +430,11 @@ export default function Signup()
                 let newMessage = currentMessage;
 
                 /* Case the new telephone is larger but now it is too large */
-                if(event.target.value.length >= 10)
+                if(event.target.value.length >= 11)
                     newMessage = tooLargeTelephone
 
                 /* Case the old telephone was too large but now it is not */
-                if(((event.target.value.length > 0)) && (event.target.value.length < 10))
+                if(((event.target.value.length > 0)) && (event.target.value.length < 11))
                     newMessage = noError
 
                 /* Case the new telephone is not an arithmetic */
@@ -225,6 +461,39 @@ export default function Signup()
                 break
             }
 
+            /* Case the event took place in the role's input box */
+            case "role":
+            {
+                /* We retrieve the current error message of the role
+                 * radio boxes
+                 */
+                const currentMessage = errorMessages[7]
+                let newMessage = currentMessage
+
+                /* Case the new role is the empty string */
+                if(event.target.value.length === 0)
+                    newMessage = noActiveRole
+
+                /* Case the new role is not the empty string */
+                else
+                    newMessage = noError
+
+                /* We update the message under the role if it
+                * is different from the already existing message
+                */
+                if(newMessage !== currentMessage)
+                {
+                    setErrorMessages(currentErrorMessages => {
+                        return currentErrorMessages.map((message, i) => {
+                            return (i !== 7) ? message : newMessage
+                        })
+                    })
+                }
+
+                /* There is nothing else to do in this case */
+                break;
+            }
+
             /* Default case (we do nothing in this case) */
             default:
             {
@@ -238,13 +507,13 @@ export default function Signup()
      */
     function updateFormData(event)
     {
+        /* We examine if the new input has any errors */
         updateErrorMessagesState(event)
 
+        /* We update the state of the form */
         setFormData(currentFormData => {
             return {...currentFormData, [event.target.name]: event.target.value}
         })
-
-        console.log(`${event.target.name} was changed to ${event.target.value}`)
     }
 
     /* Updates the state of the password confirmation whenever the
@@ -252,10 +521,11 @@ export default function Signup()
      */
     function updatePassConf(event)
     {
+        /* We examine if the new input has any errors */
         updateErrorMessagesState(event)
 
+        /* We update the state of the password confirmation */
         setPassconf(event.target.value)
-        console.log(`${event.target.name} was changed to ${event.target.value}`)
     }
 
     /* A callback function that updates the form data. It can be used
@@ -346,7 +616,7 @@ export default function Signup()
             index: 7,
             id: "role",
             name: "role",
-            type: "text",
+            type: "radio",
             placeholder: "Role",
             value: formData.role,
             onChangeAction: updateformDataCallback,
@@ -391,15 +661,14 @@ export default function Signup()
             return
         }
 
-        console.log(formData)
-        console.log(`Password: ${formData.password}, Passconf: ${passconf}`)
-
+        /* If the form is valid, we send have the server create the new user */
         fetch("http://localhost:7000/auth/addUser", {
             method: 'POST',
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(formData)
             })
 
+        /* The signup is now complete */
         setSignupState(true)
     }
 
@@ -428,12 +697,20 @@ export default function Signup()
                 <div className="signup-form-buttons">
                     {domSignupButtons}
                 </div>
-                <div className="signup-form-submit-parent">
+                <div className={(errorExists()) ?
+                    "signup-form-submit-parent-disabled" :
+                    "signup-form-submit-parent"}
+                >
                     <input
-                        className="signup-form-submit"
+                        className={(errorExists()) ?
+                        "signup-form-submit-disabled" :
+                        "signup-form-submit"}
                         type="submit"
                         value="Submit"
                     />
+                </div>
+                <div className="signup-form-fix-errors-message">
+                    {(errorExists()) ? "Fix the errors first!" : ""}
                 </div>
             </form>
         </div>
@@ -443,12 +720,21 @@ export default function Signup()
      * ^^^^^^^^^^
      */
     const domSignupComplete = (
-        <div className="signup-complete">
-            The signup was completed successfully!
+        <div>
+            <div className="signup-complete">
+                The signup was completed successfully!
+            </div>
+            <div>
+                <img
+                    className="signup-complete-image"
+                    src={singnupCompleteImagePath}
+                    alt={singnupCompleteImageAlt}
+                />
+            </div>
         </div>
     )
 
-    /* We render one of the two scenarios, depending on the "singupComplete" state variable */
+    /* We render one of the two scenarios, depending on the "signupState" state variable */
     return (
         <div>
             {(signupState) ? domSignupComplete : domSignupForm}

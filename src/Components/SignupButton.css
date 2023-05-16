@@ -57,6 +57,47 @@
     margin-left: -55px;
 }
 
+/*************************************************************
+ * Rules of the whole Signup Button when it has Radio Inputs *
+ *************************************************************/
+.signup-radio {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/*****************************************************************
+ * Rules of the parent of all the pairs of Radio Input and label *
+ *****************************************************************/
+.signup-radio-input-parent {
+    display: flex;
+    gap: 90px;
+}
+
+/****************************************************************
+ * Rules of a pair of Radio Input and the label connected to it *
+ ****************************************************************/
+.signup-radio-label-and-input {
+    display: flex;
+    gap: 15px;
+}
+
+/***************************
+ * Rules of a Radio Button *
+ ***************************/
+.signup-radio-input-circle {
+    transform: scale(1.5);
+    accent-color: rgb(5, 150, 5);
+}
+
+/***********************************************
+ * Rules of a label connected to a Radio Input *
+ ***********************************************/
+.signup-radio-label {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 20px;
+}
+
 /******************************
  * Rules of the error message *
  ******************************/

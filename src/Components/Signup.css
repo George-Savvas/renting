@@ -22,8 +22,20 @@
     column-gap: 150px;
 }
 
+/***********************************************************
+ * Rules of the submit button's parent when it is disabled *
+ ***********************************************************/
+.signup-form-submit-parent-disabled {
+    margin-top: 100px;
+    margin-left: 35%;
+    margin-right: 35%;
+    border-radius: 8px;
+    text-align: center;
+    background: linear-gradient(111.3deg, rgb(180, 180, 180) 9.6%, gray 93.6%);
+}
+
 /**************************************************************************
- * Rules of the submit button's parent                                    *
+ * Rules of the submit button's parent when it is enabled                 *
  * Source: https://keithjgrant.com/posts/2017/07/transitioning-gradients/ *
  **************************************************************************/
 .signup-form-submit-parent {
@@ -31,7 +43,6 @@
     margin-left: 35%;
     margin-right: 35%;
     border-radius: 8px;
-    cursor: pointer;
     position: relative;
     text-align: center;
     background: linear-gradient(111.3deg, rgb(30, 240, 30) 9.6%, rgb(2, 174, 2) 93.6%);
@@ -56,6 +67,20 @@
     opacity: 1;
 }
 
+/**************************************************************
+ * Rules of the submit button of the form when it is disabled *
+ **************************************************************/
+.signup-form-submit-disabled {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 30px;
+    width: 100%;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    border: none;
+    background: none;
+    color: white;
+}
+
 /******************************************
  * Rules of the submit button of the form *
  ******************************************/
@@ -71,14 +96,40 @@
     cursor: pointer;
 }
 
+/**************************************************************************
+ * Rules of the message under the Submit button that appears if there are *
+ *  errors in the form, urging the user to fix them before submitting it  *
+ **************************************************************************/
+.signup-form-fix-errors-message {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 18px;
+    color: white;
+    cursor: default;
+    text-align: center;
+    margin-top: -21px;
+}
+
 /************************************************************
  * Rules of the success message when the signup is complete *
  ************************************************************/
 .signup-complete {
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    font-size: 30px;
-    margin-top: 100px;
+    font-size: 40px;
+    margin-top: 200px;
     margin-bottom: 100px;
     text-align: center;
-    color: green;
+    color: rgb(30, 240, 30);
+}
+
+/**************************************************************
+ * Rules of the image that is depicted upon successful signup *
+ **************************************************************/
+.signup-complete-image {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 200px;
+    width: 50%;
+    max-width: 200px;
+    max-height: 200px;
 }
