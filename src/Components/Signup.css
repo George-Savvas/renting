@@ -2,13 +2,13 @@
  * Rules of the sign up page *
  *****************************/
 .signup {
-    margin-top: 100px;
-    margin-bottom: 100px;
+    margin-top: 200px;
+    margin-bottom: 300px;
     margin-left: 20%;
     margin-right: 20%;
     padding: 100px;
     border-radius: 11px;
-    background: linear-gradient(111.3deg, whitesmoke 9.6%, lightgray 93.6%);
+    background-color: lightgray;
     box-shadow: 5px 6px 5px gray;
 }
 
@@ -31,7 +31,7 @@
     margin-right: 35%;
     border-radius: 8px;
     text-align: center;
-    background: linear-gradient(111.3deg, rgb(180, 180, 180) 9.6%, gray 93.6%);
+    background-color: gray;
 }
 
 /**************************************************************************
@@ -107,6 +107,7 @@
     cursor: default;
     text-align: center;
     margin-top: -21px;
+    user-select: none;
 }
 
 /************************************************************

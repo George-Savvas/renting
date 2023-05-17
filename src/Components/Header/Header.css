@@ -9,6 +9,7 @@
     align-items: center;
     height: 100px;
     background: linear-gradient(111.3deg, white 9.6%, whitesmoke 93.6%);
+    box-shadow: 2px 3px 2px lightgray;
 }
 
 /*********************

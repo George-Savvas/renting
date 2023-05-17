@@ -58,88 +58,48 @@ export default function Signup()
         emptyField, emptyField, emptyField, noActiveRole
     ])
 
-    /* From a source array of user data, this function filters
-     * only the username of each user and places all these usernames
-     * in a new array, which is returned in the end.
-     */
-    function filterUsernames(sourceArray)
-    {
-        return sourceArray.map(userData => {
-            return userData.username
-        })
-    }
-
-    /* Fetches all the existing usernames from the server
-     * and examines whether the given username exists there
+    /* Returns 'true' if the target username already exists.
+     * If it does not exist, this function returns 'false'.
      */
     async function usernameExists(targetUsername)
     {
-        /* We will store all the usernames in this array */
-        let usernames = []
+        /* The body we will send to the server with our request */
+        const requestBody = {username: targetUsername}
 
-        /* We retrieve the usernames from the backend server */
-        await fetch("http://localhost:7000/auth/getAllUsers")
-            .then((res) => res.json())
-            .then((data) => {usernames = filterUsernames(data.users)})
-
-        /* We will traverse the array of the usernames to search the target username */
-        let i, size = usernames.length
-
-        for(i = 0; i < size; i++)
-        {
-            /* If we find the target username in the array, we
-             * instantly return 'true' since the user exists
-             */
-            if(usernames[i] === targetUsername)
-                return true
-        }
-
-        /* If the control reaches this part, the target username
-         * was not found in the array of usernames. We return 'false'.
-         */
-        return false
-    }
-
-    /* From a source array of user data, this function filters
-     * only the username of each user and places all these usernames
-     * in a new array, which is returned in the end.
-     */
-    function filterEmails(sourceArray)
-    {
-        return sourceArray.map(userData => {
-            return userData.email
+        /* We ask the backend server if the username exists */
+        const response = await fetch("http://localhost:7000/auth/usernameExists", {
+            method: 'POST',
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(requestBody)
         })
+
+        /* We convert the server's response to JSON format */
+        const responseAsJson = await response.json()
+
+        /* We return the final result */
+        return (responseAsJson.Exist === "true")
     }
 
-    /* Fetches all the existing emails from the server
-     * and examines whether the given email exists there
+    /* Returns 'true' if the target email already exists.
+     * If it does not exist, this function returns 'false'.
      */
     async function emailExists(targetEmail)
     {
-        /* We will store all the emails in this array */
-        let emails = []
+        /* The body we will send to the server with our request */
+        const requestBody = {email: targetEmail}
 
-        /* We retrieve the emails from the backend server */
-        await fetch("http://localhost:7000/auth/getAllUsers")
-            .then((res) => res.json())
-            .then((data) => {emails = filterEmails(data.users)})
+        /* We ask the backend server if the email exists */
+        const response = await fetch("http://localhost:7000/auth/emailExists", {
+            method: 'POST',
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(requestBody)
+        })
 
-        /* We will traverse the array of the emails to search the target emails */
-        let i, size = emails.length
+        /* We convert the server's response to JSON format */
+        const responseAsJson = await response.json()
 
-        for(i = 0; i < size; i++)
-        {
-            /* If we find the target email in the array, we
-             * instantly return 'true' since the email exists
-             */
-            if(emails[i] === targetEmail)
-                return true
-        }
-
-        /* If the control reaches this part, the target email
-         * was not found in the array of emails. We return 'false'.
-         */
-        return false
+        /* We return the final result */
+        return (responseAsJson.Exist === "true")
     }
 
     /* Returns 'true' if the input string contains only digits.
@@ -201,7 +161,7 @@ export default function Signup()
                 else if(await usernameExists(event.target.value))
                     newMessage = duplicateUsername
 
-                /* Case the new username is not the empty string */
+                /* Case the new username is a valid username */
                 else
                     newMessage = noError
 
@@ -238,7 +198,7 @@ export default function Signup()
                 else if(await emailExists(event.target.value))
                     newMessage = duplicateEmail
 
-                /* Case the new email is not the empty string */
+                /* Case the new email is a valid email */
                 else
                     newMessage = noError
 
