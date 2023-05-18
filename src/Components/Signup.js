@@ -20,7 +20,7 @@ const invalidPasswordSize = "Must have at least 3 and at most 15 characters"
 const noMatchBetweenPasswordAndPassconf = "Must be identical to the password"
 const tooLargeTelephone = "Max 10 digits"
 const nonArithmeticTelephone = "Must contain only arithmetic characters"
-const noActiveRole = "Choose one of the two roles"
+const noActiveRole = "Select an option"
 
 /************************
  * The Signup Component *
@@ -628,6 +628,9 @@ export default function Signup()
             body: JSON.stringify(formData)
             })
 
+        /* We scroll smoothly at the top of the page */
+        window.scrollTo({top: 0, left: 0, behavior: 'smooth'})
+
         /* The signup is now complete */
         setSignupState(true)
     }
@@ -669,8 +672,11 @@ export default function Signup()
                         value="Submit"
                     />
                 </div>
-                <div className="signup-form-fix-errors-message">
-                    {(errorExists()) ? "Fix the errors first!" : ""}
+                <div className={(errorExists()) ?
+                    "signup-form-fix-errors-message" :
+                    "signup-form-fix-errors-message-disabled"}
+                >
+                    Fix the errors first!
                 </div>
             </form>
         </div>

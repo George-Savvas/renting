@@ -95,7 +95,7 @@ export default function SignupButton({id, name, type, placeholder, value, onChan
     const domRadioInputs = (
         <div className="signup-radio">
             <label className="signup-button-label">
-                What role do you want to have?
+                What role(s) do you want to have?
             </label>
             <div className="signup-radio-input-parent">
                 <div className="signup-radio-label-and-input">
@@ -126,6 +126,21 @@ export default function SignupButton({id, name, type, placeholder, value, onChan
                         className="signup-radio-label"
                         htmlFor={id + "2"}>
                     Landlord
+                    </label>
+                </div>
+                <div className="signup-radio-label-and-input">
+                    <input
+                        className="signup-radio-input-circle"
+                        id={id + "3"}
+                        name={name}
+                        type="radio"
+                        value="Both"
+                        onClick={onChangeAction}
+                    />
+                    <label
+                        className="signup-radio-label"
+                        htmlFor={id + "3"}>
+                    Both
                     </label>
                 </div>
             </div>
