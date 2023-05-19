@@ -2,10 +2,56 @@
  * Rules of the logout page *
  ****************************/
 .logout {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 100px;
     margin-top: 300px;
     margin-bottom: 300px;
-    text-align: center;
+}
+
+/************************************************************************
+ * Rules of the text telling the user they have logged out successfully *
+ ************************************************************************/
+.logout-text {
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    font-size: 50px;
-    color: gray;
+    font-size: 35px;
+    user-select: none;
+}
+
+/*********************************************************************
+ * Rules of the link button that redirects the user to the home page *
+ *********************************************************************/
+.logout-home-link {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 35px;
+    color: black;
+    background-color: rgb(228, 224, 224);
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+    border-radius: 11px;
+    box-shadow: 5px 6px 5px gray;
+    transition: all 1s;
+    user-select: none;
+}
+
+/***********************************************
+ * Rules of the link button when it is hovered *
+ ***********************************************/
+.logout-home-link:hover {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 35px;
+    color: whitesmoke;
+    background-color: darkcyan;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-left: 40px;
+    padding-right: 40px;
+    border-radius: 11px;
+    box-shadow: 5px 6px 5px gray;
+    transition: all 1s;
+    user-select: none;
+    cursor: pointer;
 }

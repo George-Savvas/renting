@@ -25,6 +25,7 @@ export default function App() {
 
     const [appState, setAppState] = React.useState({
         userIsLogged: false,
+        username: "",
         navbarButtons: initialButtons
     })
 

@@ -65,7 +65,10 @@ export default function Navbar({appState, setAppState})
         if(button.name === "Logout")
         {
             setAppState(currentState => {
-                return {...currentState, userIsLogged: false}
+                return {...currentState,
+                    userIsLogged: false,
+                    username: ""
+                }
             })
         }
 

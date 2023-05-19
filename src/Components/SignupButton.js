@@ -8,7 +8,7 @@ import './SignupButton.css'
 const revealingIcon = "./Images/EyeIconEnabled.png"
 const revealingIconAlt = "A black & white eye"
 const nonRevealingIcon = "./Images/EyeIconDisabled.png"
-const nonRevealingIconAlt = "A black & white eye with a diagonal line over it"
+const nonRevealingIconAlt = "A black & white eye with a diagonal line on it"
 
 /*******************************
  * The Signup Button Component *

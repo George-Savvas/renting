@@ -1,0 +1,59 @@
+/***************************
+ * Rules of a Login Button *
+ ***************************/
+.login-button {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-left: 55px;
+}
+
+/****************************************
+ * Rules of the label of a Login Button *
+ ****************************************/
+.login-button-label {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 20px;
+}
+
+/***********************************************************
+ * Rules of the parent of the input box and the input icon *
+ ***********************************************************/
+.login-button-input-holder {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/****************************************
+ * Rules of the input of a Login Button *
+ ****************************************/
+.login-button-input {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-right: 150px;
+    border: 1px solid gray;
+    border-radius: 8px;
+    box-shadow: 5px 6px 5px gray;
+}
+
+/******************************************
+ * Rules of the parent of the input image *
+ ******************************************/
+.login-button-icon-holder {
+    width: 35px;
+    height: 25px;
+}
+
+/****************************
+ * Rules of the input image *
+ ****************************/
+.login-button-icon {
+    width: 100%;
+    height: 100%;
+    border-radius: 11px;
+    cursor: pointer;
+    margin-left: -55px;
+}
