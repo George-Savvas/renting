@@ -1,11 +1,90 @@
 /***************************
- * Rules of the about page *
+ * Rules of the About page *
  ***************************/
 .about {
-    margin-top: 300px;
-    margin-bottom: 300px;
-    text-align: center;
+    margin-left: -0.4%;
+    margin-right: -0.4%;
+    margin-bottom: -0.4%;
+}
+
+/***************************************************
+ * Rules of the informative text of the About page *
+ ***************************************************/
+.about-text {
+    padding: 50px;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    font-size: 50px;
-    color: gray;
+    font-size: 30px;
+    text-align: justify;
+}
+
+/***************************************************************************
+ * Rules of the extra small text on the background image of the About page *
+ ***************************************************************************/
+.about-popularity-text {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 40px;
+    color: white;
+    position: absolute;
+    margin-top: -750px;
+    margin-left: 120px;
+    /*background-color: rgb(99, 95, 95);
+    border-radius: 30px;*/
+}
+
+/***************************************************
+ * Rules of the background image of the About page *
+ ***************************************************/
+.about-background-image {
+    width: 100%;
+    height: 850px;
+}
+
+/**************************************************************************
+ * Rules of the begin button's parent                                     *
+ * Source: https://keithjgrant.com/posts/2017/07/transitioning-gradients/ *
+ **************************************************************************/
+.about-begin-button-parent {
+    margin-left: 40%;
+    margin-right: 40%;
+    border-radius: 8px;
+    position: relative;
+    text-align: center;
+    background: linear-gradient(111.3deg, rgb(30, 240, 30) 9.6%, rgb(2, 174, 2) 93.6%);
+    z-index: 1;
+}
+
+.about-begin-button-parent::before {
+    border-radius: 8px;
+    position: absolute;
+    content: '';
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: linear-gradient(111.3deg, rgb(2, 174, 2) 9.6%, rgb(30, 240, 30) 93.6%);
+    z-index: -1;
+    transition: opacity 0.5s linear;
+    opacity: 0;
+}
+
+.about-begin-button-parent:hover::before {
+    opacity: 1;
+}
+
+/*****************************************
+ * Rules of the login button of the form *
+ *****************************************/
+.about-begin-button {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 30px;
+    margin-top: 50px;
+    margin-bottom: 100px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left: 80px;
+    padding-right: 80px;
+    border: none;
+    background: none;
+    color: white;
+    cursor: pointer;
 }
