@@ -20,7 +20,7 @@ export default function About()
                 Housing Easy is an online house rental enterprise established in Greece.
                 With our range of houses all over the world you can search for a good house
                 for your standards anywhere easily and shortly. If you are a landlord, you
-                can provide your property to our website so as people from anywhere can
+                can display your property to our website so as people from anywhere can
                 view it and communicate with you for a deal.
             </div>
             <div className="about-begin-button-parent">
