@@ -1,0 +1,59 @@
+/***************************
+ * Rules of a staff member *
+ ***************************/
+.staff-member {
+    box-shadow: 4px 5px 4px lightgray;
+    border-radius: 5px;
+    margin-left: 35%;
+    margin-right: 35%;
+    padding: 10px;
+    display: flex;
+    gap: 120px;
+    align-items: center;
+    justify-content: center;
+}
+
+/****************************************
+ * Rules of the image of a staff member *
+ ****************************************/
+.staff-member-image {
+    border-radius: 10px;
+}
+
+/*************************************************
+ * Rules of the personal information of a member *
+ *************************************************/
+.staff-member-details {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/***************************************
+ * Rules of the name of a staff member *
+ ***************************************/
+.staff-member-details-name {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+/****************************************
+ * Rules of the email of a staff member *
+ ****************************************/
+.staff-member-details-email {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+/*********************************************
+ * Rules of the occupation of a staff member *
+ *********************************************/
+.staff-member-details-occupation {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 20px;
+    display: flex;
+    gap: 10px;
+}

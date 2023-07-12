@@ -1,11 +1,29 @@
-/*****************************
- * Rules of the sign up page *
- *****************************/
+/****************************
+ * Rules of the signup page *
+ ****************************/
 .signup {
-    margin-top: 200px;
-    margin-bottom: 300px;
+    margin-top: 150px;
+    margin-bottom: 200px;
     margin-left: 20%;
     margin-right: 20%;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+/*****************************************
+ * Rules of the title of the signup page *
+ *****************************************/
+.signup-title {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 30px;
+    color: green;
+}
+
+/***********************************************
+ * Rules of the div containing the signup form *
+ ***********************************************/
+.signup-form-parent {
     padding: 100px;
     border-radius: 11px;
     background-color: lightgray;

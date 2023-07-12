@@ -439,8 +439,8 @@ export default function Signup()
                     newMessage = noError
 
                 /* We update the message under the role if it
-                * is different from the already existing message
-                */
+                 * is different from the already existing message
+                 */
                 if(newMessage !== currentMessage)
                 {
                     setErrorMessages(currentErrorMessages => {
@@ -656,29 +656,34 @@ export default function Signup()
      */
     const domSignupForm = (
         <div className="signup">
-            <form onSubmit={handleSubmit}>
-                <div className="signup-form-buttons">
-                    {domSignupButtons}
-                </div>
-                <div className={(errorExists()) ?
-                    "signup-form-submit-parent-disabled" :
-                    "signup-form-submit-parent"}
-                >
-                    <input
-                        className={(errorExists()) ?
-                        "signup-form-submit-disabled" :
-                        "signup-form-submit"}
-                        type="submit"
-                        value="Submit"
-                    />
-                </div>
-                <div className={(errorExists()) ?
-                    "signup-form-fix-errors-message" :
-                    "signup-form-fix-errors-message-disabled"}
-                >
-                    Fix the errors first!
-                </div>
-            </form>
+            <div className="signup-title">
+                Complete the form below to create an account
+            </div>
+            <div className="signup-form-parent">
+                <form onSubmit={handleSubmit}>
+                    <div className="signup-form-buttons">
+                        {domSignupButtons}
+                    </div>
+                    <div className={(errorExists()) ?
+                        "signup-form-submit-parent-disabled" :
+                        "signup-form-submit-parent"}
+                    >
+                        <input
+                            className={(errorExists()) ?
+                            "signup-form-submit-disabled" :
+                            "signup-form-submit"}
+                            type="submit"
+                            value="Submit"
+                        />
+                    </div>
+                    <div className={(errorExists()) ?
+                        "signup-form-fix-errors-message" :
+                        "signup-form-fix-errors-message-disabled"}
+                    >
+                        Fix the errors first!
+                    </div>
+                </form>
+            </div>
         </div>
     )
 

@@ -126,29 +126,34 @@ export default function Login({appState, setAppState})
 
     return (
         <div className="login">
-            <form
-                className="login-form"
-                onSubmit={handleSubmit}
-            >
-                <div className="login-form-buttons">
-                    {domLoginInputs}
-                </div>
-                <div
-                    className="login-error-message"
-                    style={(errorMessage === "No Error") ?
-                        {color: 'transparent'} : {}
-                    }
+            <div className="login-title">
+                Fill in your username and password
+            </div>
+            <div className="login-form-parent">
+                <form
+                    className="login-form"
+                    onSubmit={handleSubmit}
                 >
-                    {errorMessage}
-                </div>
-                <div className="login-form-submit-button-parent">
-                    <input
-                        className="login-form-submit-button"
-                        type="submit"
-                        value="Login"
-                    />
-                </div>
-            </form>
+                    <div className="login-form-buttons">
+                        {domLoginInputs}
+                    </div>
+                    <div
+                        className="login-error-message"
+                        style={(errorMessage === "No Error") ?
+                            {color: 'transparent'} : {}
+                        }
+                    >
+                        {errorMessage}
+                    </div>
+                    <div className="login-form-submit-button-parent">
+                        <input
+                            className="login-form-submit-button"
+                            type="submit"
+                            value="Login"
+                        />
+                    </div>
+                </form>
+            </div>
         </div>
     )
 }
