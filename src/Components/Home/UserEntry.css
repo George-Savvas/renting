@@ -1,0 +1,119 @@
+/**********************************************************
+ * Rules of a user entry in the administrator's home page *
+ **********************************************************/
+.user-entry {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 4px 5px 4px lightgray;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+/*****************************************
+ * Rules of the username of a user entry *
+ *****************************************/
+.user-entry-username {
+    width: 200px;
+    text-align: center;
+}
+
+/**************************************
+ * Rules of the email of a user entry *
+ **************************************/
+.user-entry-email {
+    width: 200px;
+    text-align: center;
+}
+
+/*******************************************
+ * Rules of the first name of a user entry *
+ *******************************************/
+.user-entry-name {
+    width: 200px;
+    text-align: center;
+}
+
+/******************************************
+ * Rules of the last name of a user entry *
+ ******************************************/
+.user-entry-lastname {
+    width: 200px;
+    text-align: center;
+}
+
+/******************************************
+ * Rules of the telephone of a user entry *
+ ******************************************/
+.user-entry-telephone {
+    width: 200px;
+    text-align: center;
+}
+
+/***************************************
+ * Rules of the status of a user entry *
+ ***************************************/
+.user-entry-status {
+    width: 200px;
+    text-align: center;
+}
+
+/*************************************************************************
+ * Rules of the parent of the verification toggle button of a user entry *
+ *************************************************************************/
+.user-entry-verification-toggle {
+    width: 200px;
+    text-align: center;
+    position: relative;
+}
+
+/**************************************************************************************
+ * Rules of the verification toggle button of a user entry                            *
+ * For the centering of the button the following source was used:                     *
+ * https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_center-vertical2_btn *
+ **************************************************************************************/
+.button {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    background-color: white;
+    width: 150px;
+    border-radius: 10px;
+    box-shadow: 4px 5px 4px lightgray;
+    cursor: pointer;
+    transition: background-color 0.5s;
+}
+
+/***********************************************************************************************
+ * Rules of the verification toggle button of a user entry when the pointer is hovered over it *
+ * For the centering of the button the following source was used:                              *
+ * https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_center-vertical2_btn          *
+ ***********************************************************************************************/
+.button:hover {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    background-color: gainsboro;
+    width: 150px;
+    border-radius: 10px;
+    box-shadow: 4px 5px 4px lightgray;
+    cursor: pointer;
+    transition: background-color 0.5s;
+}
+
+/*******************************************************************
+ * Rules of the dash ('-') in case there is no verification button *
+ *******************************************************************/
+.dash {
+    width: inherit;
+    text-align: center;
+}

@@ -1,5 +1,6 @@
 import React from 'react'
 import SignupButton from './SignupButton.js'
+import port from '../Port.js'
 import './Signup.css'
 
 /************************************************************************
@@ -20,7 +21,7 @@ const invalidPasswordSize = "Must have at least 3 and at most 15 characters"
 const noMatchBetweenPasswordAndPassconf = "Must be identical to the password"
 const tooLargeTelephone = "Max 10 digits"
 const nonArithmeticTelephone = "Must contain only arithmetic characters"
-const noActiveRole = "Select an option"
+const noActiveRole = "An option must be selected"
 
 /************************
  * The Signup Component *
@@ -67,7 +68,7 @@ export default function Signup()
         const requestBody = {username: targetUsername}
 
         /* We ask the backend server if the username exists */
-        const response = await fetch("http://localhost:7000/auth/usernameExists", {
+        const response = await fetch(`http://localhost:${port}/auth/usernameExists`, {
             method: 'POST',
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(requestBody)
@@ -89,7 +90,7 @@ export default function Signup()
         const requestBody = {email: targetEmail}
 
         /* We ask the backend server if the email exists */
-        const response = await fetch("http://localhost:7000/auth/emailExists", {
+        const response = await fetch(`http://localhost:${port}/auth/emailExists`, {
             method: 'POST',
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(requestBody)
@@ -621,11 +622,20 @@ export default function Signup()
             return
         }
 
-        /* If the form is valid, we send have the server create the new user */
-        fetch("http://localhost:7000/auth/addUser", {
+        /* Else if the form is valid, we create the final form that we will send to the server */
+        let finalFormData = {
+            ...formData,
+            isTenant: ((formData.role === "Tenant") || (formData.role === "Both")),
+            isLandlord: ((formData.role === "Landlord") || (formData.role === "Both"))
+        }
+
+        delete finalFormData.role
+
+        /* We have the server create the new user */
+        fetch(`http://localhost:${port}/auth/addUser`, {
             method: 'POST',
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(formData)
+            body: JSON.stringify(finalFormData)
         })
 
         /* We scroll smoothly at the top of the page */

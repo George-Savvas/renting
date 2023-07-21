@@ -4,7 +4,7 @@
 import React from 'react'
 import {BrowserRouter, Routes, Route} from 'react-router-dom'
 import Header from './Components/Header/Header.js'
-import Home from './Components/Home.js'
+import Home from './Components/Home/Home.js'
 import About from './Components/About.js'
 import Signup from './Components/Signup'
 import Login from './Components/Login.js'
@@ -21,8 +21,8 @@ import './App.css'
 /*********************
  * The App Component *
  *********************/
-export default function App() {
-
+export default function App()
+{
     const [appState, setAppState] = React.useState({
         userIsLogged: false,
         username: "",
@@ -42,7 +42,7 @@ export default function App() {
         <BrowserRouter>
             <Header appState={appState} setAppState={setAppState}/>
             <Routes>
-                <Route path='/' element={<Home/>}/>
+                <Route path='/' element={<Home appState={appState} setAppState={setAppState}/>}/>
                 <Route path='/about' element={<About/>}/>
                 <Route path='/signup' element={<Signup/>}/>
                 <Route path='/login' element={<Login appState={appState} setAppState={setAppState}/>}/>

@@ -1,0 +1,48 @@
+/******************************************
+ * Rules of the administrator's home page *
+ ******************************************/
+.admin-home {
+    margin-bottom: 150px;
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+}
+
+/******************************************************************
+ * Rules of the title at the top of the administrator's home page *
+ ******************************************************************/
+.admin-home-title {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 40px;
+    text-align: center;
+    padding: 70px;
+}
+
+/***************************************************************
+ * Rules of the table columns of the administrator's home page *
+ ***************************************************************/
+.admin-home-column-titles {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+/*******************************************************************
+ * Rules of a single table column of the administrator's home page *
+ *******************************************************************/
+.admin-home-column-title {
+    width: 200px;
+    text-align: center;
+}
+
+/****************************************************************
+ * Rules of the table of users of the administrator's home page *
+ ****************************************************************/
+.admin-home-users {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
