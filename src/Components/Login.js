@@ -1,7 +1,7 @@
 import React from 'react'
 import LoginButton from './LoginButton.js'
 import {useNavigate} from 'react-router-dom'
-import port from '../Port.js'
+import api from '../Interface.js'
 import './Login.css'
 
 /***********************
@@ -44,7 +44,7 @@ export default function Login({appState, setAppState})
         event.preventDefault()
 
         /* We request a user with the given username & password from the server */
-        const response = await fetch(`http://localhost:${port}/auth/login`, {
+        const response = await fetch(`${api}/auth/login`, {
             method: 'POST',
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(formData)

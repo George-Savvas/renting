@@ -1,6 +1,6 @@
 import React from 'react'
 import SignupButton from './SignupButton.js'
-import port from '../Port.js'
+import api from '../Interface.js'
 import './Signup.css'
 
 /************************************************************************
@@ -68,7 +68,7 @@ export default function Signup()
         const requestBody = {username: targetUsername}
 
         /* We ask the backend server if the username exists */
-        const response = await fetch(`http://localhost:${port}/auth/usernameExists`, {
+        const response = await fetch(`${api}/auth/usernameExists`, {
             method: 'POST',
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(requestBody)
@@ -90,7 +90,7 @@ export default function Signup()
         const requestBody = {email: targetEmail}
 
         /* We ask the backend server if the email exists */
-        const response = await fetch(`http://localhost:${port}/auth/emailExists`, {
+        const response = await fetch(`${api}/auth/emailExists`, {
             method: 'POST',
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(requestBody)
@@ -632,7 +632,7 @@ export default function Signup()
         delete finalFormData.role
 
         /* We have the server create the new user */
-        fetch(`http://localhost:${port}/auth/addUser`, {
+        fetch(`${api}/auth/addUser`, {
             method: 'POST',
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(finalFormData)

@@ -1,0 +1,136 @@
+/********************************************************************
+ * Rules of the page with the detailed information of a single user *
+ ********************************************************************/
+.detailed-user-entry {
+    margin-top: 100px;
+    margin-bottom: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 100px;
+}
+
+/*********************************************
+ * Rules of the title at the top of the page *
+ *********************************************/
+.detailed-user-entry-title {
+    display: flex;
+    gap: 15px;
+}
+
+/****************************************************************
+ * Rules of the static part of the title at the top of the page *
+ ****************************************************************/
+.detailed-user-entry-title-1 {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 40px;
+}
+
+/**************************************************************************
+ * Rules of the username-related part of the title at the top of the page *
+ **************************************************************************/
+.detailed-user-entry-title-2 {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 40px;
+    color: green;
+}
+
+/******************************************
+ * Rules of the detailed card of the user *
+ ******************************************/
+.detailed-user-entry-profile {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 4px 5px 4px lightgray;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 50px;
+    padding: 50px;
+}
+
+/********************************************************************
+ * Rules of all the details of a single user apart from their photo *
+ ********************************************************************/
+.detailed-user-entry-details {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 20px;
+    display: grid;
+    grid-template: auto auto / repeat(2, 1fr);
+    row-gap: 30px;
+    column-gap: 90px;
+}
+
+/********************************************************
+ * Rules of a single field (title + value) of user data *
+ ********************************************************/
+.detailed-user-entry-field {
+    display: flex;
+    gap: 10px;
+    width: 350px;
+    text-align: center;
+    align-items: center;
+}
+
+/**********************************************
+ * Rules of the title of a field of user data *
+ **********************************************/
+.detailed-user-entry-field-title {
+    color: gray;
+}
+
+/**********************************************
+ * Rules of the value of a field of user data *
+ **********************************************/
+.detailed-user-entry-field-value {
+    color: black;
+}
+
+/*********************************************************
+ * Rules of a button inside the profile card of the user *
+ *********************************************************/
+.detailed-user-entry-button {
+    background-color: white;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    box-shadow: 4px 5px 4px lightgray;
+    cursor: pointer;
+    padding-left: 40px;
+    padding-right: 40px;
+    transition: background-color 0.5s;
+}
+
+/*******************************************************************************************
+ * Rules of a button inside the profile card of the user when the mouse is hovered over it *
+ *******************************************************************************************/
+.detailed-user-entry-button:hover {
+    background-color: gainsboro;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    box-shadow: 4px 5px 4px lightgray;
+    cursor: pointer;
+    padding-left: 40px;
+    padding-right: 40px;
+    transition: background-color 0.5s;
+}
+
+/**********************************************************
+ * Rules of the link that leads back to the list of users *
+ **********************************************************/
+.detailed-user-entry-link {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 30px;
+    color: darkcyan;
+    text-decoration: none;
+}
+
+/**********************************************************
+ * Rules of the link that leads back to the list of users *
+ *        when the mouse is hovered over the link         *
+ **********************************************************/
+.detailed-user-entry-link:hover {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 30px;
+    color: darkcyan;
+    text-decoration: underline;
+}

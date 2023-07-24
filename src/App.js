@@ -13,6 +13,7 @@ import FAQ from './Components/FAQ.js'
 import Staff from './Components/Staff.js'
 import History from './Components/History.js'
 import Account from './Components/Account.js'
+import DetailedUserEntry from './Components/Home/DetailedUserEntry.js'
 import Logout from './Components/Logout.js'
 import PageNotFound from './Components/PageNotFound.js'
 import {initialButtons} from './Components/Header/NavbarButtonsInfo.js'
@@ -50,6 +51,7 @@ export default function App()
                 <Route path='/staff' element={<Staff/>}/>
                 <Route path='/history' element={<History/>}/>
                 <Route path='/account' element={<Account/>}/>
+                <Route path='/users/:username' element={<DetailedUserEntry/>}/>
                 <Route path='/logout' element={<Logout appState={appState} setAppState={setAppState}/>}/>
                 <Route path='/*' element={<PageNotFound/>}/>
             </Routes>
