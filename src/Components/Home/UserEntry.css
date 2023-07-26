@@ -24,6 +24,15 @@
     padding: 20px;
 }
 
+/***********************************************
+ * Rules of the profile image of a single user *
+ ***********************************************/
+.user-entry-image {
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+}
+
 /****************************************************************
  * Rules of the details of a single user apart from their photo *
  ****************************************************************/

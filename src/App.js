@@ -50,7 +50,7 @@ export default function App()
                 <Route path='/faq' element={<FAQ/>}/>
                 <Route path='/staff' element={<Staff/>}/>
                 <Route path='/history' element={<History/>}/>
-                <Route path='/account' element={<Account/>}/>
+                <Route path='/account' element={<Account appState={appState} setAppState={setAppState}/>}/>
                 <Route path='/users/:username' element={<DetailedUserEntry/>}/>
                 <Route path='/logout' element={<Logout appState={appState} setAppState={setAppState}/>}/>
                 <Route path='/*' element={<PageNotFound/>}/>

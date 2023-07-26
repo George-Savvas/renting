@@ -1,7 +1,12 @@
 import React from 'react'
 import {Link, useParams} from 'react-router-dom'
-import api from '../../Interface'
+import api from '../../Interface.js'
 import './DetailedUserEntry.css'
+
+/***************************************************************************************
+ * The path to the empty user image. It used if the user has not given their own image *
+ ***************************************************************************************/
+const emptyImageSource = "../Images/EmptyProfileImage.png"
 
 /**************************************************************
  * Returns all the information (except for the password) that *
@@ -171,9 +176,11 @@ export default function DetailedUserEntry()
                 <div className="detailed-user-entry-title-2">{username}</div>
             </div>
             <div className="detailed-user-entry-profile">
-                <div className="detailed-user-entry-image">
-                    Photo Image here
-                </div>
+                <img
+                    className="detailed-user-entry-image"
+                    src={emptyImageSource}
+                    alt={`${user.username}'s profile avatar`}
+                />
                 <div className="detailed-user-entry-details">
                     {domUserDetails}
                 </div>

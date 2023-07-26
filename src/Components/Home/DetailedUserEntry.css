@@ -45,8 +45,17 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 50px;
+    gap: 100px;
     padding: 50px;
+}
+
+/*****************************************************************************************
+ * Rules of the phote inside the user's card in the page of detailed info about the user *
+ *****************************************************************************************/
+.detailed-user-entry-image {
+    width: 200px;
+    height: 200px;
+    border-radius: 10px;
 }
 
 /********************************************************************

@@ -1,6 +1,11 @@
 import React from 'react'
-import './UserEntry.css'
 import {Link} from 'react-router-dom'
+import './UserEntry.css'
+
+/***************************************************************************************
+ * The path to the empty user image. It used if the user has not given their own image *
+ ***************************************************************************************/
+const emptyImageSource = "./Images/EmptyProfileImage.png"
 
 /****************************
  * The User Entry Component *
@@ -9,9 +14,11 @@ export default function UserEntry({user})
 {
     return (
         <div className="user-entry">
-            <div className="user-entry-image">
-                Photo Image here
-            </div>
+            <img
+                className="user-entry-image"
+                src={emptyImageSource}
+                alt={`${user.username}'s profile avatar`}
+            />
             <div className="user-entry-details">
                 <div className="user-entry-field">
                     <div className="user-entry-field-title">Username:</div>

@@ -61,9 +61,9 @@ export default function AdminHome({admin})
     React.useEffect(() => {
 
         /* Fetches all the users that are registered in the site from the backend server.
-        * Then according to the total amount of users, the function decides how many pages
-        * we need to represent all the users.
-        */
+         * Then according to the total amount of users, the function decides how many pages
+         * we need to represent all the users.
+         */
         async function fetchUsers() {
             setUsers(await getAllUsers())
             setPageTrio({
