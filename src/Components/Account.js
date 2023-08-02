@@ -2,9 +2,9 @@ import React from 'react'
 import api from '../Interface.js'
 import './Account.css'
 
-/***************************************************************************************
- * The path to the empty user image. It used if the user has not given their own image *
- ***************************************************************************************/
+/******************************************************************************************
+ * The path to the empty user image. It is used if the user has not given their own image *
+ ******************************************************************************************/
 const emptyImageSource = "./Images/EmptyProfileImage.png"
 
 /**************************************************************
@@ -35,6 +35,13 @@ export default function Account({appState, setAppState})
      */
     const [user, setUser] = React.useState({})
 
+    /* We create a state that will contain the user's image */
+    const [image, setImage] = React.useState({
+        empty: true,
+        file: undefined,
+        content: ""
+    })
+
     /* We fetch the information that is related to the given
      * username from the backend from the backend server
      */
@@ -43,7 +50,7 @@ export default function Account({appState, setAppState})
         /* This function fetches the user's information */
         async function fetchUser(usr) {
 
-            /* First we fetch the data and store it to the
+            /* We fetch the data and store it to the
              * component's state.
              */
             setUser(await getUserByUsername(usr))
@@ -54,18 +61,54 @@ export default function Account({appState, setAppState})
 
     }, [username])
 
+    /* A function that changes the image file of the user */
+    function handleFileChange(event)
+    {
+        if(!event.target.files[0])
+            return
+
+        const chosenFile = event.target.files[0]
+        const fileReader = new FileReader()
+
+        fileReader.onloadend = (e) => {
+            const content = fileReader.result
+            console.log(content)
+            setImage({
+                empty: false,
+                file: chosenFile,
+                content: content
+            })
+        }
+
+        fileReader.readAsDataURL(chosenFile)
+    }
+
     return (
-        <div>
-            <p>Account</p>
+        <div className="account">
+            <div className="account-title">Account ({username})</div>
             <img className="account-profile-image"
-                src={emptyImageSource}
+                src={(image.empty === true) ? emptyImageSource : image.content}
                 alt={`Profile avatar of ${user.username}`}
             />
-            <div>{user.username}</div>
-            <div>{user.email}</div>
-            <div>{user.name}</div>
-            <div>{user.lastname}</div>
-            <div>{user.telephone}</div>
+            <input
+                type="file"
+                onChange={handleFileChange}
+            />
+            <div>
+                <div>{user.username}</div>
+                <div>{user.email}</div>
+                <div>{user.name}</div>
+                <div>{user.lastname}</div>
+                <div>{user.telephone}</div>
+            </div>
+            <div>
+                <div>username</div>
+                <div>telephone</div>
+                <div>password</div>
+                <div>passconf</div>
+                <div>first name</div>
+                <div>last name</div>
+            </div>
         </div>
     )
 }

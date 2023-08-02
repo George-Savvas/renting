@@ -2,9 +2,9 @@ import React from 'react'
 import {Link} from 'react-router-dom'
 import './UserEntry.css'
 
-/***************************************************************************************
- * The path to the empty user image. It used if the user has not given their own image *
- ***************************************************************************************/
+/******************************************************************************************
+ * The path to the empty user image. It is used if the user has not given their own image *
+ ******************************************************************************************/
 const emptyImageSource = "./Images/EmptyProfileImage.png"
 
 /****************************
