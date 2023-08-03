@@ -2,11 +2,7 @@
  * Rules of the Account page *
  *****************************/
 .account {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-    margin-bottom: 150px;
+    margin-bottom: 200px;
 }
 
 /*****************************************************
@@ -19,6 +15,22 @@
     padding: 70px;
 }
 
+/******************************************
+ * Rules of the panel in the Account page *
+ ******************************************/
+.account-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    margin-left: 20%;
+    margin-right: 20%;
+    padding: 100px;
+    border-radius: 11px;
+    background-color: lightgray;
+    box-shadow: 5px 6px 5px gray;
+}
+
 /**************************************************************
  * Rules of the profile image of the user in the Account page *
  **************************************************************/
@@ -26,4 +38,214 @@
     width: 200px;
     height: 200px;
     border-radius: 10px;
+}
+
+/**********************************************************************************
+ * We must disable the default style of the original input field with "file" type *
+ * in order to style it in our own way. We disable it and style the label that is *
+ *                        connected to that input element                         *
+ **********************************************************************************/
+.account-image-input {
+    display: none;
+}
+
+/***************************************************************************************************
+ * Rules of the "Change Image" button of the Account page (the label connected to the above input) *
+ ***************************************************************************************************/
+.account-image-label {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 20px;
+    color: white;
+    background-color: darkcyan;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    user-select: none;
+}
+
+/********************************************************************************************
+ * Rules of the "Change Image" button of the Account page when the mouse is hovered over it *
+ * Source: https://css-tricks.com/how-to-create-neon-text-with-css/                         *
+ ********************************************************************************************/
+.account-image-label:hover {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 20px;
+    color: white;
+    background-color: darkcyan;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    user-select: none;
+    text-shadow:
+    0 0 7px #e8e5e5,
+    0 0 10px #e8e5e5,
+    0 0 21px #e8e5e5,
+    0 0 42px #0fa,
+    0 0 82px #0fa,
+    0 0 92px #0fa,
+    0 0 102px #0fa,
+    0 0 151px #0fa;
+}
+
+/*****************************************************************
+ * Rules of the title of the details section of the Account page *
+ *****************************************************************/
+.account-details-title {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 30px;
+    padding: 40px;
+}
+
+/****************************************************
+ * Rules of the details section of the Account page *
+ ****************************************************/
+.account-details {
+    display: grid;
+    grid-template: auto auto / repeat(2, 1fr);
+    row-gap: 30px;
+    column-gap: 200px;
+}
+
+/***********************************************************************
+ * Rules of a single detail of the details section of the Account page *
+ ***********************************************************************/
+.account-detail {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/************************************************************************************
+ * Rules of the title of a single detail of the details section of the Account page *
+ ************************************************************************************/
+.account-detail-title {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+/************************************************************************************
+ * Rules of the value of a single detail of the details section of the Account page *
+ ************************************************************************************/
+.account-detail-value {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 20px;
+}
+
+.account-message-for-landlords {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 30px;
+    font-weight: bold;
+    padding: 40px;
+    text-align: center;
+}
+
+/**********************************************************************
+ * Rules of the title of the edit profile section of the Account page *
+ **********************************************************************/
+.account-edit-title {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 30px;
+}
+
+/******************************************************
+ * Rules of the edit profile form of the Account page *
+ ******************************************************/
+.account-edit-form {
+    margin-top: 50px;
+    display: grid;
+    grid-template: auto auto / repeat(2, 1fr);
+    row-gap: 30px;
+    column-gap: 200px;
+}
+
+/*************************************************************************************
+ * Rules of the label that accompanies the "Save Changes" button of the Account page *
+ *            when it is disabled because of existing errors in the form             *
+ *************************************************************************************/
+.account-edit-submit-button-label-disabled {
+    width: 95%;
+    border-radius: 8px;
+    text-align: center;
+    background-color: gray;
+}
+
+/*************************************************************************************
+ * Rules of the label that accompanies the "Save Changes" button of the Account page *
+ * Source: https://keithjgrant.com/posts/2017/07/transitioning-gradients/            *
+ *************************************************************************************/
+.account-edit-submit-button-label {
+    width: 95%;
+    border-radius: 8px;
+    position: relative;
+    text-align: center;
+    background: linear-gradient(111.3deg, rgb(8, 180, 180) 9.6%, darkcyan 93.6%);
+    z-index: 1;
+}
+
+.account-edit-submit-button-label::before {
+    border-radius: 8px;
+    position: absolute;
+    content: '';
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: linear-gradient(111.3deg, darkcyan 9.6%, rgb(8, 180, 180) 93.6%);
+    z-index: -1;
+    transition: opacity 0.5s linear;
+    opacity: 0;
+}
+
+.account-edit-submit-button-label:hover::before {
+    opacity: 1;
+}
+
+/****************************************************************************************
+ * Rules of the "Save Changes" button of the "Edit Profile" section of the Account page *
+ *              when it is disabled because of existing errors in the form              *
+ ****************************************************************************************/
+.account-edit-submit-button-disabled {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 30px;
+    width: 100%;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    border: none;
+    background: none;
+    color: white;
+}
+
+/****************************************************************************************
+ * Rules of the "Save Changes" button of the "Edit Profile" section of the Account page *
+ ****************************************************************************************/
+.account-edit-submit-button {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 30px;
+    width: 100%;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    border: none;
+    background: none;
+    color: white;
+    cursor: pointer;
+}
+
+/*******************************************************************************
+ *  Rules of the informative message that appears after the user successfully  *
+ * changes their profile details in "Edit Profile" section of the Account page *
+ *******************************************************************************/
+.account-message-after-changes {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    color: green;
+    padding: 20px;
 }

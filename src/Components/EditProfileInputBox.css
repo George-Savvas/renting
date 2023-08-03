@@ -1,0 +1,67 @@
+/***************************************************************************
+ * Rules of an input box in the "Edit Profile" section of the Account page *
+ ***************************************************************************/
+.edit-profile-input-box {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-right: -27.5px;
+}
+
+/****************************************************************************************
+ * Rules of the label of an input box in the "Edit Profile" section of the Account page *
+ ****************************************************************************************/
+.edit-profile-input-box-label {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 20px;
+}
+
+/***********************************************************
+ * Rules of the parent of an input box of the Account page *
+ ***********************************************************/
+.edit-profile-input-box-input-holder {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/****************************************************************************************
+ * Rules of the input of an input box in the "Edit Profile" section of the Account page *
+ ****************************************************************************************/
+.edit-profile-input-box-input {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-right: 150px;
+    border: 1px solid gray;
+    border-radius: 8px;
+    box-shadow: 5px 6px 5px gray;
+}
+
+/********************************************************************************************
+ * Rules of the parent of the icon that accompanies certain input boxes of the Account page *
+ ********************************************************************************************/
+.edit-profile-input-box-icon-parent {
+    width: 35px;
+    height: 25px;
+}
+
+/******************************************************************************
+ * Rules of the icon that accompanies certain input boxes of the Account page *
+ ******************************************************************************/
+.edit-profile-input-box-icon {
+    width: 100%;
+    height: 100%;
+    border-radius: 11px;
+    cursor: pointer;
+    margin-left: -55px;
+}
+
+/***************************************************************************************************
+ * Rules of the error message under an input box in the "Edit Profile" section of the Account page *
+ ***************************************************************************************************/
+.edit-profile-input-box-error {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    user-select: none;
+}

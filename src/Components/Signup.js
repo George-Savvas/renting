@@ -582,7 +582,7 @@ export default function Signup()
             value: formData.role,
             onChangeAction: updateformDataCallback,
             errorMessage: errorMessages[7]
-        },
+        }
     ]
 
     /* Examines if there are any errors in the submitted form */

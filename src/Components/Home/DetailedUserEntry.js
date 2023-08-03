@@ -41,7 +41,7 @@ function decideStatus(user)
             return "Tenant & Verified Landlord"
 
         /* Case the landlord is not verified */
-        return "Tenant & Landlord"
+        return "Tenant & Landlord (Unverified)"
     }
 
     /* Case the user is just Landlord */
@@ -52,7 +52,7 @@ function decideStatus(user)
             return "Verified Landlord"
 
         /* Case the landlord is not verified */
-        return "Landlord"
+        return "Landlord (Unverified)"
     }
 
     /* Case the user is just Tenant */
