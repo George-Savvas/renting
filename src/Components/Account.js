@@ -1,6 +1,7 @@
 import React from 'react'
 import api from '../Interface.js'
 import EditProfileInputBox from './EditProfileInputBox.js'
+import PageNotFound from './PageNotFound.js'
 import './Account.css'
 
 /******************************************************************************************
@@ -169,13 +170,18 @@ export default function Account({appState, setAppState})
         /* This function fetches the user's information */
         async function fetchUser(usr) {
 
-            /* We fetch the data and store it to the
-             * component's state.
-             */
+            /* If the user is not logged-in, we do nothing */
+            if(usr === "")
+                return
+
+            /* Else we fetch the data and store it to the user state */
             setUser(await getUserByUsername(usr))
         }
 
-        /* If the user has already been fetched, we do not repeat the process */
+        /* If the user has already been fetched, we do not repeat the process
+         * This is useful if this effect will be executed multiple times. We
+         * only need to fetch the user once - the first time this effect runs.
+         */
         if(JSON.stringify(user) !== JSON.stringify({}))
             return
 
@@ -719,6 +725,16 @@ export default function Account({appState, setAppState})
         }
 
         fileReader.readAsDataURL(chosenFile)
+
+        /* Now we will send the new image to the backend server */
+        const imageToSend = new FormData()
+        imageToSend.append("newImage", chosenFile)
+
+        fetch(`${api}/auth/updateUserImage/${user.id}`, {
+            method: "PUT",
+            headers: { "Content-Type": "multipart/form-data" },
+            body: imageToSend
+        })
     }
 
     /* The details of the user's account */
@@ -741,6 +757,11 @@ export default function Account({appState, setAppState})
         )
     })
 
+    /* If the user is not logged-in, they cannot have an account page */
+    if(username === "")
+        return <PageNotFound/>
+
+    /* Else we return the details of the user's account page */
     return (
         <div className="account">
             <div className="account-title">Account ({username})</div>

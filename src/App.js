@@ -14,6 +14,7 @@ import Staff from './Components/Staff.js'
 import History from './Components/History.js'
 import Account from './Components/Account.js'
 import DetailedUserEntry from './Components/Home/DetailedUserEntry.js'
+import NewRoomForm from './Components/Home/NewRoomForm.js'
 import Logout from './Components/Logout.js'
 import PageNotFound from './Components/PageNotFound.js'
 import {initialButtons} from './Components/Header/NavbarButtonsInfo.js'
@@ -51,7 +52,8 @@ export default function App()
                 <Route path='/staff' element={<Staff/>}/>
                 <Route path='/history' element={<History/>}/>
                 <Route path='/account' element={<Account appState={appState} setAppState={setAppState}/>}/>
-                <Route path='/users/:username' element={<DetailedUserEntry/>}/>
+                <Route path='/users/:username' element={<DetailedUserEntry appState={appState} setAppState={setAppState}/>}/>
+                <Route path='/newroom' element={<NewRoomForm appState={appState} setAppState={setAppState}/>}/>
                 <Route path='/logout' element={<Logout appState={appState} setAppState={setAppState}/>}/>
                 <Route path='/*' element={<PageNotFound/>}/>
             </Routes>

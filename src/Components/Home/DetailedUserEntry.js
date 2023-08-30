@@ -1,6 +1,7 @@
 import React from 'react'
 import {Link, useParams} from 'react-router-dom'
 import api from '../../Interface.js'
+import PageNotFound from '../PageNotFound.js'
 import './DetailedUserEntry.css'
 
 /******************************************************************************************
@@ -21,6 +22,31 @@ async function getUserByUsername(username)
         .then((data) => {user = data.user})
 
     return user
+}
+
+/******************************************************************************************
+ * This function returns 'true' if the given username does not belong to an administrator *
+ ******************************************************************************************/
+async function isNotAdmin(username)
+{
+    /* Case the given username is the empty username (the user is not logged-in)
+     * In this case the user is not an administrator, so we return 'true'
+     */
+    if(username === "")
+        return true
+
+    /* In case the user is logged-in, we retrieve their data from the backend server */
+    const user = await getUserByUsername(username)
+
+    /* With the data we retrieved we examine if the user is an administrator or not
+     *
+     * Case the user is not an administrator
+     */
+    if(user.isAdmin === false)
+        return true
+
+    /* Case the user is an administrator */
+    return false
 }
 
 /*************************************************************************************************
@@ -95,7 +121,7 @@ function decideTextOfVerificationButton(user, toggleVerification)
 /*************************************
  * The Detailed User Entry Component *
  *************************************/
-export default function DetailedUserEntry()
+export default function DetailedUserEntry({appState, setAppState})
 {
     /* We retrieve the username that is given as a url parameter */
     const {username} = useParams()
@@ -104,6 +130,12 @@ export default function DetailedUserEntry()
      * the given username (except for the password)
      */
     const [user, setUser] = React.useState({})
+
+    /* This state will be used to determine whether the currently logged-in
+     * user is an administrator or not. Only an administrator has access to
+     * the content provided by this component.
+     */
+    const [isAdmin, setIsAdmin] = React.useState(true)
 
     /* We retrieve all the information assossiated with the given
      * username from the backend server (except for the password).
@@ -115,12 +147,25 @@ export default function DetailedUserEntry()
             setUser(await getUserByUsername(username))
         }
 
+        async function examineStatusOfLoggedUser() {
+            if(await isNotAdmin(appState.username))
+                setIsAdmin(false)
+        }
+
         /* The effect alters the state of the user by setting the
          * user-related information to the state variable.
          */
         fetchUser()
 
-    }, [username])
+        /* If the currently logged-in user is NOT an administrator or if the user
+         * is a guest (not logged in), we need to disallow access to the content of
+         * a Detailed User Entry. Only an administrator has the right to view and
+         * process the information of a user. We render the page not found component
+         * if the user is not an administrator.
+         */
+        examineStatusOfLoggedUser()
+
+    }, [username, appState.username])
 
     /* If the given user is not verified, this function verifies them.
      * If the given user is verified, this function renders them non-verified.
@@ -169,6 +214,13 @@ export default function DetailedUserEntry()
         )
     })
 
+    /* Finally, if the logged-in user is not an administrator, we render the "PageNotFound" component,
+     * since the currently logged user has not the rights to see the contents of this component.
+     */
+    if(isAdmin === false)
+        return <PageNotFound/>
+
+    /* Else if the user is an administrator, we return the detailed card of the requested user */
     return (
         <div className="detailed-user-entry">
             <div className="detailed-user-entry-title">
