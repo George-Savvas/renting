@@ -1,7 +1,102 @@
 import React from 'react'
+import {MapContainer, TileLayer, useMap} from 'react-leaflet'
+import {Icon} from 'leaflet'
+import {GeoSearchControl, OpenStreetMapProvider} from 'leaflet-geosearch'
 import api from '../../Interface.js'
 import PageNotFound from '../PageNotFound.js'
+import 'leaflet/dist/leaflet.css'
+import 'leaflet-geosearch/dist/geosearch.css'
 import './NewRoomForm.css'
+
+/* The OpenStreetMap Attribution (the credits to those who made the
+ * map and also to the author of the custom icons of the markers)
+ */
+const mapAttribution = '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors | <a href="https://www.flaticon.com/free-icons/pin" title="pin icons">Pin icons created by Freepik - Flaticon</a>'
+
+/* The OpenStreetMap url (the map we will use for this site) */
+const mapUrl = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+
+/* The custom icon we will use for the OpenStreetMap (created by Freepik) */
+const mapIcon = new Icon({
+    iconUrl: "./Images/OpenStreetMapIcon.png",
+    iconSize: [38,38]
+})
+
+/* This function is an event handler that is triggered every time the user
+ * puts an address in the search bar of the Open Street Map. The function
+ * retrieves the x and y coordinates of the point that matches the address
+ * the user just gave. This point will be stored in the database and it will
+ * be retrieved when a tenant views this room in the future.
+ */
+function searchEventHandler(result) {
+    console.log(`${result.location.x} ${result.location.y}`)
+}
+
+/*******************************************************************************************************************************************
+ * Below is a React Component that we need to create a search bar so the user can locate addresses on the map                                                *
+ *                                                                                                                                         *
+ * Source 1: https://stackoverflow.com/questions/48290555/react-leaflet-search-box-implementation                                          *
+ * Source 2: https://github.com/smeijer/leaflet-geosearch                                                                                  *
+ * Source 3: https://gis.stackexchange.com/questions/421128/getting-coordinates-after-address-has-been-picked-in-leaflet-geosearch-control *
+ *******************************************************************************************************************************************/
+const SearchBar = (props) => {
+
+    /* Access to leaflet map */
+    const map = useMap()
+    const {provider} = props
+
+    React.useEffect(() => {
+
+        const searchControl = new GeoSearchControl({
+            provider: provider, // required
+            style: 'bar',
+            showMarker: true, // optional: true|false  - default true
+            showPopup: true, // optional: true|false  - default false
+            marker: {
+              // optional: L.Marker    - default L.Icon.Default
+              icon: mapIcon,
+              draggable: false,
+            },
+            popupFormat: ({ query, result }) => result.label, // optional: function    - default returns result label,
+            resultFormat: ({ result }) => result.label, // optional: function    - default returns result label
+            maxMarkers: 1, // optional: number      - default 1
+            retainZoomLevel: false, // optional: true|false  - default false
+            animateZoom: true, // optional: true|false  - default true
+            autoClose: false, // optional: true|false  - default false
+            searchLabel: 'Enter Room Address', // optional: string      - default 'Enter address'
+            keepResult: false, // optional: true|false  - default false
+            updateMap: true, // optional: true|false  - default true
+            autoComplete: true, // optional: true|false  - default true
+            autoCompleteDelay: 250 // optional: number      - default 250
+        });
+          
+        map.on('geosearch/showlocation', searchEventHandler)
+
+        /* This is how you add a control in vanilla leaflet */
+        map.addControl(searchControl)
+        return () => map.removeControl(searchControl)
+
+    }, [props, map, provider])
+
+    /* We do not want anything to show up from this component */
+    return null
+}
+
+/* The DOM OpenStreetMap we will render in the component of this file
+ * The center is in Paris (coordinates: [48.8566, 2.3522])
+ */
+const map = (
+    <MapContainer
+        center={[48.8566, 2.3522]}
+        zoom={13}
+    >
+        <TileLayer
+            attribution={mapAttribution}
+            url={mapUrl}
+        />
+        <SearchBar provider={new OpenStreetMapProvider()}/>
+    </MapContainer>
+)
 
 /**************************************************************
  * Returns all the information (except for the password) that *
@@ -84,7 +179,15 @@ export default function NewRoomForm({appState, setAppState})
 
     return (
         <div className="new-room-form">
-            New Room
+            <div className="new-room-form-title">
+                Let's create your new room
+            </div>
+            <div className="new-room-form-steps-text">
+                Step 1: Set the address of your room in Open Street Map using the search bar
+            </div>
+            <div className="new-room-form-map">
+                {map}
+            </div>
         </div>
     )
 }
