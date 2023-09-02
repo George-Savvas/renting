@@ -197,6 +197,38 @@ export default function Account({appState, setAppState})
         content: ""
     })
 
+    /* This function returns the value that will be used for
+     * the 'src' attribute of the profile image tag.
+     */
+    function decideProfileImageSource()
+    {
+        /* If the image state does not contain an image, that means
+         * the user has not changed their image this time they entered
+         * the account page. In this case we will use the image the
+         * user has inserted (if there is one), which we will fetch
+         * from the backend server.
+         */
+        if(image.empty === true)
+        {
+            /* Case the user has inserted a profile image in the past */
+            if(user.profile_img !== null)
+                return `${api}/${user.profile_img}`
+
+            /* Case the user has never inserted a profile image
+             *
+             * In this case we return an arbitrary image that depicts
+             * the user has not inserted any image.
+             */
+            return emptyImageSource
+        }
+
+        /* Case the user just changed their image this time they entered
+         * the account page. The new image has been sent in the database,
+         * but also exists in the image state. We retrieve it from there.
+         */
+        return image.content
+    }
+
     /* This state contains all the data of the edit profile form, apart from the
      * password confirmation, which is stored in a seperate state because
      * on successful changes we send all the information in 'formData' to the
@@ -280,8 +312,8 @@ export default function Account({appState, setAppState})
             case "telephone":
             {
                 /* We retrieve the current message under the telephone's input box.
-                * We also declare a variable for the new message.
-                */
+                 * We also declare a variable for the new message.
+                 */
                 const currentMessage = errorMessages[6]
                 let newMessage = currentMessage;
 
@@ -302,8 +334,8 @@ export default function Account({appState, setAppState})
                     newMessage = emptyField
 
                 /* We update the message under the telephone if it
-                * is different from the already existing message
-                */
+                 * is different from the already existing message
+                 */
                 if(newMessage !== currentMessage)
                 {
                     setErrorMessages(currentErrorMessages => {
@@ -727,13 +759,12 @@ export default function Account({appState, setAppState})
         fileReader.readAsDataURL(chosenFile)
 
         /* Now we will send the new image to the backend server */
-        const imageToSend = new FormData()
-        imageToSend.append("newImage", chosenFile)
+        const profile_img = new FormData()
+        profile_img.append("profile_img", chosenFile)
 
         fetch(`${api}/auth/updateUserImage/${user.id}`, {
             method: "PUT",
-            headers: { "Content-Type": "multipart/form-data" },
-            body: imageToSend
+            body: profile_img
         })
     }
 
@@ -767,7 +798,7 @@ export default function Account({appState, setAppState})
             <div className="account-title">Account ({username})</div>
             <div className="account-panel">
                 <img className="account-profile-image"
-                    src={(image.empty === true) ? emptyImageSource : image.content}
+                    src={decideProfileImageSource()}
                     alt={`Profile avatar of ${user.username}`}
                 />
                 <label htmlFor="profileImage" className="account-image-label">

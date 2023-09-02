@@ -40,7 +40,7 @@ export default function LandlordHome({user})
                     className="landlord-home-add-room-button"
                     onClick={redirectToNewRoomPage}
                 >
-                    + Add a room/house
+                    + Add a new room
                 </div>
             </div>
         </div>

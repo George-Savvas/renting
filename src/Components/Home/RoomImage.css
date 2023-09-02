@@ -1,0 +1,36 @@
+/******************************************
+ * Rules of the container of a room image *
+ ******************************************/
+.room-image {
+    cursor: pointer;
+}
+
+/******************************************
+ * Rules of the container of a room image *
+ ******************************************/
+.room-image-source {
+    width: 200px;
+    height: 200px;
+}
+
+/************************************************************
+ * Rules of the red "X" indicator that implies the deletion *
+ *        of the room image if the image is clicked         *
+ ************************************************************/
+.room-image-delete {
+    width: 200px;
+    height: 200px;
+    opacity: 0;
+    margin-left: -200px;
+}
+
+/************************************************************************
+ *   Rules of the red "X" indicator that implies the deletion of the    *
+ * room image if the image is clicked when the mouse is hovered over it *
+ ************************************************************************/
+.room-image-delete:hover {
+    width: 200px;
+    height: 200px;
+    opacity: 1;
+    margin-left: -200px;
+}

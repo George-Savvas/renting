@@ -167,6 +167,23 @@ export default function DetailedUserEntry({appState, setAppState})
 
     }, [username, appState.username])
 
+    /* This function returns the value that will be used for
+     * the 'src' attribute of the profile image tag.
+     */
+    function decideProfileImageSource()
+    {
+        /* Case the user has inserted a profile image in the past */
+        if(user.profile_img !== null)
+            return `${api}/${user.profile_img}`
+
+        /* Case the user has never inserted a profile image
+         *
+         * In this case we return an arbitrary image that depicts
+         * the user has not inserted any image.
+         */
+        return emptyImageSource
+    }
+
     /* If the given user is not verified, this function verifies them.
      * If the given user is verified, this function renders them non-verified.
      */
@@ -230,7 +247,7 @@ export default function DetailedUserEntry({appState, setAppState})
             <div className="detailed-user-entry-profile">
                 <img
                     className="detailed-user-entry-image"
-                    src={emptyImageSource}
+                    src={decideProfileImageSource()}
                     alt={`${user.username}'s profile avatar`}
                 />
                 <div className="detailed-user-entry-details">

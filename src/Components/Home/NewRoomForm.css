@@ -37,10 +37,39 @@
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
+/*******************************************
+ * Additional rules of the Open Street Map *
+ *******************************************/
+.new-room-form-map {
+    padding-bottom: 70px;
+}
+
+/*******************************************
+ * Rules of the form with the room details *
+ *******************************************/
+.new-room-form-details-form {
+    padding-top: 50px;
+    padding-bottom: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 50px;
+}
+
+/*****************************************
+ * Rules of the array of the input boxes *
+ *****************************************/
+.new-room-form-inputs-array {
+    display: grid;
+    grid-template: auto auto / repeat(2, 1fr);
+    row-gap: 30px;
+    column-gap: 50px;
+}
+
 /***************************************************************
  * Rules of the parent of the address input field for the room *
  ***************************************************************/
-.new-room-form-address {
+.new-room-form-input-parent {
     padding-bottom: 50px;
     display: flex;
     flex-direction: column;
@@ -51,7 +80,7 @@
 /************************************************************************
  * Rules of the label connected to the address input field for the room *
  ************************************************************************/
-.new-room-form-address-label {
+.new-room-form-label {
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     font-size: 25px;
 }
@@ -59,10 +88,127 @@
 /*************************************************
  * Rules of the address input field for the room *
  *************************************************/
-.new-room-form-address-input {
+.new-room-form-input {
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     font-size: 25px;
     width: 500px;
     height: 35px;
     border-radius: 10px;
+}
+
+/******************************************************************************
+ * Rules of the thumbnail image of the new room in the new room creation page *
+ ******************************************************************************/
+.new-room-form-thumbnail-image {
+    width: 500px;
+    height: 500px;
+    border-radius: 10px;
+}
+
+/**********************************************************************************
+ * We must disable the default style of the original input field with "file" type *
+ * in order to style it in our own way. We disable it and style the label that is *
+ *                        connected to that input element                         *
+ **********************************************************************************/
+.new-room-form-image-input {
+    display: none;
+}
+
+/***********************************************************************************************
+ * Rules of the file input that we disabled in order to style it our own way through its label *
+ ***********************************************************************************************/
+.new-room-form-image-label {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 20px;
+    color: white;
+    background-color: darkcyan;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    user-select: none;
+}
+
+/********************************************************************************************
+ * Rules of the "Change Image" button of the Account page when the mouse is hovered over it *
+ * Source: https://css-tricks.com/how-to-create-neon-text-with-css/                         *
+ ********************************************************************************************/
+.new-room-form-image-label:hover {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 20px;
+    color: white;
+    background-color: darkcyan;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    user-select: none;
+    text-shadow:
+    0 0 7px #e8e5e5,
+    0 0 10px #e8e5e5,
+    0 0 21px #e8e5e5,
+    0 0 42px #0fa,
+    0 0 82px #0fa,
+    0 0 92px #0fa,
+    0 0 102px #0fa,
+    0 0 151px #0fa;
+}
+
+/*********************************************************************
+ * Rules of the additional images that are assossiated with the room *
+ *********************************************************************/
+.new-room-form-extra-images {
+    display: grid;
+    grid-template: auto auto / repeat(4, 1fr);
+}
+
+
+/*****************************************************************************************
+ * Rules of the label that accompanies the "Submit" button in the new room creation page *
+ * Source: https://keithjgrant.com/posts/2017/07/transitioning-gradients/                *
+ *****************************************************************************************/
+.new-room-submit-button-label {
+    width: 30%;
+    border-radius: 8px;
+    position: relative;
+    text-align: center;
+    background: linear-gradient(111.3deg, rgb(8, 180, 180) 9.6%, darkcyan 93.6%);
+    z-index: 1;
+}
+
+.new-room-submit-button-label::before {
+    border-radius: 8px;
+    position: absolute;
+    content: '';
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: linear-gradient(111.3deg, darkcyan 9.6%, rgb(8, 180, 180) 93.6%);
+    z-index: -1;
+    transition: opacity 0.5s linear;
+    opacity: 0;
+}
+
+.new-room-submit-button-label:hover::before {
+    opacity: 1;
+}
+
+/**************************************************************
+ * Rules of the "Submit" button of the new room creation page *
+ **************************************************************/
+.new-room-submit-button {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 30px;
+    width: 100%;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    border: none;
+    background: none;
+    color: white;
+    cursor: pointer;
 }
