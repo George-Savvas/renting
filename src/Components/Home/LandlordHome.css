@@ -73,3 +73,71 @@
     color: white;
     cursor: pointer;
 }
+
+/**************************************************************************
+ * Rules of the title of the container with all the rooms of the landlord *
+ **************************************************************************/
+.landlord-home-title-of-rooms-list {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 30px;
+    text-align: center;
+}
+
+/*****************************************************************
+ * Rules of the panel with all the created rooms by the landlord *
+ *****************************************************************/
+.landlord-home-results-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    padding: 50px;
+}
+
+/**************************************************************************
+ * Rules of the entry of a single room of the panel with the result rooms *
+ **************************************************************************/
+.landlord-home-results-entry {
+    display: flex;
+    gap: 30px;
+    padding: 20px;
+    box-shadow: 2px 3px 2px gray;
+    cursor: pointer;
+    background-color: whitesmoke;
+    width: 30%;
+}
+
+/***********************************************************************************Z*
+ * Rules of the thumbnail image of a room that belongs to the panel of result rooms *
+ ************************************************************************************/
+.landlord-home-results-entry-image {
+    width: 200px;
+    height: 200px;
+}
+
+/**************************************************************************
+ * Rules of the array of details that describe a room of the result panel *
+ **************************************************************************/
+.landlord-home-results-entry-details {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/************************************************************
+ * Rules of a single detail that belongs to the above array *
+ ************************************************************/
+.landlord-home-results-entry-detail {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 25px;
+}
+
+/*********************************************************************************************************
+ * Rules of the link that tells the user to click it to go to the page of detailed information of a room *
+ *********************************************************************************************************/
+.landlord-home-results-entry-detail-click {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 25px;
+    color: green;
+    margin-top: 30px;
+}

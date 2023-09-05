@@ -166,6 +166,23 @@
     grid-template: auto auto / repeat(4, 1fr);
 }
 
+/********************************************************************
+ * Rules of the section where a country, state and city is selected *
+ ********************************************************************/
+.new-room-form-location-form-items {
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+    padding: 70px;
+}
+
+/************************************************************************************
+ * Rules of the title that accompanies a dropdown menu for a country, state or city *
+ ************************************************************************************/
+.new-room-form-location-form-item-title {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 18px;
+}
 
 /*****************************************************************************************
  * Rules of the label that accompanies the "Submit" button in the new room creation page *

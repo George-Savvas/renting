@@ -4,9 +4,11 @@ import {MapContainer, TileLayer, useMap} from 'react-leaflet'
 import {Icon} from 'leaflet'
 import {GeoSearchControl, OpenStreetMapProvider} from 'leaflet-geosearch'
 import {nanoid} from 'nanoid'
+import {CountrySelect, StateSelect, CitySelect} from "react-country-state-city"
 import api from '../../Interface.js'
 import RoomImage from './RoomImage.js'
 import PageNotFound from '../PageNotFound.js'
+import "react-country-state-city/dist/react-country-state-city.css"
 import 'leaflet/dist/leaflet.css'
 import 'leaflet-geosearch/dist/geosearch.css'
 import './NewRoomForm.css'
@@ -122,7 +124,7 @@ export default function NewRoomForm({appState, setAppState})
         heating: true
     })
 
-    /* We create a state that will contain the user's image */
+    /* We create a state that will contain the room's main image */
     const [thumbnailImage, setThumbnailImage] = React.useState({
         empty: true,
         file: undefined,
@@ -151,6 +153,11 @@ export default function NewRoomForm({appState, setAppState})
      */
     const [roomImages, setRoomImages] = React.useState([])
 
+    /* States that store the country, state and city that are currently chosen */
+    const [countryId, setCountryId] = React.useState(0)
+    const [stateId, setStateId] = React.useState(0)
+    const [cityId, setCityId] = React.useState(0)
+
     /* Updates the state of the room details whenever
      * the user changes the input of any box
      */
@@ -175,7 +182,7 @@ export default function NewRoomForm({appState, setAppState})
             placeholder: "Write your description here",
             value: roomDetails.address,
             onChange: updateRoomDetailsCallback,
-            labelText: "Now that you set the address on the map, write it in text as well"
+            labelText: "Write the address of your room"
         },
         {
             index: 1,
@@ -544,6 +551,45 @@ export default function NewRoomForm({appState, setAppState})
         )
     })
 
+    /* A form that allows selection of country, state and city
+     *
+     * Source: https://socket.dev/npm/package/react-country-state-city
+     */
+    const locationSelectionForm = (
+        <div className="new-room-form-location-form-items">
+            <div>
+                <div className="new-room-form-location-form-item-title">Country</div>
+                <CountrySelect
+                    onChange={(e) => {
+                        setCountryId(e.id)
+                    }}
+                    placeHolder="Select Country"
+                />
+            </div>
+            <div>
+                <div className="new-room-form-location-form-item-title">State</div>
+                <StateSelect
+                    countryid={countryId}
+                    onChange={(e) => {
+                        setStateId(e.id)
+                    }}
+                    placeHolder="Select State"
+                />
+            </div>
+            <div>
+                <div className="new-room-form-location-form-item-title">City</div>
+                <CitySelect
+                    countryid={countryId}
+                    stateid={stateId}
+                    onChange={(e) => {
+                        setCityId(e.id)
+                    }}
+                    placeHolder="Select City"
+                />
+            </div>
+        </div>
+    )
+
     /* When the form is submitted, this function is called to handle the sumbit */
     const handleSumbit = async (event) => {
 
@@ -552,10 +598,15 @@ export default function NewRoomForm({appState, setAppState})
          */
         event.preventDefault()
 
-        /* We complete the room details with the user ID of the landlord */
+        /* We complete the room details with the user ID of the landlord and
+         * also the topological information of the room (country, state, city)
+         */
         const finalRoomDetails = {
             ...roomDetails,
-            userId: user.id
+            userId: user.id,
+            countryId: countryId,
+            stateId: stateId,
+            cityId: cityId
         }
 
         /* We will place all the information of the new room in a Form Data */
@@ -620,7 +671,13 @@ export default function NewRoomForm({appState, setAppState})
                 {map}
             </div>
             <div className="new-room-form-steps-text">
-                Step 2: Fill in the following information about your room
+                Step 2: Select from the dropdown menus the country, state and city where your room is located
+            </div>
+            <div>
+                {locationSelectionForm}
+            </div>
+            <div className="new-room-form-steps-text">
+                Step 3: Fill in the following information about your room
             </div>
             <form
                 className="new-room-form-details-form"
@@ -631,7 +688,7 @@ export default function NewRoomForm({appState, setAppState})
                     {domInputBoxes}
                 </div>
                 <div className="new-room-form-steps-text">
-                    Step 3: Choose a thumbnail image for your room.
+                    Step 4: Choose a thumbnail image for your room.
                     In this image the whole house should be visible from the outside
                 </div>
                 <img className="new-room-form-thumbnail-image"
@@ -649,7 +706,7 @@ export default function NewRoomForm({appState, setAppState})
                     />
                 </label>
                 <div className="new-room-form-steps-text">
-                    Step 4: Upload additional images of your room
+                    Step 5: Upload additional images of your room
                 </div>
                 <div className="new-room-form-extra-images">
                     {domRoomImages}
@@ -665,7 +722,7 @@ export default function NewRoomForm({appState, setAppState})
                     />
                 </label>
                 <div className="new-room-form-steps-text">
-                    Step 5: Click the "Publish my new room!" button to deploy your room
+                    Step 6: Click the "Publish my new room!" button to deploy your room
                 </div>
                 <label
                     htmlFor="newRoomCreationSumbitButton"
