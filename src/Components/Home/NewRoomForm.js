@@ -113,7 +113,7 @@ export default function NewRoomForm({appState, setAppState})
         maxNumOfPeople: 0,
         cost: 0,
         additionalCostPerPerson: 0,
-        roomType: "",
+        roomType: "Private Room",
         rules: "",
         description: "",
         numOfBeds: 0,
@@ -228,7 +228,7 @@ export default function NewRoomForm({appState, setAppState})
             index: 5,
             id: "roomType",
             name: "roomType",
-            type: "text",
+            type: "selectRoomType",
             placeholder: "Write your description here",
             value: roomDetails.roomType,
             onChange: updateRoomDetailsCallback,
@@ -308,7 +308,7 @@ export default function NewRoomForm({appState, setAppState})
             index: 13,
             id: "heating",
             name: "heating",
-            type: "select",
+            type: "selectHeating",
             placeholder: "Write your description here",
             value: roomDetails.heating,
             onChange: updateRoomDetailsCallback,
@@ -319,7 +319,7 @@ export default function NewRoomForm({appState, setAppState})
     /* We create the DOM elements that will be using the above information */
     const domInputBoxes = inputBoxes.map(inputBox => {
 
-        if(inputBox.type === "select")
+        if(inputBox.type === "selectHeating")
         {
             return (
                 <div key={inputBox.index} className="new-room-form-input-parent">
@@ -337,6 +337,30 @@ export default function NewRoomForm({appState, setAppState})
                     >
                         <option value={true}>Yes</option>
                         <option value={false}>No</option>
+                    </select>
+                </div>
+            )
+        }
+
+        if(inputBox.type === "selectRoomType")
+        {
+            return (
+                <div key={inputBox.index} className="new-room-form-input-parent">
+                    <label
+                        className="new-room-form-label"
+                        htmlFor={inputBox.id}
+                    >
+                        {inputBox.labelText}
+                    </label>
+                    <select
+                        className="new-room-form-input"
+                        id={inputBox.id}
+                        name={inputBox.name}
+                        onChange={inputBox.onChange}
+                    >
+                        <option value={"Private Room"}>Private Room</option>
+                        <option value={"Shared Room"}>Shared Room</option>
+                        <option value={"House"}>House</option>
                     </select>
                 </div>
             )

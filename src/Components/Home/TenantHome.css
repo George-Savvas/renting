@@ -178,3 +178,182 @@
     color: green;
     margin-top: 30px;
 }
+
+/************************************************************************
+ * Rules of the parent of the buttons assossiated with the page control *
+ ************************************************************************/
+.tenant-home-page-management {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+}
+
+/***************************************************************
+ * Rules of the text displaying the number of the current page *
+ ***************************************************************/
+.tenant-home-page-management-current-page-num {
+    display: flex;
+    gap: 8px;
+}
+
+/******************************************************************************
+ * Rules of the context of the text displaying the number of the current page *
+ ******************************************************************************/
+.tenant-home-page-management-current-page-num-context {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 20px;
+}
+
+/**************************************************************************************
+ * Rules of a substantial value of the text displaying the number of the current page *
+ **************************************************************************************/
+.tenant-home-page-management-current-page-num-value {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 20px;
+    color: rgb(3, 140, 3);
+}
+
+/************************************************************************************
+ * Rules of a single button of the page control system (when the button is enabled) *
+ ************************************************************************************/
+.tenant-home-page-management-button {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 20px;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    background-color: rgb(3, 140, 3);
+    cursor: pointer;
+}
+
+/********************************************************************
+ *       Rules of a single button of the page control system        *
+ *  when the mouse is hovered over it (when the button is enabled)  *
+ * Source: https://css-tricks.com/how-to-create-neon-text-with-css/ *
+ ********************************************************************/
+.tenant-home-page-management-button:hover {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 20px;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    background-color: rgb(3, 140, 3);
+    cursor: pointer;
+    text-shadow:
+    0 0 7px #fff,
+    0 0 10px #fff,
+    0 0 21px #fff,
+    0 0 42px #0fa,
+    0 0 82px #0fa,
+    0 0 92px #0fa,
+    0 0 102px #0fa,
+    0 0 151px #0fa;
+}
+
+/*************************************************************************************
+ * Rules of a single button of the page control system (when the button is disabled) *
+ *************************************************************************************/
+.tenant-home-page-management-disabled-button {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 20px;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    background-color: lightgreen;
+}
+
+/***********************************************************************
+ * Rules of the page management subsystem that allows manual insertion *
+ *        of page number and navigation to that page afterwards        *
+ ***********************************************************************/
+.tenant-home-page-management-goto-page {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/*************************************************************
+ * Rules of the title of the manual page insertion subsystem *
+ *************************************************************/
+.tenant-home-page-management-goto-page-title {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 20px;
+}
+
+/******************************************************************************************
+ * Rules of a '+' or '-' box that allows for increase or decrease of the page number by 1 *
+ ******************************************************************************************/
+.tenant-home-page-management-goto-page-altering-box {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 20px;
+    background-color: rgb(3, 140, 3);
+    color: white;
+    border-radius: 15px;
+    cursor: pointer;
+    padding-left: 5px;
+    padding-right: 5px;
+    user-select: none;
+}
+
+/********************************************************************
+ * Rules of a '+' or '-' box when the mouse is hovered over it      *
+ * Source: https://css-tricks.com/how-to-create-neon-text-with-css/ *
+ ********************************************************************/
+.tenant-home-page-management-goto-page-altering-box:hover {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 20px;
+    background-color: rgb(3, 140, 3);
+    color: white;
+    border-radius: 15px;
+    cursor: pointer;
+    padding-left: 5px;
+    padding-right: 5px;
+    user-select: none;
+    text-shadow:
+    0 0 7px #fff,
+    0 0 10px #fff,
+    0 0 21px #fff,
+    0 0 42px #0fa,
+    0 0 82px #0fa,
+    0 0 92px #0fa,
+    0 0 102px #0fa,
+    0 0 151px #0fa;
+}
+
+/*************************************************
+ * Rules of a '+' or '-' box when it is disabled *
+ *************************************************/
+.tenant-home-page-management-goto-page-altering-box-disabled {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 20px;
+    background-color: lightgreen;
+    color: white;
+    border-radius: 15px;
+    padding-left: 5px;
+    padding-right: 5px;
+    user-select: none;
+}
+
+/****************************************************************************
+ * Rules of the input box that contains the manually changeable page number *
+ ****************************************************************************/
+.tenant-home-page-management-goto-page-input-box {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 20px;
+    text-align: center;
+    border-radius: 10px;
+    width: 40px;
+}

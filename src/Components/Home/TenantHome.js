@@ -12,6 +12,32 @@ import './TenantHome.css'
  ************************************/
 const emptyImageSource = "./Images/EmptyHouseImage.jpg"
 
+/*******************************************************
+ * The amount of rooms that are displayed in each page *
+ *******************************************************/
+const numOfRoomsPerPage = 10
+
+/***********************************************************************
+ * Given the population number of a collection of items and the items  *
+ *  that can be displayed in a single page, this function returns the  *
+ * amount of needed pages to represent all the items of the collection *
+ ***********************************************************************/
+function getAmountOfNeededPages(itemsNum, itemsPerPage)
+{
+    /* The last page may not have 'itemsPerPage' items. If the last
+     * page has not 'itemsPerPage' items, then the remainder of the
+     * division 'itemsNum'/'itemsPerPage' is not zero. In this case
+     * we return the quotient plus one for the non-full page.
+     */
+    const quotient = Math.floor(itemsNum / itemsPerPage)
+    const remainder = itemsNum % itemsPerPage
+
+    if(remainder !== 0)
+        return quotient + 1
+
+    return quotient
+}
+
 /**************************************************
  * Returns all the existing rooms in the database *
  **************************************************/
@@ -49,6 +75,9 @@ export default function TenantHome({user})
     /* A state with all the rooms that are displayed in the home page */
     const [resultRooms, setResultRooms] = React.useState([])
 
+    /* We create a state with the first, the current and the last page of displayed rooms */
+    const [pageTrio, setPageTrio] = React.useState({first: 1, current: 1, last: 1})
+
     /* When the component loads for the first time, no filters have been
      * selected yet and therefore we fetch all the rooms of the database.
      */
@@ -59,12 +88,89 @@ export default function TenantHome({user})
 
             /* Else we fetch the data and store it to the user state */
             setResultRooms(await getAllRooms())
+
+            /* We also initialize the page trio according to the rooms' quantity */
+            setPageTrio({
+                first: 1,
+                current: 1,
+                last: getAmountOfNeededPages(resultRooms.length, numOfRoomsPerPage)
+            })
         }
 
         /* We call the above function to fetch all the existing rooms */
         fetchRooms()
 
-    }, [])
+    }, [resultRooms.length])
+
+    /* A function that navigates the user to the first page of rooms */
+    function goToFirstPage()
+    {
+        /* If we are already in the first page, there is nothing to do */
+        if(pageTrio.current === pageTrio.first)
+            return
+
+        /* Else we change the state of the page trio so as it represents the first page */
+        setPageTrio(currentPageTrio => {
+            return {...currentPageTrio, current: pageTrio.first}
+        })
+    }
+
+    /* A function that navigates the user to the last page of rooms */
+    function goToLastPage()
+    {
+        /* If we are already in the last page, there is nothing to do */
+        if(pageTrio.current === pageTrio.last)
+            return
+
+        /* Else we change the state of the page trio so as it represents the last page */
+        setPageTrio(currentPageTrio => {
+            return {...currentPageTrio, current: pageTrio.last}
+        })
+    }
+
+    /* A function that navigates the user to the next page of rooms */
+    function goToNextPage()
+    {
+        /* If we are in the last page, there is nothing to do */
+        if(pageTrio.current === pageTrio.last)
+            return
+
+        /* Else we change the state of the page trio so as it represents the next page */
+        setPageTrio(currentPageTrio => {
+            return {...currentPageTrio, current: currentPageTrio.current + 1}
+        })
+    }
+
+    /* A function that navigates the users to the previous page of rooms */
+    function goToPreviousPage()
+    {
+        /* If we are in the first page, there is nothing to do */
+        if(pageTrio.current === pageTrio.first)
+            return
+
+        /* Else we change the state of the page trio so as it represents the previous page */
+        setPageTrio(currentPageTrio => {
+            return {...currentPageTrio, current: currentPageTrio.current - 1}
+        })
+    }
+
+    /* A function that navigates the user to an event-specified page of rooms */
+    function goToSpecifiedPage(event)
+    {
+        /* The specified page where the user wants to go comes from an "onChange" event */
+        const specifiedPage = Number(event.target.value)
+
+        /* We change the state of the page trio so as it represents the specified page */
+        setPageTrio(currentPageTrio => {
+            return {
+                ...currentPageTrio,
+                current: (specifiedPage >= currentPageTrio.first && specifiedPage <= currentPageTrio.last) ? specifiedPage : currentPageTrio.current
+            }
+        })
+    }
+
+    /* A callback function used to call 'goToSpecifiedPage' */
+    const goToSpecifiedPageCallback = (event) => {goToSpecifiedPage(event)}
 
     /* A form that allows selection of country, state and city
      *
@@ -222,6 +328,91 @@ export default function TenantHome({user})
         )
     })
 
+    /* A system that helps the user change page of the displayed rooms */
+    const pageManagement = (
+        <div className="tenant-home-page-management">
+            <div className="tenant-home-page-management-current-page-num">
+                <div className="tenant-home-page-management-current-page-num-context">Page</div>
+                <div className="tenant-home-page-management-current-page-num-value">{pageTrio.current}</div>
+                <div className="tenant-home-page-management-current-page-num-context">of</div>
+                <div className="tenant-home-page-management-current-page-num-value">{pageTrio.last}</div>
+            </div>
+            <button
+                className={(pageTrio.current !== pageTrio.first) ?
+                    "tenant-home-page-management-button" :
+                    "tenant-home-page-management-disabled-button"
+                }
+                onClick={goToFirstPage}
+            >
+                First
+            </button>
+            <button
+                className={(pageTrio.current !== pageTrio.first) ?
+                    "tenant-home-page-management-button" :
+                    "tenant-home-page-management-disabled-button"
+                }
+                onClick={goToPreviousPage}
+            >
+                Prev
+            </button>
+            <button
+                className={(pageTrio.current !== pageTrio.last) ?
+                    "tenant-home-page-management-button" :
+                    "tenant-home-page-management-disabled-button"
+                }
+                onClick={goToNextPage}
+            >
+                Next
+            </button>
+            <button
+                className={(pageTrio.current !== pageTrio.last) ?
+                    "tenant-home-page-management-button" :
+                    "tenant-home-page-management-disabled-button"
+                }
+                onClick={goToLastPage}
+            >
+                Last
+            </button>
+            <div className="tenant-home-page-management-goto-page">
+                <div className="tenant-home-page-management-goto-page-title">
+                    Go to page:
+                </div>
+                <div
+                    className={(pageTrio.current !== pageTrio.first) ?
+                        "tenant-home-page-management-goto-page-altering-box" :
+                        "tenant-home-page-management-goto-page-altering-box-disabled"
+                    }
+                    onClick={goToPreviousPage}
+                >
+                    -
+                </div>
+                <input
+                    className="tenant-home-page-management-goto-page-input-box"
+                    style={{color: ((pageTrio.current < pageTrio.first) || (pageTrio.current > pageTrio.last)) ? "red" : "black"}}
+                    type="text"
+                    name="current"
+                    value={pageTrio.current}
+                    onChange={goToSpecifiedPageCallback}
+                />
+                <div
+                    className={(pageTrio.current !== pageTrio.last) ?
+                        "tenant-home-page-management-goto-page-altering-box" :
+                        "tenant-home-page-management-goto-page-altering-box-disabled"
+                    }
+                    onClick={goToNextPage}
+                >
+                    +
+                </div>
+            </div>
+        </div>
+    )
+
+    /* We only want to display the rooms of the current page. We filter those rooms
+     * from the array with all the rooms with the help of the 'slice' method.
+     */
+    const domResultRoomsOfCurrentPage = domResultRooms.slice((pageTrio.current - 1) * numOfRoomsPerPage,
+    (pageTrio.current * numOfRoomsPerPage < domResultRooms.length) ? pageTrio.current * numOfRoomsPerPage : undefined)
+
     function handleFilters(event)
     {
         console.log(`${checkInDate}, ${checkOutDate}, ${countryId}, ${stateId}, ${cityId}, ${numOfPeople}, ${roomType}, ${maxCost}, ${heating}`)
@@ -249,8 +440,14 @@ export default function TenantHome({user})
                 Apply filters
             </div>
             <div className="tenant-home-results">
+                <div>
+                    {pageManagement}
+                </div>
                 <div className="tenant-home-results-panel">
-                    {domResultRooms}
+                    {domResultRoomsOfCurrentPage}
+                </div>
+                <div>
+                    {pageManagement}
                 </div>
             </div>
         </div>
