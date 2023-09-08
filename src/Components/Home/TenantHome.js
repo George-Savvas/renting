@@ -1,9 +1,10 @@
 import React from 'react'
+import {useNavigate} from 'react-router-dom'
 import api from '../../Interface.js'
-import DatePicker from 'react-date-picker'
+import DateRangePicker from '@wojtekmaj/react-daterange-picker'
 import {CountrySelect, StateSelect, CitySelect} from "react-country-state-city"
 import "react-country-state-city/dist/react-country-state-city.css"
-import 'react-date-picker/dist/DatePicker.css'
+import '@wojtekmaj/react-daterange-picker/dist/DateRangePicker.css'
 import 'react-calendar/dist/Calendar.css'
 import './TenantHome.css'
 
@@ -57,9 +58,11 @@ async function getAllRooms()
  *****************************/
 export default function TenantHome({user})
 {
-    /* States that store the currently selected check-in & check-out dates */
-    const [checkInDate, setCheckInDate] = React.useState(new Date())
-    const [checkOutDate, setCheckOutDate] = React.useState(new Date())
+    /* This will be used to navigate to the page of detailed information of a room */
+    const navigate = useNavigate()
+
+    /* A state that stores the currently selected check-in & check-out dates */
+    const [dateValues, setDateValues] = React.useState([new Date(), new Date()])
 
     /* States that store the country, state and city that are currently chosen */
     const [countryId, setCountryId] = React.useState(0)
@@ -310,10 +313,16 @@ export default function TenantHome({user})
         return emptyImageSource
     }
 
+    /* This function redirects the user to the detailed page of the room they just clicked */
+    function navigateToDetailedRoomPage(roomId)
+    {
+        navigate(`/roominfo/${roomId}/${dateValues[0]}/${dateValues[1]}`)
+    }
+
     /* We create a DOM element for each room that belongs to the results */
     const domResultRooms = resultRooms.map(room => {
         return (
-            <div key={room.id} className="tenant-home-results-entry">
+            <div key={room.id} className="tenant-home-results-entry" onClick={() => {navigateToDetailedRoomPage(room.id)}}>
                 <img className="tenant-home-results-entry-image"
                     src={decideThumbnailImageSource(room)}
                     alt={`Thumbnail of the room`}
@@ -415,20 +424,17 @@ export default function TenantHome({user})
 
     function handleFilters(event)
     {
-        console.log(`${checkInDate}, ${checkOutDate}, ${countryId}, ${stateId}, ${cityId}, ${numOfPeople}, ${roomType}, ${maxCost}, ${heating}`)
+        console.log(`${dateValues[0]}, ${dateValues[1]}, ${countryId}, ${stateId}, ${cityId}, ${numOfPeople}, ${roomType}, ${maxCost}, ${heating}`)
     }
 
     return (
         <div className="tenant-home">
-            <div className="tenant-home-dates"> 
-                <div>
-                    <div className="tenant-home-date-title">Check in date</div>
-                    <DatePicker onChange={setCheckInDate} value={checkInDate}/>
-                </div>
-                <div>
-                    <div className="tenant-home-date-title">Check out date</div>
-                    <DatePicker onChange={setCheckOutDate} value={checkOutDate}/>
-                </div>
+            <div className="tenant-home-dates">
+                <div className="tenant-home-dates-title">Select check-in & check-out dates</div>
+                <DateRangePicker
+                    onChange={setDateValues}
+                    value={dateValues}
+                />
             </div>
             <div className="tenant-home-location-form">
                 {locationSelectionForm}

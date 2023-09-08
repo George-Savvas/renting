@@ -1,0 +1,18 @@
+/*******************************************************************
+ * Rules of the page with detailed information on a specified room *
+ *******************************************************************/
+.detailed-room-information {
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+    align-items: center;
+    padding: 100px;
+}
+
+/*******************************************************************
+ * Rules of the thumbnail image of the room that the page is about *
+ *******************************************************************/
+.detailed-room-information-thumbnail-image {
+    width: 500px;
+    height: 500px;
+}

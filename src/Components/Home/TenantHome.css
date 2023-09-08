@@ -1,3 +1,6 @@
+/***************************************
+ * Rules of home page of a tenant user *
+ ***************************************/
 .tenant-home {
     display: flex;
     flex-direction: column;
@@ -6,16 +9,26 @@
     padding: 100px;
 }
 
+/*****************************************************************
+ * Rules of the container of the calendar and the title above it *
+ *****************************************************************/
 .tenant-home-dates {
     display: flex;
-    gap: 50px;
+    flex-direction: column;
+    gap: 10px;
 }
 
-.tenant-home-date-title {
+/**************************************
+ * Rules of the title of the calendar *
+ **************************************/
+.tenant-home-dates-title {
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     font-size: 18px;
 }
 
+/***********************************************************************
+ * Rules of the section where the user selects country, state and city *
+ ***********************************************************************/
 .tenant-home-location-form {
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
