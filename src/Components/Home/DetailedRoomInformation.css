@@ -2,11 +2,22 @@
  * Rules of the page with detailed information on a specified room *
  *******************************************************************/
 .detailed-room-information {
-    display: flex;
-    flex-direction: column;
-    gap: 50px;
-    align-items: center;
-    padding: 100px;
+    padding-top: 70px;
+    padding-bottom: 70px;
+}
+
+/******************************
+ * Rules of the OpenStreetMap *
+ ******************************/
+.leaflet-container {
+    height: 100vh;
+}
+
+/*******************************************
+ * Additional rules of the Open Street Map *
+ *******************************************/
+.detailed-room-information-map {
+    padding-bottom: 70px;
 }
 
 /*******************************************************************
@@ -15,4 +26,82 @@
 .detailed-room-information-thumbnail-image {
     width: 500px;
     height: 500px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+    padding-bottom: 30px;
+}
+
+.detailed-room-information-details {
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+    align-items: center;
+}
+
+.detailed-room-information-details-entry {
+    display: flex;
+    flex-direction: column;
+    gap: 60px;
+    align-items: center;
+    padding: 20px;
+}
+
+.detailed-room-information-detail-title {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 30px;
+}
+
+.detailed-room-information-detail-content {
+    display: grid;
+    grid-template: auto auto / repeat(2, 1fr);
+    row-gap: 30px;
+    column-gap: 250px;
+}
+
+.detailed-room-information-single-detail {
+    display: flex;
+    flex-direction: column;
+}
+
+.detailed-room-information-single-detail-type {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.detailed-room-information-single-detail-value {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 20px;
+    text-align: justify;
+}
+
+.detailed-room-information-detail-text {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 20px;
+    text-align: justify;
+}
+
+/*********************************************************************
+ * Rules of the additional images that are assossiated with the room *
+ *********************************************************************/
+.detailed-room-information-additional-images {
+    display: grid;
+    grid-template: auto auto / repeat(4, 1fr);
+    row-gap: 200px;
+    justify-content: space-evenly;
+    justify-items: center;
+    align-content: space-evenly;
+    align-items: center;
+    padding-top: 100px;
+    padding-bottom: 100px;
+}
+
+/***************************************************************************************
+ * Rules of a single image of the additional images that are assossiated with the room *
+ ***************************************************************************************/
+.detailed-room-information-additional-images-entry {
+    width: 200px;
+    height: 200px;
 }
