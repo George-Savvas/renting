@@ -9,7 +9,12 @@ import './DetailedRoomInformation.css'
 /************************************
  * The path to the empty room image *
  ************************************/
-const emptyImageSource = "./Images/EmptyHouseImage.jpg"
+const emptyRoomImageSource = "./Images/EmptyHouseImage.jpg"
+
+/************************************
+ * The path to the empty user image *
+ ************************************/
+const emptyLandlordImageSource = "./Images/EmptyProfileImage.png"
 
 /********************************************************************
  * The OpenStreetMap Attribution (the credits to those who made the *
@@ -30,18 +35,25 @@ const mapIcon = new Icon({
     iconSize: [38,38]
 })
 
-/*********************************************************************
- * Returns all the information related to the room with the given ID *
- *********************************************************************/
-async function getRoomInfo(roomId)
+/**************************************************************************
+ * The DOM Open Street Map we will use to display the geological location *
+ *      of the room. The center of the map is in the room's location      *
+ **************************************************************************/
+let map;
+
+/**************************************************************
+ * Returns all the information (except for the password) that *
+ *     is assossiated with the user who has the given ID      *
+ **************************************************************/
+async function getUserById(id)
 {
-    let roomInfo;
+    let user;
 
-    await fetch(`${api}/rooms/viewroom/${roomId}`)
-    .then((res) => res.json())
-    .then((data) => {roomInfo = data.room})
+    await fetch(`${api}/auth/getUser/${id}`)
+        .then((res) => res.json())
+        .then((data) => {user = data.user})
 
-    return roomInfo
+    return user
 }
 
 /***********************************************************************************************
@@ -56,6 +68,55 @@ async function getRoomImages(roomId)
     .then((data) => {roomImages = data.images})
 
     return roomImages
+}
+
+/**************************************************************************************
+ * Creates and returns the DOM Open Street Map which depicts the location of the room *
+ **************************************************************************************/
+function createMap(x, y, label)
+{
+    return (
+        <MapContainer
+            center={[y, x]}
+            zoom={13}
+        >
+            <TileLayer
+                attribution={mapAttribution}
+                url={mapUrl}
+            />
+            <Marker
+                position={[y, x]}
+                icon={mapIcon}
+            >
+                <Popup>
+                    {label}
+                </Popup>
+            </Marker>
+        </MapContainer>
+    )
+}
+
+/*********************************************************************
+ * Returns all the information related to the room with the given ID *
+ *********************************************************************/
+async function getRoomInfoAndLandlordInfo(roomId)
+{
+    let roomInfo, landlordInfo, roomImages;
+
+    await fetch(`${api}/rooms/viewroom/${roomId}`)
+    .then((res) => res.json())
+    .then(async (data) => {
+        roomInfo = data.room
+        landlordInfo = await getUserById(roomInfo.userId)
+        roomImages = await getRoomImages(roomInfo.id)
+        map = createMap(
+            roomInfo.openStreetMapX,
+            roomInfo.openStreetMapY,
+            roomInfo.openStreetMapLabel
+        )
+    })
+
+    return [roomInfo, landlordInfo, roomImages]
 }
 
 /**************************************************************
@@ -92,6 +153,11 @@ export default function DetailedRoomInformation({appState, setAppState})
      */
     const [user, setUser] = React.useState({})
 
+    /* A state that will be storing all the information related to the landlord
+     * who owns the property which is displayed in this page.
+     */
+    const [landlord, setLandlord] = React.useState({})
+
     /* Returns 'true' if the user who just visited the page is a tenant.
      * Else if the user is a guest, the function returns 'false'.
      */
@@ -110,7 +176,20 @@ export default function DetailedRoomInformation({appState, setAppState})
             return `${api}/${room.thumbnail_img}`
 
         /* Case the room does not have a thumbnail image */
-        return emptyImageSource
+        return emptyRoomImageSource
+    }
+
+    /* Returns the string that should be inserted in the 'src' prop
+     * of the 'img' tag which depicts the profile image of the landlord
+     */
+    function decideSourceOfLandlordImage()
+    {
+        /* Case the landlord has a non-empty profile image */
+        if(landlord.profile_img !== null)
+            return `${api}/${landlord.profile_img}`
+
+        /* Case the landlord does not have a profile image */
+        return emptyLandlordImageSource
     }
 
     /* When the component first loads, we fetch all the information related
@@ -118,36 +197,26 @@ export default function DetailedRoomInformation({appState, setAppState})
      */
     React.useEffect(() => {
 
-        /* A function that fetches all the information related to the room
-         * with the given id and stores that information in the 'room' state
-         */
-        async function fetchRoomById(id) {
-            setRoom(await getRoomInfo(id))
+        async function fetchData(idRoom) {
+
+            /* We retrieve the data of the room (details, images, assossiated landlord) */
+            const roomData = await getRoomInfoAndLandlordInfo(idRoom)
+
+            /* We update the states with the data we received
+             * 1st index: Data of the room itself (interior, other details, etc)
+             * 2nd index: Data of the landlord who owns the room
+             * 3rd index: Data of the images assossiated with the room
+             */
+            setRoom(roomData[0])
+            setLandlord(roomData[1])
+            setRoomImages(roomData[2])
+
+            /* We retrieve the data of the user if one is logged-in */
+            if(appState.userIsLogged)
+                setUser(await getUserByUsername(appState.username))
         }
 
-        /* A function that fetches all the images related to the room by
-         * using the id of the room (excluding the thumbnail image)
-         */
-        async function fetchRoomImagesByRoomId(id) {
-            setRoomImages(await getRoomImages(id))
-        }
-
-        /* A function that fetches all the information related to the user
-         * with the given username and stores that information in the 'user' state
-         */
-        async function fetchUserByUsername(username) {
-            setUser(await getUserByUsername(username))
-        }
-
-        /* We fetch the information related to the room of this page */
-        fetchRoomById(roomId)
-
-        /* We fetch the images related to the room of this page */
-        fetchRoomImagesByRoomId(roomId)
-
-        /* We fetch the information related to the user if one is logged-in */
-        if(appState.userIsLogged === true)
-            fetchUserByUsername(appState.username)
+        fetchData(roomId)
 
     }, [appState.userIsLogged, appState.username, roomId])
 
@@ -174,29 +243,6 @@ export default function DetailedRoomInformation({appState, setAppState})
             </div>
         )
     })
-
-    /* The DOM Open Street Map we will use to display the geological location of the room
-     * The center of the map is in the room's location
-     */
-    const map = (
-        <MapContainer
-            center={[10,10] /* room.openStreetMapY, room.openStreetMapX */}
-            zoom={13}
-        >
-            <TileLayer
-                attribution={mapAttribution}
-                url={mapUrl}
-            />
-            <Marker
-                position={[10,10] /* room.openStreetMapY, room.openStreetMapX */}
-                icon={mapIcon}
-            >
-                <Popup>
-                    {room.openStreetMapLabel}
-                </Popup>
-            </Marker>
-        </MapContainer>
-    )
 
     /* We convert the additional images that are provided for this room to DOM elements */
     const domRoomImages = roomImages.map(roomImage => {
@@ -269,8 +315,23 @@ export default function DetailedRoomInformation({appState, setAppState})
             <div className="detailed-room-information-additional-images">
                 {domRoomImages}
             </div>
-            <div>
-                {details}
+            <div className="detailed-room-information-landlord-info">
+                <div className="detailed-room-information-landlord-info-title">
+                    <div className="detailed-room-information-landlord-info-title-name">
+                        {landlord.name} {landlord.lastname}
+                    </div>
+                    <div className="detailed-room-information-landlord-info-title-context">
+                        owns this property
+                    </div>
+                </div>
+                <img
+                    className="detailed-room-information-landlord-info-image"
+                    src={decideSourceOfLandlordImage()}
+                    alt={`${landlord.name} ${landlord.lastname}, owner of the room`}
+                />
+                <div>
+                    {details}
+                </div>
             </div>
         </div>
     )
