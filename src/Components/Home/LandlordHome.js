@@ -66,7 +66,7 @@ export default function LandlordHome({user})
     /* We create a DOM element for each room the landlord has created */
     const domLandlordRooms = landlordRooms.map(room => {
         return (
-            <div key={room.id} className="landlord-home-results-entry">
+            <div key={room.id} className="landlord-home-results-entry" onClick={() => {navigate(`/updateroom/${room.id}`)}}>
                 <img className="landlord-home-results-entry-image"
                     src={decideThumbnailImageSource(room)}
                     alt={`Thumbnail of the room`}

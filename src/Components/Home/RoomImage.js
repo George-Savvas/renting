@@ -4,7 +4,7 @@ import './RoomImage.css'
 /**********************************************************************************************
  * The source of the auxiliary image that is shown to indicate to the user to delete an image *
  **********************************************************************************************/
-const deletionIndicatorImageSource = "./Images/Red_X_Symbol.png"
+const deletionIndicatorImageSource = "../Images/Red_X_Symbol.png"
 
 /****************************
  * The Room Image Component *

@@ -48,7 +48,10 @@ async function getAllRooms()
 
     await fetch(`${api}/rooms/getAllRooms`)
     .then((res) => res.json())
-    .then((data) => {rooms = data.rooms})
+    .then((data) => {
+        rooms = data.rooms
+        rooms.sort((a,b) => a.cost - b.cost)
+    })
 
     return rooms
 }
@@ -70,10 +73,10 @@ export default function TenantHome({user})
     const [cityId, setCityId] = React.useState(0)
 
     /* States that store filters about the number of people, room type and other services */
-    const [numOfPeople, setNumOfPeople] = React.useState(0)
-    const [roomType, setRoomType] = React.useState("House")
-    const [maxCost, setMaxCost] = React.useState(100)
-    const [heating, setHeating] = React.useState(false)
+    const [numOfPeople, setNumOfPeople] = React.useState(1)
+    const [roomType, setRoomType] = React.useState("Any")
+    const [maxCost, setMaxCost] = React.useState(0)
+    const [heating, setHeating] = React.useState("Any")
 
     /* A state with all the rooms that are displayed in the home page */
     const [resultRooms, setResultRooms] = React.useState([])
@@ -253,6 +256,7 @@ export default function TenantHome({user})
                     name="roomDetailsFilteringRoomType"
                     onChange={(e) => {setRoomType(e.target.value)}}
                 >
+                    <option value={"Any"}>Any</option>
                     <option value={"Private Room"}>Private Room</option>
                     <option value={"Shared Room"}>Shared Room</option>
                     <option value={"House"}>House</option>
@@ -271,6 +275,7 @@ export default function TenantHome({user})
                     name="roomDetailsFilteringMaxCost"
                     onChange={(e) => {setMaxCost(e.target.value)}}
                 >
+                    <option value={0}>Any</option>
                     <option value={100}>100</option>
                     <option value={200}>200</option>
                     <option value={300}>300</option>
@@ -295,8 +300,9 @@ export default function TenantHome({user})
                     name="roomDetailsFilteringHeating"
                     onChange={(e) => {setHeating(e.target.value)}}
                 >
-                    <option value={true}>Yes</option>
-                    <option value={false}>No</option>
+                    <option value={"Any"}>Any</option>
+                    <option value={"true"}>Yes</option>
+                    <option value={"false"}>No</option>
                 </select>
             </div>
         </div>
@@ -422,9 +428,60 @@ export default function TenantHome({user})
     const domResultRoomsOfCurrentPage = domResultRooms.slice((pageTrio.current - 1) * numOfRoomsPerPage,
     (pageTrio.current * numOfRoomsPerPage < domResultRooms.length) ? pageTrio.current * numOfRoomsPerPage : undefined)
 
-    function handleFilters(event)
+    /* A function that converts a date such as: "Fri Sep 15 2023 19:21:20 GMT+0300 (Θερινή ώρα Ανατολικής Ευρώπης)"
+     * into a date in the form "YYYY-MM-DD"
+     */
+    function refineDateString(rawDate)
+    {
+        const rawDateTokens = rawDate.toISOString().split(/-|T/)
+        return `${rawDateTokens[0]}-${rawDateTokens[1]}-${rawDateTokens[2]}`
+        //return rawDate.toISOString()
+    }
+
+    /* Fetches all the which satisfy the given filters */
+    async function handleFilters(event)
     {
         console.log(`${dateValues[0]}, ${dateValues[1]}, ${countryId}, ${stateId}, ${cityId}, ${numOfPeople}, ${roomType}, ${maxCost}, ${heating}`)
+        const finalInDate = refineDateString(dateValues[0])
+        const finalOutDate = refineDateString(dateValues[1])
+        console.log(`${finalInDate}, ${finalOutDate}`)
+
+        const finalFilterData = {
+            numOfPeople: Number(numOfPeople),
+            InDate: finalInDate,
+            OutDate: finalOutDate,
+        }
+
+        if(countryId !== 0)
+            finalFilterData["countryId"] = countryId
+
+        if(stateId !== 0)
+            finalFilterData["stateId"] = stateId
+
+        if(cityId !== 0)
+            finalFilterData["cityId"] = cityId
+
+        if(roomType !== "Any")
+            finalFilterData["roomType"] = roomType
+
+        if(maxCost !== 0)
+            finalFilterData["cost"] = maxCost
+
+        if(heating !== "Any")
+            finalFilterData["heating"] = (heating === "true") ? true : false
+
+        console.log(finalFilterData)
+
+        await fetch(`${api}/rooms/getAvailableRoomsByFilters`, {
+            method: "POST",
+            body: finalFilterData
+        })
+        .then((res) => res.json())
+        .then((data) => {
+            let newResultRooms = data.rooms
+            newResultRooms.sort((a,b) => a.cost - b.cost)
+            setResultRooms(newResultRooms)
+        })
     }
 
     return (

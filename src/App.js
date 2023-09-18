@@ -15,6 +15,7 @@ import History from './Components/History.js'
 import Account from './Components/Account.js'
 import DetailedUserEntry from './Components/Home/DetailedUserEntry.js'
 import NewRoomForm from './Components/Home/NewRoomForm.js'
+import UpdateRoom from './Components/Home/UpdateRoom.js'
 import DetailedRoomInformation from './Components/Home/DetailedRoomInformation.js'
 import Logout from './Components/Logout.js'
 import PageNotFound from './Components/PageNotFound.js'
@@ -55,6 +56,7 @@ export default function App()
                 <Route path='/account' element={<Account appState={appState} setAppState={setAppState}/>}/>
                 <Route path='/users/:username' element={<DetailedUserEntry appState={appState} setAppState={setAppState}/>}/>
                 <Route path='/newroom' element={<NewRoomForm appState={appState} setAppState={setAppState}/>}/>
+                <Route path='/updateroom/:roomId' element={<UpdateRoom appState={appState} setAppState={setAppState}/>}/>
                 <Route path='/roominfo/:roomId/:inDate/:outDate' element={<DetailedRoomInformation appState={appState} setAppState={setAppState}/>}/>
                 <Route path='/logout' element={<Logout appState={appState} setAppState={setAppState}/>}/>
                 <Route path='/*' element={<PageNotFound/>}/>

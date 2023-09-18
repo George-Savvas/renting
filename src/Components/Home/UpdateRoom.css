@@ -1,21 +1,21 @@
-/******************************************************
- * Rules of the title at the top of the New Room page *
- ******************************************************/
-.new-room-form-title {
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    font-size: 40px;
-    text-align: center;
-    padding: 70px;
+/*****************************
+ * Rules of room update page *
+ *****************************/
+.update-room {
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+    padding-top: 70px;
+    padding-bottom: 70px;
 }
 
-/******************************************************************
- * Rules of the texts that describe a step of creating a new room *
- ******************************************************************/
-.new-room-form-steps-text {
+/**********************************************
+ * Rules of the title of the room update page *
+ **********************************************/
+.update-room-title {
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     font-size: 30px;
     text-align: center;
-    padding: 20px;
 }
 
 /******************************
@@ -40,26 +40,14 @@
 /*******************************************
  * Additional rules of the Open Street Map *
  *******************************************/
-.new-room-form-map {
+.update-room-map {
     padding-bottom: 70px;
-}
-
-/*******************************************
- * Rules of the form with the room details *
- *******************************************/
-.new-room-form-details-form {
-    padding-top: 50px;
-    padding-bottom: 50px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 50px;
 }
 
 /*****************************************
  * Rules of the array of the input boxes *
  *****************************************/
-.new-room-form-inputs-array {
+.update-room-inputs-array {
     display: grid;
     grid-template: auto auto / repeat(2, 1fr);
     row-gap: 30px;
@@ -69,7 +57,7 @@
 /***************************************************************
  * Rules of the parent of the address input field for the room *
  ***************************************************************/
-.new-room-form-input-parent {
+.update-room-input-parent {
     padding-bottom: 50px;
     display: flex;
     flex-direction: column;
@@ -80,7 +68,7 @@
 /************************************************************************
  * Rules of the label connected to the address input field for the room *
  ************************************************************************/
-.new-room-form-label {
+.update-room-label {
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     font-size: 25px;
 }
@@ -88,7 +76,7 @@
 /*************************************************
  * Rules of the address input field for the room *
  *************************************************/
-.new-room-form-input {
+.update-room-input {
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     font-size: 25px;
     width: 500px;
@@ -96,10 +84,38 @@
     border-radius: 10px;
 }
 
-/******************************************************************************
- * Rules of the thumbnail image of the new room in the new room creation page *
- ******************************************************************************/
-.new-room-form-thumbnail-image {
+/********************************************************************
+ * Rules of the section where a country, state and city is selected *
+ ********************************************************************/
+.update-room-location-form-items {
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+    padding: 70px;
+}
+
+/************************************************************************************
+ * Rules of the title that accompanies a dropdown menu for a country, state or city *
+ ************************************************************************************/
+.update-room-location-form-item-title {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 18px;
+}
+
+/**********************************************************************************
+ * Rules of the parent of the thumbnail image of the room in the update room page *
+ **********************************************************************************/
+.update-room-thumbnail-image-parent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 50px;
+}
+
+/********************************************************************
+ * Rules of the thumbnail image of the room in the update room page *
+ ********************************************************************/
+.update-room-thumbnail-image {
     width: 500px;
     height: 500px;
     border-radius: 10px;
@@ -110,14 +126,14 @@
  * in order to style it in our own way. We disable it and style the label that is *
  *                        connected to that input element                         *
  **********************************************************************************/
-.new-room-form-image-input {
+.update-room-image-input {
     display: none;
 }
 
 /***********************************************************************************************
  * Rules of the file input that we disabled in order to style it our own way through its label *
  ***********************************************************************************************/
-.new-room-form-image-label {
+.update-room-image-label {
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     font-size: 20px;
     color: white;
@@ -131,11 +147,11 @@
     user-select: none;
 }
 
-/*********************************************************************************************************
- * Rules of the "Set thumbnail image" button of the room creation page when the mouse is hovered over it *
- * Source: https://css-tricks.com/how-to-create-neon-text-with-css/                                      *
- *********************************************************************************************************/
-.new-room-form-image-label:hover {
+/*******************************************************************************************************
+ * Rules of the "Set thumbnail image" button of the room update page when the mouse is hovered over it *
+ * Source: https://css-tricks.com/how-to-create-neon-text-with-css/                                    *
+ *******************************************************************************************************/
+.update-room-image-label:hover {
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     font-size: 20px;
     color: white;
@@ -158,74 +174,21 @@
     0 0 151px #0fa;
 }
 
+/***********************************************************************************
+ * Rules of the parent of the additional images that are assossiated with the room *
+ ***********************************************************************************/
+.update-room-extra-images-parent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 50px;
+    padding-top: 100px;
+}
+
 /*********************************************************************
  * Rules of the additional images that are assossiated with the room *
  *********************************************************************/
-.new-room-form-extra-images {
+.update-room-extra-images {
     display: grid;
     grid-template: auto auto / repeat(4, 1fr);
-}
-
-/********************************************************************
- * Rules of the section where a country, state and city is selected *
- ********************************************************************/
-.new-room-form-location-form-items {
-    display: flex;
-    justify-content: center;
-    gap: 50px;
-    padding: 70px;
-}
-
-/************************************************************************************
- * Rules of the title that accompanies a dropdown menu for a country, state or city *
- ************************************************************************************/
-.new-room-form-location-form-item-title {
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    font-size: 18px;
-}
-
-/*****************************************************************************************
- * Rules of the label that accompanies the "Submit" button in the new room creation page *
- * Source: https://keithjgrant.com/posts/2017/07/transitioning-gradients/                *
- *****************************************************************************************/
-.new-room-submit-button-label {
-    width: 30%;
-    border-radius: 8px;
-    position: relative;
-    text-align: center;
-    background: linear-gradient(111.3deg, rgb(8, 180, 180) 9.6%, darkcyan 93.6%);
-    z-index: 1;
-}
-
-.new-room-submit-button-label::before {
-    border-radius: 8px;
-    position: absolute;
-    content: '';
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    background: linear-gradient(111.3deg, darkcyan 9.6%, rgb(8, 180, 180) 93.6%);
-    z-index: -1;
-    transition: opacity 0.5s linear;
-    opacity: 0;
-}
-
-.new-room-submit-button-label:hover::before {
-    opacity: 1;
-}
-
-/**************************************************************
- * Rules of the "Submit" button of the new room creation page *
- **************************************************************/
-.new-room-submit-button {
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    font-size: 30px;
-    width: 100%;
-    padding-top: 15px;
-    padding-bottom: 15px;
-    border: none;
-    background: none;
-    color: white;
-    cursor: pointer;
 }

@@ -5,12 +5,15 @@ import {Icon} from 'leaflet'
 import {GeoSearchControl, OpenStreetMapProvider} from 'leaflet-geosearch'
 import {nanoid} from 'nanoid'
 import {CountrySelect, StateSelect, CitySelect} from "react-country-state-city"
+import DateRangePicker from '@wojtekmaj/react-daterange-picker'
 import api from '../../Interface.js'
 import RoomImage from './RoomImage.js'
 import PageNotFound from '../PageNotFound.js'
 import "react-country-state-city/dist/react-country-state-city.css"
 import 'leaflet/dist/leaflet.css'
 import 'leaflet-geosearch/dist/geosearch.css'
+import '@wojtekmaj/react-daterange-picker/dist/DateRangePicker.css'
+import 'react-calendar/dist/Calendar.css'
 import './NewRoomForm.css'
 
 /************************************************************
@@ -58,6 +61,9 @@ export default function NewRoomForm({appState, setAppState})
      * Only verified landlords have the right to create new rooms.
      */
     const [isActiveLandlord, setIsActiveLandlord] = React.useState(true)
+
+    /* A state that stores the currently selected range of dates */
+    const [dateValues, setDateValues] = React.useState([new Date(), new Date()])
 
     /* We fetch the information that is related to the given
      * username from the backend server
@@ -509,6 +515,7 @@ export default function NewRoomForm({appState, setAppState})
         fileReader.readAsDataURL(chosenFile)
     }
 
+    /* Adds the newly selected image to the array of additional images */
     function handleAdditionalImagesChange(event)
     {
         if(!event.target.files[0])
@@ -614,6 +621,16 @@ export default function NewRoomForm({appState, setAppState})
         </div>
     )
 
+    /* A function that converts a date such as: "Fri Sep 15 2023 19:21:20 GMT+0300 (Θερινή ώρα Ανατολικής Ευρώπης)"
+     * into a date in the form "YYYY-MM-DD"
+     */
+    function refineDateString(rawDate)
+    {
+        const rawDateTokens = rawDate.toISOString().split(/-|T/)
+        return `${rawDateTokens[0]}-${rawDateTokens[1]}-${rawDateTokens[2]}`
+        //return rawDate.toISOString()
+    }
+
     /* When the form is submitted, this function is called to handle the sumbit */
     const handleSumbit = async (event) => {
 
@@ -644,38 +661,45 @@ export default function NewRoomForm({appState, setAppState})
         if(thumbnailImage.file !== undefined)
             roomData.append("thumbnail_img", thumbnailImage.file)
 
+        /* We append the date range when this room is available if a range is given */
+        const todaysDate = new Date()
+        if((dateValues[0] !== todaysDate) && (dateValues[1] !== todaysDate))
+        {
+            roomData.append("start_date", refineDateString(dateValues[0]))
+            roomData.append("end_date", refineDateString(dateValues[1]))
+        }
+
         /* Just for some server needs. Not useful for the user of the site */
         roomData.append("name", "name")
-        roomData.append("price", "100")
 
         /* We will retrieve right back the room from the server
          * along with a unique id that the server will give to it.
          */
-        let newRoom;
         await fetch(`${api}/rooms/addRoom`, {
             method: "POST",
             body: roomData
         })
         .then((res) => res.json())
-        .then((data) => {newRoom = data.room})
+        .then((data) => {
 
-        /* By using the unique id that was given to the room, which now
-         * we know, we will store the additional images to the database.
-         */
-        let imagesData = new FormData()
-        let i, len = roomImages.length;
+            /* By using the unique id that was given to the room, which now
+             * we know, we will store the additional images to the database.
+             */
+            let imagesData = new FormData()
+            let i, len = roomImages.length;
 
-        /* We append every image to the form data */
-        for(i = 0; i < len; i++)
-            imagesData.append(roomImages[i].imgName, roomImages[i].imgFile)
-
-        /* We send the images to the backend server */
-        await fetch(`${api}/rooms/addImages/${newRoom.id}`, {
-            method: "POST",
-            body: imagesData
+            /* We append every image to the form data */
+            for(i = 0; i < len; i++)
+                imagesData.append(roomImages[i].imgName, roomImages[i].imgFile)
+    
+            /* We send the images to the backend server */
+            fetch(`${api}/rooms/addImages/${data.room.id}`, {
+                method: "POST",
+                body: imagesData
+            })
+            .then((res) => res.json())
+            .then((message) => {console.log(message.message)})
         })
-        .then((res) => res.json())
-        .then((data) => {console.log(data.message)})
 
         /* Finally we redirect the user back to the home page,
          * where they can view the new room that was just added.
@@ -746,7 +770,14 @@ export default function NewRoomForm({appState, setAppState})
                     />
                 </label>
                 <div className="new-room-form-steps-text">
-                    Step 6: Click the "Publish my new room!" button to deploy your room
+                    Step 6: When is your room available? Pick a range of dates
+                </div>
+                <DateRangePicker
+                    onChange={setDateValues}
+                    value={dateValues}
+                />
+                <div className="new-room-form-steps-text">
+                    Step 7: Click the "Publish my new room!" button to deploy your room
                 </div>
                 <label
                     htmlFor="newRoomCreationSumbitButton"
