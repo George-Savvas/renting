@@ -18,6 +18,11 @@ const emptyImageSource = "./Images/EmptyHouseImage.jpg"
  *******************************************************/
 const numOfRoomsPerPage = 10
 
+/********************************************************************
+ * It will imply if the rooms have been fetched in the first render *
+ ********************************************************************/
+//let roomsRetrieved = false
+
 /***********************************************************************
  * Given the population number of a collection of items and the items  *
  *  that can be displayed in a single page, this function returns the  *
@@ -79,7 +84,10 @@ export default function TenantHome({user})
     const [heating, setHeating] = React.useState("Any")
 
     /* A state with all the rooms that are displayed in the home page */
-    const [resultRooms, setResultRooms] = React.useState([])
+    const [resultRooms, setResultRooms] = React.useState({
+        content: [],
+        hasBeenInitialized: false
+    })
 
     /* We create a state with the first, the current and the last page of displayed rooms */
     const [pageTrio, setPageTrio] = React.useState({first: 1, current: 1, last: 1})
@@ -92,21 +100,37 @@ export default function TenantHome({user})
         /* This function fetches the information of all the rooms */
         async function fetchRooms() {
 
-            /* Else we fetch the data and store it to the user state */
-            setResultRooms(await getAllRooms())
+            let lengthOfRoomsArray;
+
+            /* We fetch the data and store the rooms to the 'resultRooms' state
+             * only if this is the first time we execute this effect.
+             */
+            if(!resultRooms.hasBeenInitialized)
+            {
+                const initialRooms = await getAllRooms()
+                lengthOfRoomsArray = initialRooms.length
+
+                setResultRooms({
+                    content: initialRooms,
+                    hasBeenInitialized: true
+                })
+            }
+
+            else
+                lengthOfRoomsArray = resultRooms.content.length
 
             /* We also initialize the page trio according to the rooms' quantity */
             setPageTrio({
                 first: 1,
                 current: 1,
-                last: getAmountOfNeededPages(resultRooms.length, numOfRoomsPerPage)
+                last: getAmountOfNeededPages(lengthOfRoomsArray, numOfRoomsPerPage)
             })
         }
 
         /* We call the above function to fetch all the existing rooms */
         fetchRooms()
 
-    }, [resultRooms.length])
+    }, [resultRooms.content.length, resultRooms.hasBeenInitialized])
 
     /* A function that navigates the user to the first page of rooms */
     function goToFirstPage()
@@ -326,7 +350,7 @@ export default function TenantHome({user})
     }
 
     /* We create a DOM element for each room that belongs to the results */
-    const domResultRooms = resultRooms.map(room => {
+    const domResultRooms = resultRooms.content.map(room => {
         return (
             <div key={room.id} className="tenant-home-results-entry" onClick={() => {navigateToDetailedRoomPage(room.id)}}>
                 <img className="tenant-home-results-entry-image"
@@ -435,16 +459,16 @@ export default function TenantHome({user})
     {
         const rawDateTokens = rawDate.toISOString().split(/-|T/)
         return `${rawDateTokens[0]}-${rawDateTokens[1]}-${rawDateTokens[2]}`
-        //return rawDate.toISOString()
     }
 
     /* Fetches all the which satisfy the given filters */
     async function handleFilters(event)
     {
-        console.log(`${dateValues[0]}, ${dateValues[1]}, ${countryId}, ${stateId}, ${cityId}, ${numOfPeople}, ${roomType}, ${maxCost}, ${heating}`)
+        console.log(`${dateValues[0]}, ${dateValues[1]}, ${countryId}, ${stateId},
+            ${cityId}, ${numOfPeople}, ${roomType}, ${maxCost}, ${heating}`)
+
         const finalInDate = refineDateString(dateValues[0])
         const finalOutDate = refineDateString(dateValues[1])
-        console.log(`${finalInDate}, ${finalOutDate}`)
 
         const finalFilterData = {
             numOfPeople: Number(numOfPeople),
@@ -464,8 +488,8 @@ export default function TenantHome({user})
         if(roomType !== "Any")
             finalFilterData["roomType"] = roomType
 
-        if(maxCost !== 0)
-            finalFilterData["cost"] = maxCost
+        if(maxCost !== "0")
+            finalFilterData["maxCost"] = Number(maxCost)
 
         if(heating !== "Any")
             finalFilterData["heating"] = (heating === "true") ? true : false
@@ -474,13 +498,19 @@ export default function TenantHome({user})
 
         await fetch(`${api}/rooms/getAvailableRoomsByFilters`, {
             method: "POST",
-            body: finalFilterData
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(finalFilterData)
         })
         .then((res) => res.json())
         .then((data) => {
             let newResultRooms = data.rooms
             newResultRooms.sort((a,b) => a.cost - b.cost)
-            setResultRooms(newResultRooms)
+            setResultRooms(currentResultRooms => {
+                return {
+                    ...currentResultRooms,
+                    content: newResultRooms
+                }
+            })
         })
     }
 

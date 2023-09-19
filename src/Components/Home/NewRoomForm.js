@@ -628,7 +628,6 @@ export default function NewRoomForm({appState, setAppState})
     {
         const rawDateTokens = rawDate.toISOString().split(/-|T/)
         return `${rawDateTokens[0]}-${rawDateTokens[1]}-${rawDateTokens[2]}`
-        //return rawDate.toISOString()
     }
 
     /* When the form is submitted, this function is called to handle the sumbit */
@@ -665,8 +664,8 @@ export default function NewRoomForm({appState, setAppState})
         const todaysDate = new Date()
         if((dateValues[0] !== todaysDate) && (dateValues[1] !== todaysDate))
         {
-            roomData.append("start_date", refineDateString(dateValues[0]))
-            roomData.append("end_date", refineDateString(dateValues[1]))
+            roomData.append("InDate", refineDateString(dateValues[0]))
+            roomData.append("OutDate", refineDateString(dateValues[1]))
         }
 
         /* Just for some server needs. Not useful for the user of the site */
