@@ -1,5 +1,5 @@
 import React from 'react'
-import {useParams} from 'react-router-dom'
+import {useParams, useNavigate} from 'react-router-dom'
 import {MapContainer, TileLayer, Marker, Popup, useMap} from 'react-leaflet'
 import {Icon} from 'leaflet'
 import {GeoSearchControl, OpenStreetMapProvider} from 'leaflet-geosearch'
@@ -33,7 +33,7 @@ const mapUrl = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
  * The custom icon we will use for the OpenStreetMap (created by Freepik) *
  **************************************************************************/
 const mapIcon = new Icon({
-    iconUrl: "./Images/OpenStreetMapIcon.png",
+    iconUrl: "../Images/OpenStreetMapIcon.png",
     iconSize: [38,38]
 })
 
@@ -95,6 +95,11 @@ export default function UpdateRoom({appState, setAppState})
     /* We retrieve the id of the room which is to be updated from the URL parameters */
     const {roomId} = useParams()
 
+    /* We will use this to redirect the user to the home page
+     * when the updates of the new room are complete.
+     */
+    const navigate = useNavigate()
+
     /* We retrieve the username of the currently logged user */
     const username = appState.username
 
@@ -131,6 +136,11 @@ export default function UpdateRoom({appState, setAppState})
      * with the room (except for the main room image)
      */
     const [roomImages, setRoomImages] = React.useState([])
+
+    /* This state will be storing the ids of the extra images of the
+     * room that have been deleted by the user in the update page
+     */
+    const [deletedImageIds, setDeletedImageIds] = React.useState([])
 
     /* We create a state that will contain the room's main image */
     const [thumbnailImage, setThumbnailImage] = React.useState({
@@ -352,7 +362,8 @@ export default function UpdateRoom({appState, setAppState})
                         imgFile: null,
                         imgName: "images",
                         imgSource: `${api}/${image.path}`,
-                        imgIsNew: false
+                        imgIsNew: false,
+                        imgDatabaseId: image.id
                     }
                 })
 
@@ -535,6 +546,7 @@ export default function UpdateRoom({appState, setAppState})
                         id={inputBox.id}
                         name={inputBox.name}
                         onChange={inputBox.onChange}
+                        value={roomDetails.heating}
                     >
                         <option value={true}>Yes</option>
                         <option value={false}>No</option>
@@ -558,6 +570,7 @@ export default function UpdateRoom({appState, setAppState})
                         id={inputBox.id}
                         name={inputBox.name}
                         onChange={inputBox.onChange}
+                        value={roomDetails.roomType}
                     >
                         <option value={"Private Room"}>Private Room</option>
                         <option value={"Shared Room"}>Shared Room</option>
@@ -648,7 +661,8 @@ export default function UpdateRoom({appState, setAppState})
                     imgFile: chosenFile,
                     imgName: "images",
                     imgSource: content,
-                    imgIsNew: true
+                    imgIsNew: true,
+                    imgDatabaseId: 0
                 })
                 return newRoomImages
             })
@@ -677,6 +691,20 @@ export default function UpdateRoom({appState, setAppState})
                 if(currentImage.imgId === id)
                 {
                     newRoomImages.splice(i, 1)
+
+                    /* If the image existed from before the user visited
+                     * the update page, we store the database id of this
+                     * image in the state of all deleted ids until this moment.
+                     */
+                    if(currentImage.imgIsNew === false)
+                    {
+                        setDeletedImageIds(currentDeletedImageIds => {
+                            let newDeletedImageIds = currentDeletedImageIds.map(id => id)
+                            newDeletedImageIds.push(currentImage.imgDatabaseId)
+                            return newDeletedImageIds
+                        })
+                    }
+
                     return newRoomImages
                 }
             }
@@ -688,6 +716,7 @@ export default function UpdateRoom({appState, setAppState})
         })
     }
 
+    /* We make the DOM image elements for the extra room images */
     const domRoomImages = roomImages.map(roomImage => {
         return (
             <RoomImage
@@ -698,19 +727,107 @@ export default function UpdateRoom({appState, setAppState})
         )
     })
 
-    const details = (
-        <div>
-            <div>Update Room ({user.name} {user.lastname}, Room id: {roomId})</div>
-            <div>Room id: {roomDetails.id}, Room area: {roomDetails.roomArea}</div>
-            <div>Number of extra images: {roomImages.length}</div>
-        </div>
-    )
+    /* Stores the changes that were made to the room to the database */
+    async function handleSubmit(event)
+    {
+        /* We will place all the updated information in a Form Data */
+        let roomData = new FormData()
+
+        /* We will store the contents of the details state in a new object,
+         * then we will refine that object to send it to the server.
+         */
+        let finalRoomData = roomDetails
+
+        /* First we delete the "thumbnail_img" key, because we will handle
+         * the sending of the new thumbnail image differently, if one is given.
+         */
+        delete finalRoomData["thumbnail_img"]
+
+        /* We append every other room detail to the form data */
+        for(const [name, value] of Object.entries(finalRoomData))
+            roomData.append(name, value)
+
+        /* We append the new thumbnail image to the form data if a new
+         * thumbnail image has been given.
+         */
+        if(thumbnailImage.empty === false)
+            roomData.append("thumbnail_img", thumbnailImage.file)
+
+        /* We send the updated room information to the backend server */
+        fetch(`${api}/rooms/update/${finalRoomData.id}`, {
+            method: "PUT",
+            body: roomData
+        })
+        .then((res) => res.json())
+        .then((message) => {console.log(message.message)})
+
+        /* Now we need to send the updated extra images of the room as well
+         *
+         * First we need to delete the pre-existing images that were dropped now.
+         * We have saved the IDs of all these images in the 'deletedImageIds' state.
+         */
+        console.log(deletedImageIds)
+        let i, deletedImageIdsLength = deletedImageIds.length;
+        for(i = 0; i < deletedImageIdsLength; i++)
+        {
+            const currentDeletedImageId = deletedImageIds[i]
+
+            await fetch(`${api}/rooms/deleteImage/${currentDeletedImageId}`, {
+                method: "DELETE"
+            })
+            .then(res => res.json())
+            .then(data => {
+                console.log(`Image with id ${currentDeletedImageId}: ${data.message}`)
+            })
+        }
+
+        /* Now we must enrich the database with the images that were added */
+        let newImages = []
+        const roomImagesLength = roomImages.length
+        for(i = 0; i < roomImagesLength; i++)
+        {
+            const currentImage = roomImages[i]
+
+            /* If the current image already exists in the database,
+             * there is nothing to do. We proceed to the next image.
+             */
+            if(currentImage.imgIsNew === false)
+                continue
+
+            /* Else we place the image at the 'newImages' array */
+            newImages.push(currentImage)
+        }
+
+        /* Now we will add all the new images in the database */
+        if(newImages.length > 0)
+        {
+            let imagesData = new FormData()
+            const newImagesLength = newImages.length;
+
+            /* We append every image to the form data */
+            for(i = 0; i < newImagesLength; i++)
+                imagesData.append(newImages[i].imgName, newImages[i].imgFile)
+
+            /* We send the images to the backend server */
+            fetch(`${api}/rooms/addImages/${roomDetails.id}`, {
+                method: "POST",
+                body: imagesData
+            })
+            .then((res) => res.json())
+            .then((message) => {console.log(message.message)})
+        }
+
+        /* Finally, we redirect the landlord to the home page */
+        navigate("/")
+    }
 
     return (
         <div className="update-room">
             <div className="update-room-title">
-                Change any details you would like and click on the
-                "Save Changes" button at the bottom of the page
+                {
+                    `Dear ${user.name}, change only the details you would like to be changed
+                    and then click on the "Save Changes" button at the bottom of the page`
+                }
             </div>
             <div>
                 {map}
@@ -752,8 +869,19 @@ export default function UpdateRoom({appState, setAppState})
                     />
                 </label>
             </div>
-            <div>
-                {details}
+            <div className="update-room-submit-button-parent">
+                <label
+                    htmlFor="updateRoomSaveChangesButton"
+                    className="update-room-submit-button-label"
+                >
+                    <input
+                        className="update-room-submit-button"
+                        id="updateRoomSaveChangesButton"
+                        type="submit"
+                        value="Save Changes"
+                        onClick={handleSubmit}
+                    />
+                </label>
             </div>
         </div>
     )
