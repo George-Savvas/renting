@@ -116,6 +116,7 @@ export default function NewRoomForm({appState, setAppState})
         openStreetMapLabel: "",
         address: "",
         accessibilityToMeansOfTransport: "",
+        numOfPeople: 0,
         maxNumOfPeople: 0,
         cost: 0,
         additionalCostPerPerson: 0,
@@ -202,6 +203,16 @@ export default function NewRoomForm({appState, setAppState})
         },
         {
             index: 2,
+            id: "numOfPeople",
+            name: "numOfPeople",
+            type: "text",
+            placeholder: "Write your description here",
+            value: roomDetails.numOfPeople,
+            onChange: updateRoomDetailsCallback,
+            labelText: "How many people can reside in your room?"
+        },
+        {
+            index: 3,
             id: "maxNumOfPeople",
             name: "maxNumOfPeople",
             type: "text",
@@ -211,7 +222,7 @@ export default function NewRoomForm({appState, setAppState})
             labelText: "What is the maximum amount of people that can reside in your room?"
         },
         {
-            index: 3,
+            index: 4,
             id: "cost",
             name: "cost",
             type: "text",
@@ -221,7 +232,7 @@ export default function NewRoomForm({appState, setAppState})
             labelText: "How much does your room cost (in euros) for a night?"
         },
         {
-            index: 4,
+            index: 5,
             id: "additionalCostPerPerson",
             name: "additionalCostPerPerson",
             type: "text",
@@ -231,7 +242,7 @@ export default function NewRoomForm({appState, setAppState})
             labelText: "How much (in euros) does the cost increase for each additional person?"
         },
         {
-            index: 5,
+            index: 6,
             id: "roomType",
             name: "roomType",
             type: "selectRoomType",
@@ -241,7 +252,7 @@ export default function NewRoomForm({appState, setAppState})
             labelText: "Describe the type of your room"
         },
         {
-            index: 6,
+            index: 7,
             id: "rules",
             name: "rules",
             type: "text",
@@ -251,7 +262,7 @@ export default function NewRoomForm({appState, setAppState})
             labelText: "Describe any rules you may have set for your room"
         },
         {
-            index: 7,
+            index: 8,
             id: "description",
             name: "description",
             type: "text",
@@ -261,7 +272,7 @@ export default function NewRoomForm({appState, setAppState})
             labelText: "Write here a general description for your room"
         },
         {
-            index: 8,
+            index: 9,
             id: "numOfBeds",
             name: "numOfBeds",
             type: "text",
@@ -271,7 +282,7 @@ export default function NewRoomForm({appState, setAppState})
             labelText: "How many beds does your room have?"
         },
         {
-            index: 9,
+            index: 10,
             id: "numOfBathrooms",
             name: "numOfBathrooms",
             type: "text",
@@ -281,7 +292,7 @@ export default function NewRoomForm({appState, setAppState})
             labelText: "How many bathrooms does your room have?"
         },
         {
-            index: 10,
+            index: 11,
             id: "numOfBedrooms",
             name: "numOfBedrooms",
             type: "text",
@@ -291,7 +302,7 @@ export default function NewRoomForm({appState, setAppState})
             labelText: "How many bedrooms does your room have?"
         },
         {
-            index: 11,
+            index: 12,
             id: "livingRoomInfo",
             name: "livingRoomInfo",
             type: "text",
@@ -301,7 +312,7 @@ export default function NewRoomForm({appState, setAppState})
             labelText: "Is there a living room in your room? Give some information about that"
         },
         {
-            index: 12,
+            index: 13,
             id: "roomArea",
             name: "roomArea",
             type: "text",
@@ -311,7 +322,7 @@ export default function NewRoomForm({appState, setAppState})
             labelText: "What's the area (in square meters) of your room?"
         },
         {
-            index: 13,
+            index: 14,
             id: "heating",
             name: "heating",
             type: "selectHeating",

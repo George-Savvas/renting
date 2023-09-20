@@ -18,11 +18,6 @@ const emptyImageSource = "./Images/EmptyHouseImage.jpg"
  *******************************************************/
 const numOfRoomsPerPage = 10
 
-/********************************************************************
- * It will imply if the rooms have been fetched in the first render *
- ********************************************************************/
-//let roomsRetrieved = false
-
 /***********************************************************************
  * Given the population number of a collection of items and the items  *
  *  that can be displayed in a single page, this function returns the  *
@@ -78,10 +73,14 @@ export default function TenantHome({user})
     const [cityId, setCityId] = React.useState(0)
 
     /* States that store filters about the number of people, room type and other services */
-    const [numOfPeople, setNumOfPeople] = React.useState(1)
+    const [numOfPeople, setNumOfPeople] = React.useState("1")
     const [roomType, setRoomType] = React.useState("Any")
-    const [maxCost, setMaxCost] = React.useState(0)
+    const [maxCost, setMaxCost] = React.useState("0")
     const [heating, setHeating] = React.useState("Any")
+    const [numOfBeds, setNumOfBeds] = React.useState("0")
+    const [numOfBathrooms, setNumOfBathrooms] = React.useState("0")
+    const [numOfBedrooms, setNumOfBedrooms] = React.useState("0")
+    const [roomArea, setRoomArea] = React.useState("0")
 
     /* A state with all the rooms that are displayed in the home page */
     const [resultRooms, setResultRooms] = React.useState({
@@ -257,14 +256,14 @@ export default function TenantHome({user})
                     name="roomDetailsFilteringNumOfPeople"
                     onChange={(e) => {setNumOfPeople(e.target.value)}}
                 >
-                    <option value={1}>1</option>
-                    <option value={2}>2</option>
-                    <option value={3}>3</option>
-                    <option value={4}>4</option>
-                    <option value={5}>5</option>
-                    <option value={6}>6</option>
-                    <option value={7}>7</option>
-                    <option value={8}>8</option>
+                    <option value={"1"}>1</option>
+                    <option value={"2"}>2</option>
+                    <option value={"3"}>3</option>
+                    <option value={"4"}>4</option>
+                    <option value={"5"}>5</option>
+                    <option value={"6"}>6</option>
+                    <option value={"7"}>7</option>
+                    <option value={"8"}>8</option>
                 </select>
             </div>
             <div className="tenant-home-room-details-filtering-entry">
@@ -299,16 +298,16 @@ export default function TenantHome({user})
                     name="roomDetailsFilteringMaxCost"
                     onChange={(e) => {setMaxCost(e.target.value)}}
                 >
-                    <option value={0}>Any</option>
-                    <option value={100}>100</option>
-                    <option value={200}>200</option>
-                    <option value={300}>300</option>
-                    <option value={400}>400</option>
-                    <option value={500}>500</option>
-                    <option value={600}>600</option>
-                    <option value={700}>700</option>
-                    <option value={800}>800</option>
-                    <option value={900}>900</option>
+                    <option value={"0"}>Any</option>
+                    <option value={"100"}>100</option>
+                    <option value={"200"}>200</option>
+                    <option value={"300"}>300</option>
+                    <option value={"400"}>400</option>
+                    <option value={"500"}>500</option>
+                    <option value={"600"}>600</option>
+                    <option value={"700"}>700</option>
+                    <option value={"800"}>800</option>
+                    <option value={"900"}>900</option>
                 </select>
             </div>
             <div className="tenant-home-room-details-filtering-entry">
@@ -327,6 +326,108 @@ export default function TenantHome({user})
                     <option value={"Any"}>Any</option>
                     <option value={"true"}>Yes</option>
                     <option value={"false"}>No</option>
+                </select>
+            </div>
+            <div className="tenant-home-room-details-filtering-entry">
+                <label
+                    className="tenant-home-room-details-filtering-label"
+                    htmlFor="roomDetailsFilteringNumOfBeds"
+                >
+                    Number of beds
+                </label>
+                <select
+                    className="tenant-home-room-details-filtering-select"
+                    id="roomDetailsFilteringNumOfBeds"
+                    name="roomDetailsFilteringNumOfBeds"
+                    onChange={(e) => {setNumOfBeds(e.target.value)}}
+                >
+                    <option value={"0"}>Any</option>
+                    <option value={"1"}>1</option>
+                    <option value={"2"}>2</option>
+                    <option value={"3"}>3</option>
+                    <option value={"4"}>4</option>
+                    <option value={"5"}>5</option>
+                    <option value={"6"}>6</option>
+                    <option value={"7"}>7</option>
+                    <option value={"8"}>8</option>
+                </select>
+            </div>
+            <div className="tenant-home-room-details-filtering-entry">
+                <label
+                    className="tenant-home-room-details-filtering-label"
+                    htmlFor="roomDetailsFilteringNumOfBathrooms"
+                >
+                    Number of bathrooms
+                </label>
+                <select
+                    className="tenant-home-room-details-filtering-select"
+                    id="roomDetailsFilteringNumOfBathrooms"
+                    name="roomDetailsFilteringNumOfBathrooms"
+                    onChange={(e) => {setNumOfBathrooms(e.target.value)}}
+                >
+                    <option value={"0"}>Any</option>
+                    <option value={"1"}>1</option>
+                    <option value={"2"}>2</option>
+                    <option value={"3"}>3</option>
+                    <option value={"4"}>4</option>
+                </select>
+            </div>
+            <div className="tenant-home-room-details-filtering-entry">
+                <label
+                    className="tenant-home-room-details-filtering-label"
+                    htmlFor="roomDetailsFilteringNumOfBedrooms"
+                >
+                    Number of bedrooms
+                </label>
+                <select
+                    className="tenant-home-room-details-filtering-select"
+                    id="roomDetailsFilteringNumOfBedrooms"
+                    name="roomDetailsFilteringNumOfBedrooms"
+                    onChange={(e) => {setNumOfBedrooms(e.target.value)}}
+                >
+                    <option value={"0"}>Any</option>
+                    <option value={"1"}>1</option>
+                    <option value={"2"}>2</option>
+                    <option value={"3"}>3</option>
+                    <option value={"4"}>4</option>
+                </select>
+            </div>
+            <div className="tenant-home-room-details-filtering-entry">
+                <label
+                    className="tenant-home-room-details-filtering-label"
+                    htmlFor="roomDetailsFilteringRoomArea"
+                >
+                    Room area
+                </label>
+                <select
+                    className="tenant-home-room-details-filtering-select"
+                    id="roomDetailsFilteringRoomArea"
+                    name="roomDetailsFilteringRoomArea"
+                    onChange={(e) => {setRoomArea(e.target.value)}}
+                >
+                    <option value={"0"}>Any</option>
+                    <option value={"20"}>20</option>
+                    <option value={"25"}>25</option>
+                    <option value={"30"}>30</option>
+                    <option value={"35"}>35</option>
+                    <option value={"40"}>40</option>
+                    <option value={"45"}>45</option>
+                    <option value={"50"}>50</option>
+                    <option value={"55"}>55</option>
+                    <option value={"60"}>60</option>
+                    <option value={"65"}>65</option>
+                    <option value={"70"}>70</option>
+                    <option value={"75"}>75</option>
+                    <option value={"80"}>80</option>
+                    <option value={"85"}>85</option>
+                    <option value={"90"}>90</option>
+                    <option value={"95"}>95</option>
+                    <option value={"100"}>100</option>
+                    <option value={"105"}>105</option>
+                    <option value={"110"}>110</option>
+                    <option value={"115"}>115</option>
+                    <option value={"120"}>120</option>
+                    <option value={"125"}>125</option>
                 </select>
             </div>
         </div>
@@ -464,38 +565,61 @@ export default function TenantHome({user})
     /* Fetches all the which satisfy the given filters */
     async function handleFilters(event)
     {
-        console.log(`${dateValues[0]}, ${dateValues[1]}, ${countryId}, ${stateId},
-            ${cityId}, ${numOfPeople}, ${roomType}, ${maxCost}, ${heating}`)
-
+        /* We convert the given check-in & check-out dates to the form 'YYYY-MM-DD' */
         const finalInDate = refineDateString(dateValues[0])
         const finalOutDate = refineDateString(dateValues[1])
 
+        /* We initialize the object that will contain all the filtering data
+         *
+         * The number of people and the check-in & check-out dates are obligatory fields
+         */
         const finalFilterData = {
             numOfPeople: Number(numOfPeople),
             InDate: finalInDate,
             OutDate: finalOutDate,
         }
 
+        /* We insert the country filter if one has been given */
         if(countryId !== 0)
             finalFilterData["countryId"] = countryId
 
+        /* We insert the state filter if one has been given */
         if(stateId !== 0)
             finalFilterData["stateId"] = stateId
 
+        /* We insert the city filter if one has been given */
         if(cityId !== 0)
             finalFilterData["cityId"] = cityId
 
+        /* We insert the room type filter if one has been given */
         if(roomType !== "Any")
             finalFilterData["roomType"] = roomType
 
+        /* We insert the maximum cost per night filter if one has been given */
         if(maxCost !== "0")
             finalFilterData["maxCost"] = Number(maxCost)
 
+        /* We insert the heating filter if one has been given */
         if(heating !== "Any")
             finalFilterData["heating"] = (heating === "true") ? true : false
 
-        console.log(finalFilterData)
+        /* We insert the number of beds filter if one has been given */
+        if(numOfBeds !== "0")
+            finalFilterData["numOfBeds"] = Number(numOfBeds)
 
+        /* We insert the number of bathrooms filter if one has been given */
+        if(numOfBathrooms !== "0")
+            finalFilterData["numOfBathrooms"] = Number(numOfBathrooms)
+
+        /* We insert the number of bedrooms filter if one has been given */
+        if(numOfBedrooms !== "0")
+            finalFilterData["numOfBedrooms"] = Number(numOfBedrooms)
+
+        /* We insert the room area filter if one has been given */
+        if(roomArea !== "0")
+            finalFilterData["roomArea"] = Number(roomArea)
+
+        /* We retrieve all the rooms that satisfy the given filters */
         await fetch(`${api}/rooms/getAvailableRoomsByFilters`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },

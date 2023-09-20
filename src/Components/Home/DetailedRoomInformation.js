@@ -1,5 +1,5 @@
 import React from 'react'
-import {useParams} from 'react-router-dom'
+import {useParams, useNavigate} from 'react-router-dom'
 import api from '../../Interface.js'
 import {MapContainer, TileLayer, Marker, Popup} from 'react-leaflet'
 import {Icon} from 'leaflet'
@@ -139,6 +139,11 @@ async function getUserByUsername(username)
  *******************************************/
 export default function DetailedRoomInformation({appState, setAppState})
 {
+    /* We will use this to redirect the user to the home page
+     * if they confirm the booking of this room's page
+     */
+    const navigate = useNavigate()
+
     /* We retrieve the room ID, the check-in and the check-out dates from the URL parameters */
     const {roomId, inDate, outDate} = useParams()
 
@@ -257,24 +262,76 @@ export default function DetailedRoomInformation({appState, setAppState})
         )
     })
 
-    const details = (
-        <div>
-            <div>
-                <div>
-                    Check-in date: {inDate}
-                </div>
-                <div>
-                    Check-out date: {outDate}
-                </div>
-            </div>
-            <div>
-                User: {(userIsTenant()) ? `${user.id}` : "No user is logged-in"}
-            </div>
-            <div>
-                Room: {room.id}
-            </div>
-        </div>
-    )
+    /* A function that converts a date such as: "Fri Sep 15 2023 19:21:20 GMT+0300 (Θερινή ώρα Ανατολικής Ευρώπης)"
+     * into a date in the form "YYYY-MM-DD"
+     */
+    function refineDateString(rawDate)
+    {
+        const rawDateTokens = rawDate.split(' ')
+        const rawMonth = rawDateTokens[1]
+        const day = rawDateTokens[2]
+        const year = rawDateTokens[3]
+        let refinedMonth;
+
+        if(rawMonth === "Jan")
+            refinedMonth = "01"
+        else if(rawMonth === "Feb")
+            refinedMonth = "02"
+        else if(rawMonth === "Mar")
+            refinedMonth = "03"
+        else if(rawMonth === "Apr")
+            refinedMonth = "04"
+        else if(rawMonth === "May")
+            refinedMonth = "05"
+        else if(rawMonth === "Jun")
+            refinedMonth = "06"
+        else if(rawMonth === "Jul")
+            refinedMonth = "07"
+        else if(rawMonth === "Aug")
+            refinedMonth = "08"
+        else if(rawMonth === "Sep")
+            refinedMonth = "09"
+        else if(rawMonth === "Oct")
+            refinedMonth = "10"
+        else if(rawMonth === "Nov")
+            refinedMonth = "11"
+        else if(rawMonth === "Dec")
+            refinedMonth = "12"
+
+        return `${year}-${refinedMonth}-${day}`
+    }
+
+    /* Stores the user's booking in the database */
+    async function handleBookingConfirmation(event)
+    {
+        /* There is nothing to do if the user a guest (in other words, not logged-in) */
+        if(!userIsTenant())
+            return
+
+        /* We convert the check-in & check-out dates in the form 'YYYY-MM-DD' */
+        const refinedCheckInDate = refineDateString(inDate)
+        const refinedCheckOutDate = refineDateString(outDate)
+
+        /* We store all the booking details in the following object */
+        const bookingData = {
+            InDate: refinedCheckInDate,
+            OutDate: refinedCheckOutDate,
+            roomId: roomId,
+            userId: user.id
+        }
+
+        /* We send the booking details to the backend server */
+        await fetch(`${api}/bookings/addBooking`, {
+            method: 'POST',
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(bookingData)
+        })
+        .then((res) => res.json())
+        .then((data) => {console.log(data.booking)})
+
+        /* Finally, we redirect the user to the home page */
+        navigate("/")
+    }
 
     return (
         <div className="detailed-room-information">
@@ -329,10 +386,15 @@ export default function DetailedRoomInformation({appState, setAppState})
                     src={decideSourceOfLandlordImage()}
                     alt={`${landlord.name} ${landlord.lastname}, owner of the room`}
                 />
-                <div>
-                    {details}
-                </div>
             </div>
+            {userIsTenant() && <div className="detailed-room-information-book-button-parent">
+                <div
+                    className="detailed-room-information-book-button"
+                    onClick={handleBookingConfirmation}
+                >
+                    Book this room! ({refineDateString(inDate)} - {refineDateString(outDate)})
+                </div>
+            </div>}
         </div>
     )
 }
