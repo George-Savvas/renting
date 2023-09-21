@@ -16,7 +16,12 @@ import './UpdateRoom.css'
  *   The path to the empty room image. It is used if the    *
  * landlord has not set up a thumbnail image for their room *
  ************************************************************/
-const emptyImageSource = "./Images/EmptyHouseImage.jpg"
+const emptyImageSource = "../Images/EmptyHouseImage.jpg"
+
+/******************************************************************************************
+ * The path to the empty user image. It is used if the user has not given their own image *
+ ******************************************************************************************/
+const emptyUserProfileImage = "../Images/EmptyProfileImage.png"
 
 /********************************************************************
  * The OpenStreetMap Attribution (the credits to those who made the *
@@ -149,6 +154,9 @@ export default function UpdateRoom({appState, setAppState})
         file: undefined,
         content: ""
     })
+
+    /* A state that will be storing all the bookings related to this room */
+    const [roomBookings, setRoomBookings] = React.useState([])
 
     /*****************************************************************************
      *  This function is an event handler that is triggered every time the user  *
@@ -377,11 +385,50 @@ export default function UpdateRoom({appState, setAppState})
             await getRoomInfo(roomId)
         }
 
+        /* This function fetches all the information assossiated with this room's bookings */
+        async function fetchRoomBookings() {
+
+            /* First we retrieve the room's bookings from the backend server */
+            let bookings;
+            await fetch(`${api}/bookings/getRoomBookings/${roomId}`)
+            .then((res) => res.json())
+            .then((data) => {
+                bookings = data.bookings
+            })
+
+            /* Then we fetch the information of the corresponding user of each booking */
+            let relatedUsers = [], bookingsNum = bookings.length, i;
+            for(i = 0; i < bookingsNum; i++)
+            {
+                await fetch(`${api}/auth/getUser/${bookings[i].userId}`)
+                .then((res) => res.json())
+                .then((data) => {
+                    relatedUsers.push(data.user)
+                })
+            }
+
+            /* Finally, we update the state of the user's bookings */
+            let finalBookings = []
+            for(i = 0; i < bookingsNum; i++)
+            {
+                finalBookings.push({
+                    index: i,
+                    booking: bookings[i],
+                    user: relatedUsers[i]
+                })
+            }
+
+            setRoomBookings(finalBookings)
+        }
+
         /* We fetch the landlord who is currently logged-in */
         fetchUser()
 
         /* We fetch the details & images of the room */
         fetchRoomInfo()
+
+        /* We fetch the existing bookings that are assossiated with this room */
+        fetchRoomBookings()
 
     }, [username, roomId])
 
@@ -832,12 +879,43 @@ export default function UpdateRoom({appState, setAppState})
         navigate("/")
     }
 
+    /* We create the DOM array of the bookings related to this room */
+    const domRoomBookings = roomBookings.map(roomBooking => {
+        return (
+            <div key={roomBooking.index} className="update-room-booking">
+                <img
+                    className="update-room-booking-user-image"
+                    src={(roomBooking.user.profile_img !== null) ?
+                        `${api}/${roomBooking.user.profile_img}` :
+                        emptyUserProfileImage
+                    }
+                    alt={`The profile avatar of ${roomBooking.user.name}`}
+                />
+                <div className="update-room-booking-user-details">
+                    {roomBooking.user.name} {roomBooking.user.lastname} ({roomBooking.user.telephone})
+                </div>
+                <div className="update-room-booking-dates">
+                    {roomBooking.booking.InDate} - {roomBooking.booking.OutDate}
+                </div>
+            </div>
+        )
+    })
+
     return (
         <div className="update-room">
+            {
+                (roomBookings.length > 0) && (
+                    <div className="update-room-bookings">
+                        <div className="update-room-bookings-title">Bookings of this room</div>
+                        {domRoomBookings}
+                    </div>
+                )
+            }
             <div className="update-room-title">
                 {
-                    `Dear ${user.name}, change only the details you would like to be changed
-                    and then click on the "Save Changes" button at the bottom of the page`
+                    `Welcome to the room update section, ${user.name}.
+                    Change only the details you would like to be changed and then
+                    click on the "Save Changes" button at the bottom of the page`
                 }
             </div>
             <div>

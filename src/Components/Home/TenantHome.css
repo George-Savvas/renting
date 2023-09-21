@@ -370,3 +370,90 @@
     border-radius: 10px;
     width: 40px;
 }
+
+/***********************************************************
+ * Rules of bookings' array of the tenant in the home page *
+ ***********************************************************/
+.tenant-home-bookings {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+/****************************************************************************
+ * Rules of the title of the array of bookings of the home page of a tenant *
+ ****************************************************************************/
+.tenant-home-bookings-title {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 30px;
+    padding: 10px;
+}
+
+/***********************************************************
+ * Rules of a single booking that appears in the home page *
+ ***********************************************************/
+.tenant-home-booking {
+    display: flex;
+    align-items: center;
+    gap: 50px;
+    background-color: rgb(233, 230, 230);
+    border-radius: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+/***********************************************************
+ * Rules of a single booking that appears in the home page *
+ *     when the cursor of the mouse is hovered over it     *
+ ***********************************************************/
+.tenant-home-booking:hover {
+    display: flex;
+    align-items: center;
+    gap: 50px;
+    background-color: rgb(202, 201, 201);
+    border-radius: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+/***************************************************************
+ * Rules of the thumbnail image of the room in a booking entry *
+ ***************************************************************/
+.tenant-home-booking-image {
+    width: 70px;
+    height: 70px;
+    border-radius: 10px;
+}
+
+/******************************************************************
+ * Rules of the address of a room that appears in a booking entry *
+ ******************************************************************/
+.tenant-home-booking-address {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 20px;
+    user-select: none;
+    width: 500px;
+}
+
+/**************************************************************************
+ * Rules of the check-in & check-out dates that appear in a booking entry *
+ **************************************************************************/
+.tenant-home-booking-dates {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 20px;
+    user-select: none;
+}
+
+/**************************************************************************************
+ * Rules of the deletion indicator image that implies the deletion of a booking entry *
+ **************************************************************************************/
+.tenant-home-booking-canceling {
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+}

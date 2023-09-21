@@ -13,6 +13,11 @@ import './TenantHome.css'
  ************************************/
 const emptyImageSource = "./Images/EmptyHouseImage.jpg"
 
+/***********************************************************************************************
+ * The source of the auxiliary image that is shown to indicate to the user to delete a booking *
+ ***********************************************************************************************/
+const deletionIndicatorImageSource = "../Images/Red_X_Symbol.png"
+
 /*******************************************************
  * The amount of rooms that are displayed in each page *
  *******************************************************/
@@ -91,6 +96,9 @@ export default function TenantHome({user})
     /* We create a state with the first, the current and the last page of displayed rooms */
     const [pageTrio, setPageTrio] = React.useState({first: 1, current: 1, last: 1})
 
+    /* A state that will be storing the user's bookings */
+    const [userBookings, setUserBookings] = React.useState([])
+
     /* When the component loads for the first time, no filters have been
      * selected yet and therefore we fetch all the rooms of the database.
      */
@@ -126,10 +134,49 @@ export default function TenantHome({user})
             })
         }
 
-        /* We call the above function to fetch all the existing rooms */
+        /* This function fetches all the information assossiated with the user's bookings */
+        async function fetchUserBookings() {
+
+            /* First we retrieve the user's bookings from the backend server */
+            let bookings;
+            await fetch(`${api}/bookings/getUserBookings/${user.id}`)
+            .then((res) => res.json())
+            .then((data) => {
+                bookings = data.bookings
+            })
+
+            /* Then we fetch the information of the corresponding room of each booking */
+            let relatedRooms = [], bookingsNum = bookings.length, i;
+            for(i = 0; i < bookingsNum; i++)
+            {
+                await fetch(`${api}/rooms/viewroom/${bookings[i].roomId}`)
+                .then((res) => res.json())
+                .then((data) => {
+                    relatedRooms.push(data.room)
+                })
+            }
+
+            /* Finally, we update the state of the user's bookings */
+            let finalBookings = []
+            for(i = 0; i < bookingsNum; i++)
+            {
+                finalBookings.push({
+                    index: i,
+                    booking: bookings[i],
+                    room: relatedRooms[i]
+                })
+            }
+
+            setUserBookings(finalBookings)
+        }
+
+        /* We call the 'fetchRooms' function to fetch all the existing rooms */
         fetchRooms()
 
-    }, [resultRooms.content.length, resultRooms.hasBeenInitialized])
+        /* We call the 'fetchUserBookings' function to retrieve all the user's bookings */
+        fetchUserBookings()
+
+    }, [resultRooms.content.length, resultRooms.hasBeenInitialized, user.id])
 
     /* A function that navigates the user to the first page of rooms */
     function goToFirstPage()
@@ -638,8 +685,78 @@ export default function TenantHome({user})
         })
     }
 
+    /* Deletes the implied booking */
+    async function deleteBooking(event, bookingId)
+    {
+        /* First we remove the booking from this component's state */
+        let i, bookingsNum = userBookings.length, bookingToBeDeleted;
+        for(i = 0; i < bookingsNum; i++)
+        {
+            const currentBooking = userBookings[i]
+
+            if(currentBooking.index === bookingId)
+            {
+                bookingToBeDeleted = currentBooking
+                const deletionIndex = i
+
+                setUserBookings(currentUserBookings => {
+                    let newUserBookings = currentUserBookings.map(booking => booking)
+                    newUserBookings.splice(deletionIndex, 1)
+                    return newUserBookings
+                })
+
+                break;
+            }
+        }
+
+        /* Then we remove the booking from the database */
+        await fetch(`${api}/bookings/deleteBookingById/${bookingToBeDeleted.booking.id}`, {
+            method: "DELETE"
+        })
+        .then(res => res.json())
+        .then(data => {
+            console.log(data.message)
+        })
+    }
+
+    /* We create a DOM array for the user's bookings */
+    const domUserBookings = userBookings.map((userBooking) => {
+        return (
+            <div key={userBooking.index} className="tenant-home-booking">
+                <img
+                    className="tenant-home-booking-image"
+                    src={(userBooking.room.thumbnail_img !== null) ?
+                        `${api}/${userBooking.room.thumbnail_img}` :
+                        emptyImageSource
+                    }
+                    alt={`The booked room with id ${userBooking.room.id}`}
+                />
+                <div className="tenant-home-booking-address">
+                    {userBooking.room.openStreetMapLabel}
+                </div>
+                <div className="tenant-home-booking-dates">
+                    {userBooking.booking.InDate} - {userBooking.booking.OutDate}
+                </div>
+                <img
+                    className="tenant-home-booking-canceling"
+                    src={deletionIndicatorImageSource}
+                    alt={`A red X that implies deletion of the booking if clicked`}
+                    onClick={(e) => deleteBooking(e, userBooking.index)}
+                />
+            </div>
+        )
+    })
+
     return (
         <div className="tenant-home">
+            {
+                (userBookings.length > 0) && (
+                    <div className="tenant-home-bookings">
+                        <div className="tenant-home-bookings-title">My Bookings</div>
+                        {domUserBookings}
+                    </div>
+                )
+            }
             <div className="tenant-home-dates">
                 <div className="tenant-home-dates-title">Select check-in & check-out dates</div>
                 <DateRangePicker
