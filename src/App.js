@@ -33,15 +33,6 @@ export default function App()
         navbarButtons: initialButtons
     })
 
-    //const domState = []
-    //const propertiesNum = Object.keys(appState).length
-    //let i
-    //for(i = 0; i < propertiesNum; i++)
-    //    domState.push(<p key={i}>{Object.keys(appState)[i].toString()}({Object.values(appState)[i].toString()})</p>)
-
-    //<div>{domState}</div>
-    //console.log(appState)
-
     return (
         <BrowserRouter>
             <Header appState={appState} setAppState={setAppState}/>

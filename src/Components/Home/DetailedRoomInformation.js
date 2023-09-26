@@ -3,6 +3,7 @@ import {useParams, useNavigate} from 'react-router-dom'
 import api from '../../Interface.js'
 import {MapContainer, TileLayer, Marker, Popup} from 'react-leaflet'
 import {Icon} from 'leaflet'
+import ScorePanel from './ScorePanel.js'
 import 'leaflet/dist/leaflet.css'
 import './DetailedRoomInformation.css'
 
@@ -163,6 +164,15 @@ export default function DetailedRoomInformation({appState, setAppState})
      */
     const [landlord, setLandlord] = React.useState({})
 
+    /* A state the will be storing the current score that the user may have selected for the room */
+    const [reviewScore, setReviewScore] = React.useState(0)
+
+    /* A state that will be controlling the textarea that the tenant may use to write a comment */
+    const [commentContents, setCommentContents] = React.useState("")
+
+    /* A state that will be storing the message the backend server sent after the review was sent */
+    const [reviewPostingServerMessage, setReviewPostingServerMessage] = React.useState("")
+
     /* Returns 'true' if the user who just visited the page is a tenant.
      * Else if the user is a guest, the function returns 'false'.
      */
@@ -221,6 +231,10 @@ export default function DetailedRoomInformation({appState, setAppState})
                 setUser(await getUserByUsername(appState.username))
         }
 
+        /* We scroll smoothly at the top of the page */
+        window.scrollTo({top: 0, left: 0, behavior: 'smooth'})
+
+        /* We fetch the data of the room, including the landlord's data */
         fetchData(roomId)
 
     }, [appState.userIsLogged, appState.username, roomId])
@@ -261,6 +275,15 @@ export default function DetailedRoomInformation({appState, setAppState})
             </div>
         )
     })
+
+    /* A function that converts an ISO date such as: "YYYY-MM-DDThh:mm:ss.xxxZ"
+     * into a date in the form "YYYY-MM-DD"
+     */
+    function refineISODateString(rawDate)
+    {
+        const rawDateTokens = rawDate.toISOString().split(/-|T/)
+        return `${rawDateTokens[0]}-${rawDateTokens[1]}-${rawDateTokens[2]}`
+    }
 
     /* A function that converts a date such as: "Fri Sep 15 2023 19:21:20 GMT+0300 (Θερινή ώρα Ανατολικής Ευρώπης)"
      * into a date in the form "YYYY-MM-DD"
@@ -333,6 +356,25 @@ export default function DetailedRoomInformation({appState, setAppState})
         navigate("/")
     }
 
+    /* Stores the tenant's review for this room (rating + comment)
+     * in the database
+     */
+    function handleReviewSubmission(event)
+    {
+        const finalReviewData = {
+            date: refineISODateString(new Date()),
+            score: reviewScore,
+            reviewer_name: `${user.name} ${user.lastname}`,
+            comments: commentContents,
+            userId: user.id,
+            roomId: Number(roomId)
+        }
+
+        console.log(finalReviewData)
+
+        setReviewPostingServerMessage("Success")
+    }
+
     return (
         <div className="detailed-room-information">
             <img
@@ -386,15 +428,64 @@ export default function DetailedRoomInformation({appState, setAppState})
                     src={decideSourceOfLandlordImage()}
                     alt={`${landlord.name} ${landlord.lastname}, owner of the room`}
                 />
-            </div>
-            {userIsTenant() && <div className="detailed-room-information-book-button-parent">
-                <div
-                    className="detailed-room-information-book-button"
-                    onClick={handleBookingConfirmation}
-                >
-                    Book this room! ({refineDateString(inDate)} - {refineDateString(outDate)})
+                <div className="detailed-room-information-landlord-info-title">
+                    <div className="detailed-room-information-landlord-info-title-context">
+                        {landlord.name}'s phone number:
+                    </div>
+                    <div className="detailed-room-information-landlord-info-title-name">
+                        {landlord.telephone}
+                    </div>
                 </div>
-            </div>}
+            </div>
+            {
+                userIsTenant() && (
+                    <div className="detailed-room-information-book-button-parent">
+                        <div
+                            className="detailed-room-information-book-button"
+                            onClick={handleBookingConfirmation}
+                        >
+                            Book this room! ({refineDateString(inDate)} - {refineDateString(outDate)})
+                        </div>
+                    </div>
+                )
+            }
+            {
+                userIsTenant() && (
+                    <div>
+                        <div className="detailed-room-information-review-section">
+                            <div className="detailed-room-information-review-section-score-title">
+                                Your opinion matters<br/>Submit your rating for this room
+                            </div>
+                            <ScorePanel score={reviewScore} setScore={setReviewScore}/>
+                            <label
+                                htmlFor="detailedRoomInformationCommentSectionArea"
+                                className="detailed-room-information-review-section-comment-title"
+                            >
+                                Write a comment to provide feedback to the landlord of this room
+                            </label>
+                            <textarea
+                                className="detailed-room-information-review-section-comment-textarea"
+                                id="detailedRoomInformationCommentSectionArea"
+                                rows={10}
+                                cols={50}
+                                value={commentContents}
+                                onChange={(e) => setCommentContents(e.target.value)}
+                            />
+                        </div>
+                        <div className="detailed-room-information-review-section-submit-button-parent">
+                            <div
+                                className="detailed-room-information-review-section-submit-button"
+                                onClick={handleReviewSubmission}
+                            >
+                                Submit my rating and comment for this room
+                            </div>
+                        </div>
+                        <div className="detailed-room-information-review-section-response">
+                            {reviewPostingServerMessage}
+                        </div>
+                    </div>
+                )
+            }
         </div>
     )
 }

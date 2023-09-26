@@ -100,6 +100,9 @@ export default function NewRoomForm({appState, setAppState})
         if(JSON.stringify(user) !== JSON.stringify({}))
             return
 
+        /* We scroll smoothly at the top of the page */
+        window.scrollTo({top: 0, left: 0, behavior: 'smooth'})
+
         /* We call the above function to fetch the user data */
         fetchUser(username)
 
@@ -632,7 +635,7 @@ export default function NewRoomForm({appState, setAppState})
         </div>
     )
 
-    /* A function that converts a date such as: "Fri Sep 15 2023 19:21:20 GMT+0300 (Θερινή ώρα Ανατολικής Ευρώπης)"
+    /* A function that converts an ISO date such as: "YYYY-MM-DDThh:mm:ss.xxxZ"
      * into a date in the form "YYYY-MM-DD"
      */
     function refineDateString(rawDate)
