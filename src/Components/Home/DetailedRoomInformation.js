@@ -359,7 +359,7 @@ export default function DetailedRoomInformation({appState, setAppState})
     /* Stores the tenant's review for this room (rating + comment)
      * in the database
      */
-    function handleReviewSubmission(event)
+    async function handleReviewSubmission(event)
     {
         const finalReviewData = {
             date: refineISODateString(new Date()),
@@ -370,9 +370,17 @@ export default function DetailedRoomInformation({appState, setAppState})
             roomId: Number(roomId)
         }
 
-        console.log(finalReviewData)
-
-        setReviewPostingServerMessage("Success")
+        /* We send the review details to the backend server */
+        await fetch(`${api}/rooms/addReview`, {
+            method: 'POST',
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(finalReviewData)
+        })
+        .then((res) => res.json())
+        .then((data) => {
+            console.log(data.review)
+            setReviewPostingServerMessage("Your review was submitted successfully")
+        })
     }
 
     return (

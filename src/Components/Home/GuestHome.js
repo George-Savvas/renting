@@ -462,6 +462,7 @@ export default function GuestHome({user})
                     <div className="guest-home-results-entry-detail">Cost per night: {room.cost} euros</div>
                     <div className="guest-home-results-entry-detail">Room type: {room.roomType}</div>
                     <div className="guest-home-results-entry-detail">Number of beds: {room.numOfBeds}</div>
+                    <div className="guest-home-results-entry-detail">Rating: {room.review_scores_rating}/5 ({room.number_of_reviews} reviews)</div>
                     <div className="guest-home-results-entry-detail-click">Click for more info</div>
                 </div>
             </div>

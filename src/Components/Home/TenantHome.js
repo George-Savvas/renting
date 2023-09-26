@@ -509,6 +509,7 @@ export default function TenantHome({user})
                     <div className="tenant-home-results-entry-detail">Cost per night: {room.cost} euros</div>
                     <div className="tenant-home-results-entry-detail">Room type: {room.roomType}</div>
                     <div className="tenant-home-results-entry-detail">Number of beds: {room.numOfBeds}</div>
+                    <div className="tenant-home-results-entry-detail">Rating: {room.review_scores_rating}/5 ({room.number_of_reviews} reviews)</div>
                     <div className="tenant-home-results-entry-detail-click">Click for more info</div>
                 </div>
             </div>
@@ -682,6 +683,23 @@ export default function TenantHome({user})
                     content: newResultRooms
                 }
             })
+
+            /* We update the tenant's history of search.
+             * This will allow us to detect rooms in the future that will possibly satisfy their preferences.
+             *
+             * Updating the search history requires the 'country' filter to be used.
+             */
+            if(countryId !== 0)
+            {
+                fetch(`${api}/recommendations/addSearchHistory/${user.id}`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        countryId: countryId,
+                        numOfPeople: Number(numOfPeople)
+                    })
+                })
+            }
         })
     }
 
