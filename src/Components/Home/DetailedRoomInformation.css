@@ -64,6 +64,8 @@
 .detailed-room-information-single-detail {
     display: flex;
     flex-direction: column;
+    gap: 5px;
+    width: 230px;
 }
 
 .detailed-room-information-single-detail-type {

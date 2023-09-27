@@ -246,7 +246,11 @@ export default function DetailedRoomInformation({appState, setAppState})
         {index: 2, type: "Room type", value: room.roomType},
         {index: 3, type: "Number of Bedrooms", value: room.numOfBedrooms},
         {index: 4, type: "Living Room", value: room.livingRoomInfo},
-        {index: 5, type: "Area (in square meters)", value: room.roomArea}
+        {index: 5, type: "Area (in square meters)", value: room.roomArea},
+        {index: 6, type: `Starting cost per night (${room.numOfPeople} people)`, value: room.cost},
+        {index: 7, type: `Additional cost per person (max ${room.maxNumOfPeople} people)`, value: room.additionalCostPerPerson},
+        {index: 8, type: "Review score", value: room.review_scores_rating},
+        {index: 9, type: "Number of reviews", value: room.number_of_reviews}
     ]}
 
     /* We create a DOM element for each interior detail of the above array */

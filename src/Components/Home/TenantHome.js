@@ -453,28 +453,22 @@ export default function TenantHome({user})
                     onChange={(e) => {setRoomArea(e.target.value)}}
                 >
                     <option value={"0"}>Any</option>
-                    <option value={"20"}>20</option>
-                    <option value={"25"}>25</option>
-                    <option value={"30"}>30</option>
-                    <option value={"35"}>35</option>
-                    <option value={"40"}>40</option>
-                    <option value={"45"}>45</option>
-                    <option value={"50"}>50</option>
-                    <option value={"55"}>55</option>
-                    <option value={"60"}>60</option>
-                    <option value={"65"}>65</option>
-                    <option value={"70"}>70</option>
-                    <option value={"75"}>75</option>
-                    <option value={"80"}>80</option>
-                    <option value={"85"}>85</option>
-                    <option value={"90"}>90</option>
-                    <option value={"95"}>95</option>
-                    <option value={"100"}>100</option>
-                    <option value={"105"}>105</option>
-                    <option value={"110"}>110</option>
-                    <option value={"115"}>115</option>
-                    <option value={"120"}>120</option>
-                    <option value={"125"}>125</option>
+                    <option value={"20-30"}>20-30</option>
+                    <option value={"30-40"}>30-40</option>
+                    <option value={"40-50"}>40-50</option>
+                    <option value={"50-60"}>50-60</option>
+                    <option value={"60-70"}>60-70</option>
+                    <option value={"70-80"}>70-80</option>
+                    <option value={"80-90"}>80-90</option>
+                    <option value={"90-100"}>90-100</option>
+                    <option value={"100-110"}>100-110</option>
+                    <option value={"110-120"}>110-120</option>
+                    <option value={"120-130"}>120-130</option>
+                    <option value={"130-140"}>130-140</option>
+                    <option value={"140-150"}>140-150</option>
+                    <option value={"150-160"}>150-160</option>
+                    <option value={"160-170"}>160-170</option>
+                    <option value={"170-180"}>170-180</option>
                 </select>
             </div>
         </div>
@@ -509,7 +503,7 @@ export default function TenantHome({user})
                     <div className="tenant-home-results-entry-detail">Cost per night: {room.cost} euros</div>
                     <div className="tenant-home-results-entry-detail">Room type: {room.roomType}</div>
                     <div className="tenant-home-results-entry-detail">Number of beds: {room.numOfBeds}</div>
-                    <div className="tenant-home-results-entry-detail">Rating: {room.review_scores_rating}/5 ({room.number_of_reviews} reviews)</div>
+                    <div className="tenant-home-results-entry-detail">Rating: {(room.review_scores_rating > 0) ? `${room.review_scores_rating}/5` : "No rating"} ({room.number_of_reviews} reviews)</div>
                     <div className="tenant-home-results-entry-detail-click">Click for more info</div>
                 </div>
             </div>
@@ -665,7 +659,13 @@ export default function TenantHome({user})
 
         /* We insert the room area filter if one has been given */
         if(roomArea !== "0")
-            finalFilterData["roomArea"] = Number(roomArea)
+        {
+            const roomAreaTokens = roomArea.split("-")
+            finalFilterData["minArea"] = Number(roomAreaTokens[0])
+            finalFilterData["maxArea"] = Number(roomAreaTokens[1])
+        }
+
+        console.log(finalFilterData)
 
         /* We retrieve all the rooms that satisfy the given filters */
         await fetch(`${api}/rooms/getAvailableRoomsByFilters`, {

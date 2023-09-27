@@ -75,6 +75,7 @@ export default function LandlordHome({user})
                     <div className="landlord-home-results-entry-detail">Cost per night: {room.cost} euros</div>
                     <div className="landlord-home-results-entry-detail">Room type: {room.roomType}</div>
                     <div className="landlord-home-results-entry-detail">Number of beds: {room.numOfBeds}</div>
+                    <div className="landlord-home-results-entry-detail">Rating: {(room.review_scores_rating > 0) ? `${room.review_scores_rating}/5` : "No rating"} ({room.number_of_reviews} reviews)</div>
                     <div className="landlord-home-results-entry-detail-click">Click to update</div>
                 </div>
             </div>
