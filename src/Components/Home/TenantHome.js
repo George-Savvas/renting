@@ -687,16 +687,17 @@ export default function TenantHome({user})
             /* We update the tenant's history of search.
              * This will allow us to detect rooms in the future that will possibly satisfy their preferences.
              *
-             * Updating the search history requires the 'country' filter to be used.
+             * Updating the search history requires the 'country', 'state' and 'city' filters to be used.
              */
-            if(countryId !== 0)
+            if((countryId !== 0) && (stateId !== 0) && (cityId !== 0))
             {
                 fetch(`${api}/recommendations/addSearchHistory/${user.id}`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
                         countryId: countryId,
-                        numOfPeople: Number(numOfPeople)
+                        stateId: stateId,
+                        cityId: cityId
                     })
                 })
             }

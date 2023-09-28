@@ -120,17 +120,38 @@ async function getRoomInfoAndLandlordInfo(roomId)
     return [roomInfo, landlordInfo, roomImages]
 }
 
-/**************************************************************
- * Returns all the information (except for the password) that *
- *  is assossiated with the user who has the given username   *
- **************************************************************/
-async function getUserByUsername(username)
+/***************************************************************
+ * Returns all the information (except for the password) that  *
+ *   is assossiated with the user who has the given username   *
+ *                                                             *
+ * Also the function adds 1 visit to the total number of times *
+ *     the user has visited the detailed page of this room     *
+ ***************************************************************/
+async function getUserByUsernameAndAddVisit(username, roomId)
 {
     let user;
 
     await fetch(`${api}/auth/getUserByUsername/${username}`)
         .then((res) => res.json())
-        .then((data) => {user = data.user})
+        .then((data) => {
+
+            /* We store the data of the user in the variable we will return */
+            user = data.user
+
+            /* We add 1 visit to the total amount of visits of this page by this user */
+            fetch(`${api}/recommendations/addVisit`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    userId: data.user.id,
+                    roomId: roomId
+                })
+            })
+            .then((res) => res.json())
+            .then((data) => {
+                console.log(data.message)
+            })
+        })
 
     return user
 }
@@ -212,6 +233,10 @@ export default function DetailedRoomInformation({appState, setAppState})
      */
     React.useEffect(() => {
 
+        /* We declare a flag variable to ensure that only 1 visit will be added */
+        let aVisitHasBeenAdded = false
+
+        /* This function fetches data about the room and the logged-in user if one exists */
         async function fetchData(idRoom) {
 
             /* We retrieve the data of the room (details, images, assossiated landlord) */
@@ -226,9 +251,9 @@ export default function DetailedRoomInformation({appState, setAppState})
             setLandlord(roomData[1])
             setRoomImages(roomData[2])
 
-            /* We retrieve the data of the user if one is logged-in */
-            if(appState.userIsLogged)
-                setUser(await getUserByUsername(appState.username))
+            /* We retrieve the data of the user and add 1 visit if a user is logged-in */
+            if((appState.userIsLogged) && (aVisitHasBeenAdded === false))
+                setUser(await getUserByUsernameAndAddVisit(appState.username, roomId))
         }
 
         /* We scroll smoothly at the top of the page */
@@ -236,6 +261,9 @@ export default function DetailedRoomInformation({appState, setAppState})
 
         /* We fetch the data of the room, including the landlord's data */
         fetchData(roomId)
+
+        /* We set the flag variable to 'true' in order to add no more than 1 visits */
+        return () => {aVisitHasBeenAdded = true}
 
     }, [appState.userIsLogged, appState.username, roomId])
 
