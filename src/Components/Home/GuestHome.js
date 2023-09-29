@@ -432,7 +432,12 @@ export default function GuestHome({user})
     {
         /* Case the room has a non-empty thumbnail image */
         if(room.thumbnail_img !== null)
-            return `${api}/${room.thumbnail_img}`
+        {
+            if(room.thumbnail_img.startsWith("images"))
+                return `${api}/${room.thumbnail_img}`
+
+            return `${room.thumbnail_img}`
+        }
 
         /* Case the room does not have a thumbnail image */
         return emptyImageSource

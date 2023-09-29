@@ -61,6 +61,32 @@ async function getAllRooms()
     return rooms
 }
 
+/************************************************************
+ * Returns either the recommended or all the existing rooms *
+ ************************************************************/
+async function getInitialRooms(user)
+{
+    let recommendedRooms;
+
+    await fetch(`${api}/recommendations/getRecommendations/${user.id}`)
+    .then((res) => res.json())
+    .then(async (data) => {
+
+        /* We retrieve the recommended rooms */
+        recommendedRooms = data.rooms
+        console.log(`Number of recommended rooms: ${recommendedRooms.length}`)
+
+        /* We return all the rooms if there are no recommended rooms */
+        if(recommendedRooms.length === 0)
+        {
+            console.log("No recommended rooms found. Fetching all rooms instead.")
+            recommendedRooms = await getAllRooms()
+        }
+    })
+
+    return recommendedRooms
+}
+
 /*****************************
  * The Tenant Home Component *
  *****************************/
@@ -114,7 +140,7 @@ export default function TenantHome({user})
              */
             if(!resultRooms.hasBeenInitialized)
             {
-                const initialRooms = await getAllRooms()
+                const initialRooms = await getInitialRooms(user)
                 lengthOfRoomsArray = initialRooms.length
 
                 setResultRooms({
@@ -176,7 +202,7 @@ export default function TenantHome({user})
         /* We call the 'fetchUserBookings' function to retrieve all the user's bookings */
         fetchUserBookings()
 
-    }, [resultRooms.content.length, resultRooms.hasBeenInitialized, user.id])
+    }, [resultRooms.content.length, resultRooms.hasBeenInitialized, user])
 
     /* A function that navigates the user to the first page of rooms */
     function goToFirstPage()
@@ -479,7 +505,12 @@ export default function TenantHome({user})
     {
         /* Case the room has a non-empty thumbnail image */
         if(room.thumbnail_img !== null)
-            return `${api}/${room.thumbnail_img}`
+        {
+            if(room.thumbnail_img.startsWith("images"))
+                return `${api}/${room.thumbnail_img}`
+
+            return `${room.thumbnail_img}`
+        }
 
         /* Case the room does not have a thumbnail image */
         return emptyImageSource

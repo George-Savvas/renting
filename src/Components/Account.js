@@ -212,7 +212,12 @@ export default function Account({appState, setAppState})
         {
             /* Case the user has inserted a profile image in the past */
             if(user.profile_img !== null)
-                return `${api}/${user.profile_img}`
+            {
+                if((JSON.stringify({}) !== JSON.stringify(user)) && (user.profile_img.startsWith("images")))
+                    return `${api}/${user.profile_img}`
+
+                return `${user.profile_img}`
+            }
 
             /* Case the user has never inserted a profile image
              *
