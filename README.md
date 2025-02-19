@@ -1,3 +1,7 @@
+Client-side κώδικας για ιστοσελίδα ενοικιάσεων δωματίων.
+
+Συνεργάτης: Κωνσταντίνος Κίτσος (https://github.com/kostas3000)
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
